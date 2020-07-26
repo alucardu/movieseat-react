@@ -1,10 +1,11 @@
 import React from 'react';
 import logo from './logo.svg';
-import './App.css';
+import styles from './App.scss';
 
 function App() {
   return (
-    <div className="App">
+    <div>
+      <h1 className={styles.header}>Hello Webpack!</h1>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
