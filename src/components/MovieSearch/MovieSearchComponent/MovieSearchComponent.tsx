@@ -1,24 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MovieSearch from '../MovieSearch/MovieSearch';
 import MovieResultList from '../MovieResultList/MovieResultList';
+import styled from 'styled-components';
 
 interface Movie {
   original_title: string;
   id: string;
 }
 
-const MovieSearchComponent = () => {
-  const [movieList, setMovies] = useState<Movie[]>([]);
+const MovieSearchContainer= styled.div`
+  display: flex;
+  justify-content: center;
+  position: relative;
+`
 
-  const addMovie = ((movies: Movie[]) => {
-    setMovies([...movies]);
+const MovieSearchComponent = () => { 
+
+  const [movieList, setMovies] = useState<Movie[]>([]);
+  
+  const [showList, toggleList] = useState(false);
+  const addMovie = ((query: string, movies: Movie[]) => {
+    toggleList(!!query);
+    if (query) setMovies([...movies]);
   });
 
   return (
-    <React.Fragment>
+    <MovieSearchContainer>
       <MovieSearch addMovie={addMovie} />
-      <MovieResultList movieList={movieList}/>      
-    </React.Fragment>
+      { showList ? <MovieResultList movieList={movieList}/> : null}      
+    </MovieSearchContainer>
   )
 }
 

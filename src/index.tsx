@@ -10,6 +10,7 @@ const GlobalStyle = createGlobalStyle`
     background: #252525;
     margin: 0;
     color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
   }
 `
 ReactDOM.render(
