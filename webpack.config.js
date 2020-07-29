@@ -18,17 +18,13 @@ module.exports = {
         loader: "ts-loader"
       },
       {
-        test: /\.svg$/,
-        loader: 'svg-loader'
-      },
-      { 
-        test: /\.scss$/, use: [ 
-          { loader: "style-loader" },
-          { loader: "@teamsupercell/typings-for-css-modules-loader" }, 
-          { loader: "css-loader", options: { modules: true } },
-          { loader: "sass-loader" },
-        ] 
-      }, 
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      }
     ]
   },
   plugins: [
