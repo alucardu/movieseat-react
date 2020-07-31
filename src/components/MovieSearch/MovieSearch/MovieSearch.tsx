@@ -19,7 +19,7 @@ const SearchInput = styled.input`
     }
   }
 `
-const MovieSearch = ( {addMovie }) => {
+const MovieSearch = ( {addMovie} ) => {
 
   const searchInpuit = useRef<HTMLInputElement | null>(null)
 

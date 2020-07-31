@@ -2,12 +2,17 @@ import React from 'react';
 
 import Header from './components/Header/Header';
 import MovieSearchComponent from './components/MovieSearch/MovieSearchComponent/MovieSearchComponent';
+import DashboardComponent from './components/Dashboard/DashboardComponent/DashboardComponent';
+import MovieProvider from './context/MovieContext';
 
   function App() {
     return (
       <React.Fragment>
         <Header />
-        <MovieSearchComponent />
+        <MovieProvider>
+          <MovieSearchComponent />
+          <DashboardComponent />
+        </MovieProvider>
       </React.Fragment>
     );
   }

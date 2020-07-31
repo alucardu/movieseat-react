@@ -15,6 +15,7 @@
     "@types/styled-components": "^5.1.1",
     "file-loader": "^6.0.0",
     "generate-react-cli": "^5.0.1",
+    "localforage": "^1.8.1",
     "lodash": "^4.17.19",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
@@ -49,6 +50,7 @@
   },
   "devDependencies": {
     "@teamsupercell/typings-for-css-modules-loader": "^2.2.0",
+    "@types/classnames": "^2.2.10",
     "awesome-typescript-loader": "^5.2.1",
     "css-modules-typescript-loader": "^4.0.0",
     "html-webpack-plugin": "^4.3.0",

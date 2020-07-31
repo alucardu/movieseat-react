@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import poster_not_found from '../../../assets/images/poster_not_found.svg';
+import AddMovieToDashboard from '../AddMovieToDashboard/AddMovieToDashboard';
+import classnames from 'classnames';
 
 const ResultList = styled.ul`
   background: #3a3a3a;
@@ -15,6 +17,7 @@ const ResultList = styled.ul`
     padding: 0 0px 0 8px;
     display: flex;
     align-items: center;
+    position: relative;
     &:nth-child(even) {
       background: #444444;
     }
@@ -54,21 +57,32 @@ const MovieResultList = (props) => {
 
   const imagePath = 'https://image.tmdb.org/t/p/w45/'
 
+  const ResultListItem = (props) => {
+    const [isHover, setHover] = useState(false);
+    return (
+      <li 
+        key={props.movie.id}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}>
+        <p>
+          <span>{props.movie.original_title}</span>
+          <span>{props.movie.release_date}</span>
+        </p>
+        { props.movie.poster_path !== null 
+          ? <img src={imagePath + props.movie.poster_path} alt={props.movie.original_title}/> 
+          : <PosterNotFound src={poster_not_found} alt='No poster available' />
+        }
+        {isHover && <AddMovieToDashboard movieData={props.movie}/>}
+      </li>
+    )
+  }
+
   return (
     <ResultList>
       { props.movieList.length === 0 ? (<NoResults>No results were found...</NoResults>) : (null)}
       { props.movieList.map(movie => {
         return (
-          <li key={movie.id}>
-            <p>
-              <span>{movie.original_title}</span>
-              <span>{movie.release_date}</span>
-            </p>
-            { movie.poster_path !== null 
-              ? <img src={imagePath + movie.poster_path} alt={movie.original_title}/> 
-              : <PosterNotFound src={poster_not_found} alt='No poster available' />
-            }
-          </li>
+          <ResultListItem movie={movie} />
         )
       })}
     </ResultList>

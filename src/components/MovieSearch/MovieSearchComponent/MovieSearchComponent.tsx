@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import MovieSearch from '../MovieSearch/MovieSearch';
 import MovieResultList from '../MovieResultList/MovieResultList';
 import styled from 'styled-components';
