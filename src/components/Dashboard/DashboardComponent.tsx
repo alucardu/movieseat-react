@@ -9,7 +9,6 @@ type IMovie = {
   id: number;
 };
 
-
 const DashboardComponent = () =>  {
 
   let [movies, setMovies] = useContext(MovieContext)
