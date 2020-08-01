@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import poster_not_found from '../../../assets/images/poster_not_found.svg';
-import AddMovieToDashboard from '../AddMovieToDashboard/AddMovieToDashboard';
-import classnames from 'classnames';
+import AddMovieToWatchList from './AddMovieToDashboard/AddMovieToDashboard';
 
 const ResultList = styled.ul`
   background: #3a3a3a;
@@ -53,7 +52,7 @@ const PosterNotFound = styled.img`
   height: 68px;
 `
 
-const MovieResultList = (props) => {
+const MovieSearchResultList = (props) => {
 
   const imagePath = 'https://image.tmdb.org/t/p/w45/'
 
@@ -72,7 +71,7 @@ const MovieResultList = (props) => {
           ? <img src={imagePath + props.movie.poster_path} alt={props.movie.original_title}/> 
           : <PosterNotFound src={poster_not_found} alt='No poster available' />
         }
-        {isHover && <AddMovieToDashboard movieData={props.movie}/>}
+        {isHover && <AddMovieToWatchList movieData={props.movie}/>}
       </li>
     )
   }
@@ -89,4 +88,4 @@ const MovieResultList = (props) => {
   )
 }
 
-export default MovieResultList
+export default MovieSearchResultList

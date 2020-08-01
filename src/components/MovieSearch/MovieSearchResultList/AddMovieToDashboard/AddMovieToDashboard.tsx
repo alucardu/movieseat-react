@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import localforage from 'localforage';
-import { MovieContext } from '../../../context/MovieContext';
+import { MovieContext } from '../../../../context/MovieContext';
 
 const backdropUrl = 'https://image.tmdb.org/t/p/w780'
 
@@ -32,7 +32,7 @@ const AddMovie = styled.a`
   border-radius: 12px;
 `
 
-const AddMovieToDashboard = (movie) => {
+const AddMovieToWatchList = (movie) => {
 
   const [movies, setMovies] = useContext(MovieContext)
 
@@ -75,4 +75,4 @@ const AddMovieToDashboard = (movie) => {
   )
 }
 
-export default AddMovieToDashboard
+export default AddMovieToWatchList

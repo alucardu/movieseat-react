@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
-import MovieOverview from '../MovieOverview/MovieOverview';
-import { MovieContext } from '../../../context/MovieContext';
+import MovieOverview from './MovieOverview/MovieOverview';
+import { MovieContext } from '../../context/MovieContext';
 import localforage from 'localforage';
 
 type IMovie = {
