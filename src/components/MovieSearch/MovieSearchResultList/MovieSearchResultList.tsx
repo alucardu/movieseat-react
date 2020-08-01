@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import poster_not_found from '../../../assets/images/poster_not_found.svg';
 import AddMovieToWatchList from './AddMovieToDashboard/AddMovieToDashboard';
+import { sortBy, orderBy } from 'lodash'
 
 const ResultList = styled.ul`
   background: #3a3a3a;
@@ -54,6 +55,7 @@ const PosterNotFound = styled.img`
 
 const MovieSearchResultList = (props) => {
 
+  const orderedList = orderBy(props.movieList, [movie => movie.release_date], ['desc']);
   const imagePath = 'https://image.tmdb.org/t/p/w45/'
 
   const ResultListItem = (props) => {
@@ -78,8 +80,8 @@ const MovieSearchResultList = (props) => {
 
   return (
     <ResultList>
-      { props.movieList.length === 0 ? (<NoResults>No results were found...</NoResults>) : (null)}
-      { props.movieList.map(movie => {
+      { orderedList.length === 0 ? (<NoResults>No results were found...</NoResults>) : (null)}
+      { orderedList.map(movie => {
         return (
           <ResultListItem movie={movie} />
         )
