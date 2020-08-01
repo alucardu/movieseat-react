@@ -7,6 +7,7 @@ import { sortBy, orderBy } from 'lodash'
 const ResultList = styled.ul`
   background: #3a3a3a;
   position: absolute;
+  z-index: 1;
   list-style: none;
   top: 46px;
   width: 50%;
