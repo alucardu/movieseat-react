@@ -19,7 +19,7 @@ const SearchInput = styled.input`
     }
   }
 `
-const MovieSearch = ( {addMovie} ) => {
+const MovieSearch = ( {createSearchResults} ) => {
 
   const searchInpuit = useRef<HTMLInputElement | null>(null)
 
@@ -39,9 +39,9 @@ const MovieSearch = ( {addMovie} ) => {
       if (query) {
         fetch(baseurl + apikey + '&language=en-US&query=' + query + '&page=1&include_adult=false')
           .then(response => response.json())
-          .then(data => addMovie(query, data.results))
+          .then(data => createSearchResults(query, data.results))
       } else {
-        addMovie(query, [])
+        createSearchResults(query, [])
       }
     }
   }, 500);

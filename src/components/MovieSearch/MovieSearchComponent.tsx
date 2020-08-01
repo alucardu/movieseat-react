@@ -19,14 +19,14 @@ const MovieSearchComponent = () => {
   const [movieList, setMovies] = useState<Movie[]>([]);
   
   const [showList, toggleList] = useState(false);
-  const addMovie = ((query: string, movies: Movie[]) => {
+  const createSearchResults = ((query: string, movies: Movie[]) => {
     toggleList(!!query);
     if (query) setMovies([...movies]);
   });
 
   return (
     <MovieSearchContainer>
-      <MovieSearch addMovie={addMovie} />
+      <MovieSearch createSearchResults={createSearchResults} />
       { showList ? <MovieSearchResultList movieList={movieList}/> : null}      
     </MovieSearchContainer>
   )
