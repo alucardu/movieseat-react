@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import MovieSearch from '../MovieSearch/MovieSearch';
-import MovieResultList from '../MovieResultList/MovieResultList';
+import React, { useState } from 'react';
+import MovieSearch from './MovieSearch/MovieSearch';
+import MovieSearchResultList from './MovieSearchResultList/MovieSearchResultList';
 import styled from 'styled-components';
 
 interface Movie {
@@ -19,15 +19,15 @@ const MovieSearchComponent = () => {
   const [movieList, setMovies] = useState<Movie[]>([]);
   
   const [showList, toggleList] = useState(false);
-  const addMovie = ((query: string, movies: Movie[]) => {
+  const createSearchResults = ((query: string, movies: Movie[]) => {
     toggleList(!!query);
     if (query) setMovies([...movies]);
   });
 
   return (
     <MovieSearchContainer>
-      <MovieSearch addMovie={addMovie} />
-      { showList ? <MovieResultList movieList={movieList}/> : null}      
+      <MovieSearch createSearchResults={createSearchResults} />
+      { showList ? <MovieSearchResultList movieList={movieList}/> : null}      
     </MovieSearchContainer>
   )
 }
