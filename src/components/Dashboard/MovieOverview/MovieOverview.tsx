@@ -23,7 +23,7 @@ const MovieOverview = () => {
   return (
     <MovieList>
       { movies ? movies.map(movie => (
-         <MovieOnDashboard movie={movie}/>
+         <MovieOnDashboard key={movie.id} movie={movie}/>
       )) : null}
     </MovieList>
   )
