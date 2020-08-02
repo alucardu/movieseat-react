@@ -20,7 +20,7 @@ const Overlay = styled.div<OverlayData>`
   width: 100%;
   height: 100%;
   left: 0;
-  background: ${props => `url(${backdropUrl + props.backdrop_path}) no-repeat center center`};
+  background: ${movie => movie.backdrop_path ? `url(${backdropUrl + movie.backdrop_path} ) no-repeat center center` : null};
   background-size: cover;
   div {
     background: #00000073;
