@@ -54,27 +54,27 @@ const PosterNotFound = styled.img`
   height: 68px;
 `
 
-const MovieSearchResultList = (props) => {
+const MovieSearchResultList = ({movieList}) => {
 
-  const orderedList = orderBy(props.movieList, [movie => movie.release_date], ['desc']);
+  const orderedList = orderBy(movieList, [movie => movie.release_date], ['desc']);
   const imagePath = 'https://image.tmdb.org/t/p/w45/'
 
-  const ResultListItem = (props) => {
+  const ResultListItem = ({movie}) => {
     const [isHover, setHover] = useState(false);
     return (
       <li 
-        key={props.movie.id}
+        key={movie.id}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}>
         <p>
-          <span>{props.movie.original_title}</span>
-          <span>{props.movie.release_date}</span>
+          <span>{movie.original_title}</span>
+          <span>{movie.release_date}</span>
         </p>
-        { props.movie.poster_path !== null 
-          ? <img src={imagePath + props.movie.poster_path} alt={props.movie.original_title}/> 
+        { movie.poster_path !== null 
+          ? <img src={imagePath + movie.poster_path} alt={movie.original_title}/> 
           : <PosterNotFound src={poster_not_found} alt='No poster available' />
         }
-        {isHover && <AddMovieToWatchList movieData={props.movie}/>}
+        {isHover && <AddMovieToWatchList movie={movie}/>}
       </li>
     )
   }
