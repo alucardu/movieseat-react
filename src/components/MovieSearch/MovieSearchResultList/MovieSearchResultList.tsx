@@ -84,7 +84,7 @@ const MovieSearchResultList = (props) => {
       { orderedList.length === 0 ? (<NoResults>No results were found...</NoResults>) : (null)}
       { orderedList.map(movie => {
         return (
-          <ResultListItem movie={movie} />
+          <ResultListItem key={movie.id} movie={movie} />
         )
       })}
     </ResultList>
