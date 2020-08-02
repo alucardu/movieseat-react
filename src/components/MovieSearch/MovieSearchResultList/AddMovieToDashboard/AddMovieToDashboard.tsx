@@ -2,11 +2,17 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import localforage from 'localforage';
 import { MovieContext } from '../../../../context/MovieContext';
+import { orderBy } from 'lodash';
 
 const backdropUrl = 'https://image.tmdb.org/t/p/w780'
 
 interface OverlayData {
   readonly backdrop_path: string;
+}
+
+type sortConfig = {
+  selectedSortType: string,
+  orderType: string
 }
 
 const Overlay = styled.div<OverlayData>`
@@ -37,17 +43,7 @@ const AddMovieToWatchList = (movie) => {
   const [movies, setMovies] = useContext(MovieContext)
 
   const addMovie = (movie) => {
-
-    localforage.getItem<string []>('trackedMovies').then((value) => {
-      const trackedMovies = value;
-      if (!trackedMovies) {
-        createLocalStorage().then(async () => {
-          AddMovieToLocalStorage(movie)
-        });
-      } else {
-        AddMovieToLocalStorage(movie)
-      }
-    })
+    AddMovieToLocalStorage(movie)
 
     setMovies(prevMovies => [...prevMovies, {
       original_title: movie.movieData.original_title, 
@@ -56,14 +52,21 @@ const AddMovieToWatchList = (movie) => {
     }])
   }
 
-  const createLocalStorage = async () => {
-    localforage.setItem('trackedMovies', [])
+  const returnSortType = (movie, selectedSortType) => {
+    switch (selectedSortType) {
+      case 'release_date':
+        return movie.release_date;      
+      case 'title':
+        return movie.title;
+    }
   }
 
   const AddMovieToLocalStorage = async (movie) => {
-    const value = await localforage.getItem<string []>('trackedMovies');
-    value.push(movie.movieData);
-    localforage.setItem('trackedMovies', value)
+    const sortConfig = await localforage.getItem<sortConfig>('sortType')
+    let trackedMovies = await localforage.getItem<string []>('trackedMovies');
+    trackedMovies.push(movie.movieData);
+    trackedMovies = orderBy(trackedMovies, [movie => returnSortType(movie, sortConfig.selectedSortType)], [sortConfig.orderType ? 'asc' : 'desc']);
+    localforage.setItem('trackedMovies', trackedMovies)
   }
 
   return (

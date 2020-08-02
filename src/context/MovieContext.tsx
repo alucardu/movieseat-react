@@ -1,5 +1,4 @@
-import React, { useState, createContext, useEffect } from 'react';
-import localforage from 'localforage';
+import React, { useState, createContext } from 'react';
 
 type IMovie = {
   original_title: string;
@@ -10,12 +9,9 @@ type IMovie = {
 type IMovieContext = [IMovie[], React.Dispatch<React.SetStateAction<IMovie[]>>];
 
 export const MovieContext = createContext<IMovieContext>([[], () => null]);
-
 export const MovieProvider = props => {
 
-  const [movies, setMovies] = useState<IMovie[]>(
-    []
-  );
+  const [movies, setMovies] = useState<IMovie[]>([]);
 
   return (
     <MovieContext.Provider value={[movies, setMovies]}>

@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import MovieOverview from './MovieOverview/MovieOverview';
 import { MovieContext } from '../../context/MovieContext';
 import localforage from 'localforage';
+import DashboardMovieOverviewMenu from './DashboardMovieOverviewMenu/DashboardMovieOverviewMenu';
 
 type IMovie = {
   original_title: string;
@@ -20,7 +21,10 @@ const DashboardComponent = () =>  {
   })
 
   return (
-    movies.length > 0 ? <MovieOverview /> : null
+    <React.Fragment>
+      <DashboardMovieOverviewMenu />
+      { movies.length > 0 ? <MovieOverview /> : null }
+    </React.Fragment>
     )
 }
 
