@@ -98,8 +98,9 @@ const AddMovieToWatchList = ({movie}) => {
 
   const AddMovieToLocalStorage = async (movie) => {
     trackedMovies.push(movie);
-    setTrackedMovies(orderBy(trackedMovies, [movie => returnSortType(movie, sortConfig.selectedSortType)], [sortConfig.orderType ? 'asc' : 'desc']));
-    localforage.setItem('trackedMovies', trackedMovies)
+    const sortedTrackedMovies = orderBy(trackedMovies, [movie => returnSortType(movie, sortConfig.selectedSortType)], [sortConfig.orderType ? 'asc' : 'desc'])
+    setTrackedMovies(sortedTrackedMovies);
+    localforage.setItem('trackedMovies', sortedTrackedMovies)
   }
 
   return (
