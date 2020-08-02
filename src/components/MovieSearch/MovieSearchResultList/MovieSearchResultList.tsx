@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import poster_not_found from '../../../assets/images/poster_not_found.svg';
 import AddMovieToWatchList from './AddMovieToDashboard/AddMovieToDashboard';
-import { sortBy, orderBy } from 'lodash'
+import { orderBy } from 'lodash'
 
 const ResultList = styled.ul`
   background: #3a3a3a;
