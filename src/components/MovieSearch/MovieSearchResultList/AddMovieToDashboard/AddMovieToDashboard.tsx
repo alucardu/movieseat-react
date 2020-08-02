@@ -38,17 +38,16 @@ const AddMovie = styled.a`
   border-radius: 12px;
 `
 
-const AddMovieToWatchList = (movie) => {
-
+const AddMovieToWatchList = ({movie}) => {
   const [movies, setMovies] = useContext(MovieContext)
 
   const addMovie = (movie) => {
     AddMovieToLocalStorage(movie)
 
     setMovies(prevMovies => [...prevMovies, {
-      original_title: movie.movieData.original_title, 
-      poster_path: movie.movieData.poster_path, 
-      id: movie.movieData.id
+      original_title: movie.original_title, 
+      poster_path: movie.poster_path, 
+      id: movie.id
     }])
   }
 
@@ -64,13 +63,13 @@ const AddMovieToWatchList = (movie) => {
   const AddMovieToLocalStorage = async (movie) => {
     const sortConfig = await localforage.getItem<sortConfig>('sortType')
     let trackedMovies = await localforage.getItem<string []>('trackedMovies');
-    trackedMovies.push(movie.movieData);
+    trackedMovies.push(movie);
     trackedMovies = orderBy(trackedMovies, [movie => returnSortType(movie, sortConfig.selectedSortType)], [sortConfig.orderType ? 'asc' : 'desc']);
     localforage.setItem('trackedMovies', trackedMovies)
   }
 
   return (
-    <Overlay backdrop_path={movie.movieData.backdrop_path}>
+    <Overlay backdrop_path={movie.backdrop_path}>
       <div>
         <AddMovie onClick={() => addMovie(movie)}>Add movie to your watchlist</AddMovie>
       </div>
