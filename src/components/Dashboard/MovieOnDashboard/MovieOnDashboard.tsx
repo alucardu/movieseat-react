@@ -20,25 +20,24 @@ const MovieContainer = styled.li`
   }
 `
 
-const OverlayEl = (props) => {
+const OverlayEl = ({movie}) => {
   return (
     <Overlay>
-      <RemoveMovieFromDashboard movie={props}/>
+      <RemoveMovieFromDashboard movie={movie}/>
     </Overlay>
   )
 }
 
-const MovieOnDashboard = (movie) => {
-
+const MovieOnDashboard = ({movie}) => {
   const imagePath = 'https://image.tmdb.org/t/p/w185/'
   const [isHover, setHover] = useState(false);
 
   return (
     <MovieContainer 
-      key={movie.movie.id}
+      key={movie.id}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}>
-        <img src={imagePath + movie.movie.poster_path} alt='poster' />
+        <img src={imagePath + movie.poster_path} alt='poster' />
       { isHover && <OverlayEl movie={movie} />}      
     </MovieContainer>
   )

@@ -15,12 +15,11 @@ const DeleteButton = styled.div`
   }
 `
 
-const removeMovieFromDashboard = (movie) => {
-
+const removeMovieFromDashboard = ({movie}) => {
   const removeMovieFromList = async (movie) => {
     const value = await localforage.getItem<any []>('trackedMovies');
     value.forEach((item, index) => {
-      if (item.id === movie.movie.movie.movie.id) {
+      if (item.id === movie.id) {
         value.splice(index, 1);
         localforage.setItem('trackedMovies', value)
       }
