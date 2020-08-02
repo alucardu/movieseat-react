@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import localforage from 'localforage';
 import { MovieContext } from '../../../../context/MovieContext';
@@ -39,16 +39,37 @@ const AddMovie = styled.a`
 `
 
 const AddMovieToWatchList = ({movie}) => {
+  const [trackedMovies, setTrackedMovies] = useState(['']);
+  const [sortConfig, setSortConfig] = useState({selectedSortType: '', orderType: ''})
+  const isMountedRef = useRef(true)
+  
+  useEffect( () => {
+    localforage.getItem<sortConfig>('sortType').then((value) => {
+      if (isMountedRef.current) {
+        setSortConfig(value)
+      }
+    })
+    localforage.getItem<string []>('trackedMovies').then((value) => {
+      if (isMountedRef.current) {
+        setTrackedMovies(value);
+      }
+    })
+  }, [])
+  
   const [movies, setMovies] = useContext(MovieContext)
 
-  const addMovie = (movie) => {
-    AddMovieToLocalStorage(movie)
+  const addMovie = async (movie) => {
+    if (!checkForDuplicate(trackedMovies, movie)) {
+      AddMovieToLocalStorage(movie)
 
-    setMovies(prevMovies => [...prevMovies, {
-      original_title: movie.original_title, 
-      poster_path: movie.poster_path, 
-      id: movie.id
-    }])
+      setMovies(prevMovies => [...prevMovies, {
+        original_title: movie.original_title, 
+        poster_path: movie.poster_path, 
+        id: movie.id
+      }])
+    } else {
+      alert('Movie already added to your watchlist.')
+    }
   }
 
   const returnSortType = (movie, selectedSortType) => {
@@ -60,11 +81,15 @@ const AddMovieToWatchList = ({movie}) => {
     }
   }
 
+  const checkForDuplicate = (trackedMovies, movie) => {
+    for (let item of trackedMovies) {
+      if (item.id === movie.id) return true;
+    }
+  }
+
   const AddMovieToLocalStorage = async (movie) => {
-    const sortConfig = await localforage.getItem<sortConfig>('sortType')
-    let trackedMovies = await localforage.getItem<string []>('trackedMovies');
     trackedMovies.push(movie);
-    trackedMovies = orderBy(trackedMovies, [movie => returnSortType(movie, sortConfig.selectedSortType)], [sortConfig.orderType ? 'asc' : 'desc']);
+    setTrackedMovies(orderBy(trackedMovies, [movie => returnSortType(movie, sortConfig.selectedSortType)], [sortConfig.orderType ? 'asc' : 'desc']));
     localforage.setItem('trackedMovies', trackedMovies)
   }
 
