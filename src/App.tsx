@@ -10,12 +10,14 @@ import localforage from 'localforage';
   const App = () => {
 
     const setDefaults = () => {
-      localforage.getItem<string []>('trackedMovies').then((value) => {
-        const trackedMovies = value;
+      localforage.getItem<string []>('trackedMovies').then((trackedMovies) => {
         if (!trackedMovies) localforage.setItem('trackedMovies', [])
       })
 
-      localforage.setItem('sortType', {selectedSortType: 'release_date', orderType: true})
+      localforage.getItem<{}>('sortType').then((sortConfig) => {
+        if (!sortConfig) localforage.setItem('sortType', {selectedSortType: 'release_date', orderType: true})
+      })
+
     }
 
     setDefaults()
