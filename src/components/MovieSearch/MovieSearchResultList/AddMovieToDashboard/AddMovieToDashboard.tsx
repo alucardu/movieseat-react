@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import localforage from 'localforage';
 import { MovieContext } from '../../../../context/MovieContext';
 import { orderBy } from 'lodash';
+import { useSnackbar } from 'notistack';
 
 const backdropUrl = 'https://image.tmdb.org/t/p/w780'
 
@@ -39,6 +40,8 @@ const AddMovie = styled.a`
 `
 
 const AddMovieToWatchList = ({movie}) => {
+  const { enqueueSnackbar } = useSnackbar();
+
   const [trackedMovies, setTrackedMovies] = useState(['']);
   const [sortConfig, setSortConfig] = useState({selectedSortType: '', orderType: ''})
   const isMountedRef = useRef(true)
@@ -67,8 +70,14 @@ const AddMovieToWatchList = ({movie}) => {
         poster_path: movie.poster_path, 
         id: movie.id
       }])
+
+      enqueueSnackbar('Added ' + movie.original_title + ' to your watchlist.' , {
+        variant: 'success',
+      });
     } else {
-      alert('Movie already added to your watchlist.')
+      enqueueSnackbar('Movie ' + movie.original_title + ' is already on your watchlist.' , {
+        variant: 'error',
+      });
     }
   }
 
@@ -94,11 +103,11 @@ const AddMovieToWatchList = ({movie}) => {
   }
 
   return (
-    <Overlay backdrop_path={movie.backdrop_path}>
-      <div>
-        <AddMovie onClick={() => addMovie(movie)}>Add movie to your watchlist</AddMovie>
-      </div>
-    </Overlay>
+      <Overlay backdrop_path={movie.backdrop_path}>
+        <div>
+          <AddMovie onClick={() => addMovie(movie)}>Add movie to your watchlist</AddMovie>
+        </div>
+      </Overlay>
   )
 }
 

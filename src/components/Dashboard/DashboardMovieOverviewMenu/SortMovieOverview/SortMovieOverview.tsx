@@ -9,6 +9,7 @@ import { FormControlLabel, Checkbox } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import styled from 'styled-components';
+import { useSnackbar } from 'notistack';
 
 type IMovie = {
   title: string;
@@ -34,7 +35,7 @@ const MyButton = styled(Button)({
 });
 
 const SortMovieOverview = ( { toggleMenu }) => {
-    
+  const { enqueueSnackbar } = useSnackbar();
   const isMountedRef = useRef(true)
   useEffect(() => () => { isMountedRef.current = false }, [])
   useEffect(() => getOrderConfig(), []);
@@ -75,6 +76,14 @@ const SortMovieOverview = ( { toggleMenu }) => {
     })
 
     toggleMenu(false)
+    enqueueSnackbar('Applied sorting.' , {
+      variant: 'success',
+      action: (
+        <Button color="primary" size="small" onClick={() => alert('clicked on my custom action')}>
+            Undo
+        </Button>
+      )
+    });
   };
 
   const [orderType, setOrderType] = useState(false);

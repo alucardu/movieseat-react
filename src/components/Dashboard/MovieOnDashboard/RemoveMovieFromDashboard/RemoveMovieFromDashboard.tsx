@@ -3,6 +3,7 @@ import localforage from 'localforage'
 
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import styled from 'styled-components';
+import { useSnackbar } from 'notistack';
 
 const DeleteButton = styled.div`
   display: flex;
@@ -14,8 +15,10 @@ const DeleteButton = styled.div`
     cursor: pointer;
   }
 `
+const RemoveMovieFromDashboard = ({movie}) => {
 
-const removeMovieFromDashboard = ({movie}) => {
+  const { enqueueSnackbar } = useSnackbar();
+
   const removeMovieFromList = async (movie) => {
     const value = await localforage.getItem<any []>('trackedMovies');
     value.forEach((item, index) => {
@@ -24,6 +27,10 @@ const removeMovieFromDashboard = ({movie}) => {
         localforage.setItem('trackedMovies', value)
       }
     })
+
+    enqueueSnackbar('Removed ' + movie.original_title + ' from your watchlist.' , {
+      variant: 'success',
+    });
   }
 
   return (
@@ -33,4 +40,4 @@ const removeMovieFromDashboard = ({movie}) => {
   )
 }
 
-export default removeMovieFromDashboard
+export default RemoveMovieFromDashboard
