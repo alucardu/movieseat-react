@@ -50,7 +50,8 @@ const MovieSearch = ( {createSearchResults} ) => {
             ref={searchInpuit} 
             placeholder="Search for a movie..." 
             onChange={setMovieSearchResults} 
-            onBlur={clearResults} />
+            onBlur={clearResults} 
+          />
 }
 
 export default MovieSearch

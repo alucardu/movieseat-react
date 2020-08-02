@@ -8,7 +8,7 @@ interface Movie {
   id: string;
 }
 
-const MovieSearchContainer= styled.div`
+const MovieSearchContainer = styled.div`
   display: flex;
   justify-content: center;
   position: relative;

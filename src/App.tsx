@@ -1,4 +1,5 @@
 import React from 'react';
+import { SnackbarProvider } from 'notistack';
 
 import Header from './components/Header/Header';
 import MovieSearchComponent from './components/MovieSearch/MovieSearchComponent';
@@ -21,11 +22,13 @@ import localforage from 'localforage';
 
     return (
       <React.Fragment>
-        <Header />
-        <MovieProvider>
-          <MovieSearchComponent />
-          <DashboardComponent />
-        </MovieProvider>
+          <Header />
+          <SnackbarProvider maxSnack={3}>
+          <MovieProvider>
+            <MovieSearchComponent />
+            <DashboardComponent />
+          </MovieProvider>
+          </SnackbarProvider>
       </React.Fragment>
     );
   }
