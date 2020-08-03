@@ -2,8 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-
-import { createGlobalStyle } from 'styled-components'
+import {createGlobalStyle} from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -12,13 +11,13 @@ const GlobalStyle = createGlobalStyle`
     color: #fff;
     font-family: Arial, Helvetica, sans-serif;
   }
-`
+`;
 ReactDOM.render(
-  <React.Fragment>
-    <GlobalStyle />
-    <App />
-  </React.Fragment>,
-  document.getElementById('root')
+    <React.Fragment>
+      <GlobalStyle />
+      <App />
+    </React.Fragment>,
+    document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change

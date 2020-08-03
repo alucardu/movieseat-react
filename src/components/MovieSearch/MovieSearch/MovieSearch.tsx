@@ -1,7 +1,6 @@
-import React, { useRef } from 'react'
+import React, {useRef} from 'react';
 import styled from 'styled-components';
-
-import { debounce } from 'lodash'
+import {debounce} from 'lodash';
 
 const SearchInput = styled.input`
   box-sizing: border-box;
@@ -18,19 +17,18 @@ const SearchInput = styled.input`
       color: #fff;
     }
   }
-`
-const MovieSearch = ( {createSearchResults} ) => {
+`;
+const MovieSearch = ( {createSearchResults}: {createSearchResults: any} ) => {
+  const searchInpuit = useRef<HTMLInputElement | null>(null);
 
-  const searchInpuit = useRef<HTMLInputElement | null>(null)
-
+  const baseurl = 'https://api.themoviedb.org/3/search/movie?';
   const apikey = 'api_key=a8f7039633f2065942cd8a28d7cadad4';
-  const baseurl = 'https://api.themoviedb.org/3/search/movie?'
 
   const clearResults = () => {
     if (searchInpuit && searchInpuit.current) {
       searchInpuit.current.value = '';
     }
-    setMovieSearchResults()
+    setMovieSearchResults();
   };
 
   const setMovieSearchResults = debounce(() => {
@@ -38,20 +36,20 @@ const MovieSearch = ( {createSearchResults} ) => {
       const query = searchInpuit.current.value;
       if (query) {
         fetch(baseurl + apikey + '&language=en-US&query=' + query + '&page=1&include_adult=false')
-          .then(response => response.json())
-          .then(data => createSearchResults(query, data.results))
+            .then((response) => response.json())
+            .then((data) => createSearchResults(query, data.results));
       } else {
-        createSearchResults(query, [])
+        createSearchResults(query, []);
       }
     }
   }, 500);
 
-   return <SearchInput 
-            ref={searchInpuit} 
-            placeholder="Search for a movie..." 
-            onChange={setMovieSearchResults} 
-            onBlur={clearResults} 
-          />
-}
+  return <SearchInput
+    ref={searchInpuit}
+    placeholder="Search for a movie..."
+    onChange={setMovieSearchResults}
+    onBlur={clearResults}
+  />;
+};
 
-export default MovieSearch
+export default MovieSearch;
