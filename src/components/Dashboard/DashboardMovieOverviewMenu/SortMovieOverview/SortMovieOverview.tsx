@@ -1,28 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react'
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
+import React, {useState, useEffect, useRef} from 'react';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 import localforage from 'localforage';
-import { orderBy } from 'lodash';
-import { FormControlLabel, Checkbox } from '@material-ui/core';
+import {orderBy} from 'lodash';
+import {FormControlLabel, Checkbox} from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import styled from 'styled-components';
-import { useSnackbar } from 'notistack';
+import {useSnackbar} from 'notistack';
+import {IMovie, ISelectedSortType} from '../../../../movieseat';
 
-type IMovie = {
-  title: string;
-  poster_path: string;
-  release_date: string;
-  id: number;
-  type?: any;
-};
-
-type selectedSortType = {
-  selectedSortType: string;
-  orderType: boolean;
-}
 
 const MyButton = styled(Button)({
   background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
@@ -34,83 +23,86 @@ const MyButton = styled(Button)({
   padding: '0 30px',
 });
 
-const SortMovieOverview = ( { toggleMenu }) => {
-  const { enqueueSnackbar } = useSnackbar();
-  const isMountedRef = useRef(true)
-  useEffect(() => () => { isMountedRef.current = false }, [])
+const SortMovieOverview = ( {toggleMenu}: {toggleMenu:
+  React.Dispatch<React.SetStateAction<boolean>>}) => {
+  const {enqueueSnackbar} = useSnackbar();
+  const isMountedRef = useRef(true);
+  useEffect(() => () => {
+    isMountedRef.current = false;
+  }, []);
   useEffect(() => getOrderConfig(), []);
 
   const getOrderConfig = () => {
-    localforage.getItem<selectedSortType>('sortType').then((value) => {
+    localforage.getItem<ISelectedSortType>('sortType').then((value) => {
       if (isMountedRef.current) {
-        setSortType(value ? value.selectedSortType : 'release_date')
+        setSortType(value ? value.selectedSortType : 'release_date');
         setOrderType(value ? value.orderType : true);
       }
-    })
-  }
+    });
+  };
 
   const [sortType, setSortType] = useState('');
   const handleSortTypeChange = (event) => {
-    setSortType(event.target.value)
-  }
-  
-  const applySorting = (event) => {
+    setSortType(event.target.value);
+  };
+
+  const applySorting = () => {
     setSortType(sortType);
     const selectedSortType = sortType;
 
     const returnSortType = (movie) => {
       switch (selectedSortType) {
         case 'release_date':
-          return movie.release_date;      
+          return movie.release_date;
         case 'title':
           return movie.title;
       }
-    }
+    };
 
-    storeOrderConfig(selectedSortType, orderType)
+    storeOrderConfig(selectedSortType, orderType);
 
     localforage.getItem<IMovie []>('trackedMovies').then((value) => {
       let trackedMovies = value;
-      trackedMovies = orderBy(trackedMovies, [movie => returnSortType(movie)], [orderType ? 'asc' : 'desc']);
-      localforage.setItem('trackedMovies', trackedMovies)
-    })
+      trackedMovies = orderBy(trackedMovies, [(movie) => returnSortType(movie)], [orderType ? 'asc' : 'desc']);
+      localforage.setItem('trackedMovies', trackedMovies);
+    });
 
-    toggleMenu(false)
-    enqueueSnackbar('Applied sorting.' , {
+    toggleMenu(false);
+    enqueueSnackbar('Applied sorting.', {
       variant: 'success',
       action: (
         <Button color="primary" size="small" onClick={() => alert('clicked on my custom action')}>
             Undo
         </Button>
-      )
+      ),
     });
   };
 
   const [orderType, setOrderType] = useState(false);
   const handleSortOderChange = () => {
-    setOrderType(!orderType)
-    storeOrderConfig(sortType, orderType)
-  }
+    setOrderType(!orderType);
+    storeOrderConfig(sortType, orderType);
+  };
 
   const storeOrderConfig = (selectedSortType, orderType) => {
-    localforage.setItem('sortType', {selectedSortType, orderType})
-  }
+    localforage.setItem('sortType', {selectedSortType, orderType});
+  };
 
   return (
-  <FormControl>
-    <InputLabel id="demo-simple-select-label">Sort movies on dashboard by:</InputLabel>
-    <Select
-      onChange={handleSortTypeChange}
-      labelId="demo-simple-select-label"
-      id="demo-simple-select"
-      value={sortType}
-    >
-      <MenuItem value={'release_date'}>Release date</MenuItem>
-      <MenuItem value={'title'}>Title</MenuItem>
-      {/* <MenuItem value={'Date added'}>Date added</MenuItem> */}
-    </Select>
+    <FormControl>
+      <InputLabel id="demo-simple-select-label">Sort movies on dashboard by:</InputLabel>
+      <Select
+        onChange={handleSortTypeChange}
+        labelId="demo-simple-select-label"
+        id="demo-simple-select"
+        value={sortType}
+      >
+        <MenuItem value={'release_date'}>Release date</MenuItem>
+        <MenuItem value={'title'}>Title</MenuItem>
+        {/* <MenuItem value={'Date added'}>Date added</MenuItem> */}
+      </Select>
 
-    <FormControlLabel
+      <FormControlLabel
         control={
           <Checkbox
             checked={orderType}
@@ -129,9 +121,8 @@ const SortMovieOverview = ( { toggleMenu }) => {
       >
         Apply sorting
       </MyButton>
-  </FormControl>
-  )
+    </FormControl>
+  );
+};
 
-}
-
-export default SortMovieOverview
+export default SortMovieOverview;

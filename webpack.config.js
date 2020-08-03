@@ -5,17 +5,29 @@ const WorkboxPlugin = require('workbox-webpack-plugin');
 module.exports = {
   entry: './src/index.tsx',
   resolve: {
-    extensions: ['.ts', '.tsx', '.js']
+    extensions: ['.ts', '.tsx', '.js'],
   },
   output: {
     path: path.join(__dirname, '/dist'),
-    filename: 'bundle.min.js'
+    filename: 'bundle.min.js',
   },
   module: {
     rules: [
-      { 
-        test: /\.tsx?$/, 
-        loader: "ts-loader"
+      {
+        test: /\.(ts|tsx)$/,
+        enforce: 'pre',
+        use: [
+          {
+            loader: 'ts-loader',
+          },
+          {
+            options: {
+              eslintPath: require.resolve('eslint'),
+            },
+            loader: require.resolve('eslint-loader'),
+          },
+        ],
+        exclude: /node_modules/,
       },
       {
         test: /\.(png|jpe?g|gif|svg)$/i,
@@ -24,13 +36,13 @@ module.exports = {
             loader: 'file-loader',
           },
         ],
-      }
-    ]
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html'
+      template: './src/index.html',
     }),
-    new WorkboxPlugin.GenerateSW()
-  ]
-}
+    new WorkboxPlugin.GenerateSW(),
+  ],
+};

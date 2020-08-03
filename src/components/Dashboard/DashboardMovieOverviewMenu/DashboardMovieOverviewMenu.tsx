@@ -1,4 +1,4 @@
-  import React, { useState, useContext } from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 
 import ListIcon from '@material-ui/icons/List';
@@ -11,7 +11,7 @@ const MenuIcon = styled.div`
     font-size: 2.5em;
     cursor: pointer;
   }
-`
+`;
 
 const MenuLayoutEL = styled.div`
   position: absolute;
@@ -29,9 +29,9 @@ const MenuLayoutEL = styled.div`
       }
     }
   }
-`
-const MenuLayout = ( { toggleMenu } ) => {
-
+`;
+const MenuLayout = ({toggleMenu}: {toggleMenu:
+    React.Dispatch<React.SetStateAction<boolean>>}) => {
   return (
     <MenuLayoutEL>
       <ul>
@@ -40,8 +40,8 @@ const MenuLayout = ( { toggleMenu } ) => {
         </li>
       </ul>
     </MenuLayoutEL>
-  )
-}
+  );
+};
 
 const DashboardMovieOverviewMenu = () => {
   const [showMenu, toggleMenu] = useState(false);
@@ -51,7 +51,7 @@ const DashboardMovieOverviewMenu = () => {
       <MenuIcon><ListIcon onClick={() => toggleMenu(!showMenu)}/></MenuIcon>
       { showMenu ? <MenuLayout toggleMenu={toggleMenu}/> : null }
     </React.Fragment>
-  )
-}
+  );
+};
 
 export default DashboardMovieOverviewMenu;

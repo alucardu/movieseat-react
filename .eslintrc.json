@@ -1,0 +1,37 @@
+{
+    "env": {
+        "browser": true,
+        "es2020": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "google",
+        "plugin:jsdoc/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 11,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "@typescript-eslint",
+        "jsdoc"
+    ],
+    "rules": {
+        "max-len": [1, 80, 2, {
+            "ignoreStrings": true
+        }],
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": "error",
+        "require-jsdoc": 0
+    },
+    "overrides": [{
+        "files": ["bin/*.js", "lib/*.js"],
+        "excludedFiles": "./src/serviceWorker.ts"
+    }]
+}

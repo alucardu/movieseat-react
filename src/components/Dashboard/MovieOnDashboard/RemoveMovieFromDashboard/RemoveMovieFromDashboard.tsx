@@ -1,9 +1,9 @@
-import React from 'react'
-import localforage from 'localforage'
-
+import React from 'react';
+import localforage from 'localforage';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import styled from 'styled-components';
-import { useSnackbar } from 'notistack';
+import {useSnackbar} from 'notistack';
+import {IMovie} from '../../../../movieseat';
 
 const DeleteButton = styled.div`
   display: flex;
@@ -14,30 +14,32 @@ const DeleteButton = styled.div`
   svg {
     cursor: pointer;
   }
-`
-const RemoveMovieFromDashboard = ({movie}) => {
-
-  const { enqueueSnackbar } = useSnackbar();
+`;
+const RemoveMovieFromDashboard = ({movie}: {movie: IMovie}) => {
+  const {enqueueSnackbar} = useSnackbar();
 
   const removeMovieFromList = async (movie) => {
-    const value = await localforage.getItem<any []>('trackedMovies');
-    value.forEach((item, index) => {
-      if (item.id === movie.id) {
-        value.splice(index, 1);
-        localforage.setItem('trackedMovies', value)
-      }
-    })
+    const value = await localforage.getItem<IMovie []>('trackedMovies');
+    if (value) {
+      value.forEach((item, index) => {
+        if (item.id === movie.id) {
+          value.splice(index, 1);
+          localforage.setItem('trackedMovies', value);
+        }
+      });
+    }
 
-    enqueueSnackbar('Removed ' + movie.original_title + ' from your watchlist.' , {
-      variant: 'success',
-    });
-  }
+    enqueueSnackbar(
+        'Removed ' + movie.original_title + ' from your watchlist.',
+        {variant: 'success'},
+    );
+  };
 
   return (
     <DeleteButton onClick={() => removeMovieFromList(movie)}>
       <DeleteForeverIcon/>
     </DeleteButton>
-  )
-}
+  );
+};
 
-export default RemoveMovieFromDashboard
+export default RemoveMovieFromDashboard;

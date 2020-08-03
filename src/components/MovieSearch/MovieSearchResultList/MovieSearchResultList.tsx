@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
-import poster_not_found from '../../../assets/images/poster_not_found.svg';
+import posterNotFound from '../../../assets/images/poster_not_found.svg';
 import AddMovieToWatchList from './AddMovieToDashboard/AddMovieToDashboard';
-import { orderBy } from 'lodash'
+import {orderBy} from 'lodash';
+import {IMovie, IMovieList} from '../../../movieseat';
 
 const ResultList = styled.ul`
   background: #3a3a3a;
@@ -44,25 +45,25 @@ const ResultList = styled.ul`
       margin-left: auto;
     }
   }
-`
+`;
 
 const NoResults = styled.li`
   height: 68px;
-`
+`;
 const PosterNotFound = styled.img`
   width: 45px;
   height: 68px;
-`
+`;
 
-const MovieSearchResultList = ({movieList}) => {
+const MovieSearchResultList = ({movieList}: {movieList: IMovieList}) => {
+  const orderedList = orderBy<IMovieList>(
+      movieList, [(movie: IMovie) => movie.release_date], ['desc']);
+  const imagePath = 'https://image.tmdb.org/t/p/w45/';
 
-  const orderedList = orderBy(movieList, [movie => movie.release_date], ['desc']);
-  const imagePath = 'https://image.tmdb.org/t/p/w45/'
-
-  const ResultListItem = ({movie}) => {
+  const ResultListItem = (movie: any) => {
     const [isHover, setHover] = useState(false);
     return (
-      <li 
+      <li
         key={movie.id}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}>
@@ -70,25 +71,29 @@ const MovieSearchResultList = ({movieList}) => {
           <span>{movie.original_title}</span>
           <span>{movie.release_date}</span>
         </p>
-        { movie.poster_path !== null 
-          ? <img src={imagePath + movie.poster_path} alt={movie.original_title}/> 
-          : <PosterNotFound src={poster_not_found} alt='No poster available' />
+        { movie.poster_path !== null ?
+          <img
+            src={imagePath + movie.poster_path}
+            alt={movie.original_title}/>:
+          <PosterNotFound src={posterNotFound} alt='No poster available' />
         }
         {isHover && <AddMovieToWatchList movie={movie}/>}
       </li>
-    )
-  }
+    );
+  };
 
   return (
     <ResultList>
-      { orderedList.length === 0 ? (<NoResults>No results were found...</NoResults>) : (null)}
-      { orderedList.map(movie => {
+      { orderedList.length === 0 ? (
+        <NoResults>No results were found...</NoResults>) : (null)
+      }
+      { orderedList.map((movie: IMovie) => {
         return (
           <ResultListItem key={movie.id} movie={movie} />
-        )
+        );
       })}
     </ResultList>
-  )
-}
+  );
+};
 
-export default MovieSearchResultList
+export default MovieSearchResultList;
