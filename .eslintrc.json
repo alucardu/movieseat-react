@@ -28,7 +28,8 @@
         }],
         "no-unused-vars": "off",
         "@typescript-eslint/no-unused-vars": "error",
-        "require-jsdoc": 0
+        "require-jsdoc": 0,
+        "linebreak-style": 0
     },
     "overrides": [{
         "files": ["bin/*.js", "lib/*.js"],
