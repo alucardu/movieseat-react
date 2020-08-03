@@ -64,20 +64,20 @@ const MovieSearchResultList = ({movieList}: {movieList: IMovieList}) => {
     const [isHover, setHover] = useState(false);
     return (
       <li
-        key={movie.id}
+        key={movie.movie.id}
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}>
         <p>
-          <span>{movie.original_title}</span>
-          <span>{movie.release_date}</span>
+          <span>{movie.movie.original_title}</span>
+          <span>{movie.movie.release_date}</span>
         </p>
-        { movie.poster_path !== null ?
+        { movie.movie.poster_path !== null ?
           <img
-            src={imagePath + movie.poster_path}
+            src={imagePath + movie.movie.poster_path}
             alt={movie.original_title}/>:
           <PosterNotFound src={posterNotFound} alt='No poster available' />
         }
-        {isHover && <AddMovieToWatchList movie={movie}/>}
+        {isHover && <AddMovieToWatchList movie={movie.movie}/>}
       </li>
     );
   };
