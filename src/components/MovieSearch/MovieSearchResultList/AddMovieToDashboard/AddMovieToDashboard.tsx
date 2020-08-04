@@ -63,13 +63,10 @@ const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
     if (!checkForDuplicate(trackedMovies, movie)) {
       addMovieToLocalStorage(movie);
 
-      setMovies((prevMovies: IMovie[]) => [...prevMovies, {
-        id: movie.id,
-        backdrop_path: movie.backdrop_path,
-        original_title: movie.original_title,
-        poster_path: movie.poster_path,
-        release_date: movie.release_date,
-      }]);
+      const sortedTrackedMovies = orderBy(trackedMovies, [(movie: IMovie) =>
+        returnSortType(movie, sortConfig.selectedSortType)], [sortConfig.orderType ? 'asc' : 'desc'],
+      );
+      setMovies(sortedTrackedMovies);
 
       enqueueSnackbar(
           'Added ' + movie.original_title + ' to your watchlist.',
