@@ -1,10 +1,10 @@
-import React, {useContext, useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useContext} from 'react';
 import styled from 'styled-components';
 import localforage from 'localforage';
-import {MovieContext} from '../../../../context/MovieContext';
 import {orderBy} from 'lodash';
 import {useSnackbar} from 'notistack';
 import {IMovie, ISortConfig} from '../../../../movieseat';
+import {MovieContext} from '../../../../context/MovieContext';
 
 const backdropUrl = 'https://image.tmdb.org/t/p/w780';
 
@@ -63,13 +63,10 @@ const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
     if (!checkForDuplicate(trackedMovies, movie)) {
       addMovieToLocalStorage(movie);
 
-      setMovies((prevMovies: IMovie[]) => [...prevMovies, {
-        id: movie.id,
-        backdrop_path: movie.backdrop_path,
-        original_title: movie.original_title,
-        poster_path: movie.poster_path,
-        release_date: movie.release_date,
-      }]);
+      const sortedTrackedMovies = orderBy(trackedMovies, [(movie: IMovie) =>
+        returnSortType(movie, sortConfig.selectedSortType)], [sortConfig.orderType ? 'asc' : 'desc'],
+      );
+      setMovies(sortedTrackedMovies);
 
       enqueueSnackbar(
           'Added ' + movie.original_title + ' to your watchlist.',

@@ -14,14 +14,12 @@ const Title = styled.h1`
   text-shadow: 2px 2px 5px #000;
 `;
 
-class Header extends React.Component {
-  render() {
-    return (
-      <HeaderStyle>
-        <Title>Movieseat</Title>
-      </HeaderStyle>
-    );
-  }
-}
+const Header = () => {
+  return (
+    <HeaderStyle>
+      <Title>Movieseat</Title>
+    </HeaderStyle>
+  );
+};
 
 export default Header;

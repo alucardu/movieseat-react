@@ -31,7 +31,7 @@ const MenuLayoutEL = styled.div`
   }
 `;
 const MenuLayout = ({toggleMenu}: {toggleMenu:
-    React.Dispatch<React.SetStateAction<boolean>>}) => {
+  React.Dispatch<React.SetStateAction<boolean>>}) => {
   return (
     <MenuLayoutEL>
       <ul>

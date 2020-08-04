@@ -12,7 +12,7 @@ const DashboardComponent = () => {
     localforage.getItem<IMovie []>('trackedMovies').then((value) => {
       if (value) setMovies(() => value);
     });
-  });
+  }, []);
 
   return (
     <React.Fragment>

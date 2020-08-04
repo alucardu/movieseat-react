@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -11,6 +11,7 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import styled from 'styled-components';
 import {useSnackbar} from 'notistack';
 import {IMovie, ISelectedSortType} from '../../../../movieseat';
+import {MovieContext} from '../../../../context/MovieContext';
 
 
 const MyButton = styled(Button)({
@@ -25,6 +26,7 @@ const MyButton = styled(Button)({
 
 const SortMovieOverview = ( {toggleMenu}: {toggleMenu:
   React.Dispatch<React.SetStateAction<boolean>>}) => {
+  const [, setMovies] = useContext(MovieContext);
   const {enqueueSnackbar} = useSnackbar();
   const isMountedRef = useRef(true);
   useEffect(() => () => {
@@ -46,7 +48,7 @@ const SortMovieOverview = ( {toggleMenu}: {toggleMenu:
     setSortType(event.target.value);
   };
 
-  const applySorting = () => {
+  const applySorting = async () => {
     setSortType(sortType);
     const selectedSortType = sortType;
 
@@ -61,11 +63,13 @@ const SortMovieOverview = ( {toggleMenu}: {toggleMenu:
 
     storeOrderConfig(selectedSortType, orderType);
 
-    localforage.getItem<IMovie []>('trackedMovies').then((value) => {
+    const value = await localforage.getItem<IMovie []>('trackedMovies');
+    if (value) {
       let trackedMovies = value;
       trackedMovies = orderBy(trackedMovies, [(movie) => returnSortType(movie)], [orderType ? 'asc' : 'desc']);
       localforage.setItem('trackedMovies', trackedMovies);
-    });
+      setMovies(trackedMovies);
+    }
 
     toggleMenu(false);
     enqueueSnackbar('Applied sorting.', {
