@@ -1,10 +1,10 @@
-import React, {useContext, useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useContext} from 'react';
 import styled from 'styled-components';
 import localforage from 'localforage';
-import {MovieContext} from '../../../../context/MovieContext';
 import {orderBy} from 'lodash';
 import {useSnackbar} from 'notistack';
 import {IMovie, ISortConfig} from '../../../../movieseat';
+import {MovieContext} from '../../../../context/MovieContext';
 
 const backdropUrl = 'https://image.tmdb.org/t/p/w780';
 

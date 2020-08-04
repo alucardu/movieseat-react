@@ -2,16 +2,18 @@ import React from 'react';
 import {SnackbarProvider} from 'notistack';
 
 import Header from './components/Header/Header';
-// eslint-disable-next-line max-len
 import MovieSearchComponent from './components/MovieSearch/MovieSearchComponent';
 import DashboardComponent from './components/Dashboard/DashboardComponent';
 import MovieProvider from './context/MovieContext';
 import localforage from 'localforage';
 
+import {IMovie} from './movieseat';
 const App = () => {
   const setDefaults = () => {
-    localforage.getItem<string []>('trackedMovies').then((trackedMovies) => {
-      if (!trackedMovies) localforage.setItem('trackedMovies', []);
+    localforage.getItem<IMovie []>('trackedMovies').then((trackedMovies) => {
+      if (!trackedMovies) {
+        localforage.setItem('trackedMovies', []);
+      }
     });
 
     localforage.getItem<{}>('sortType').then((sortConfig) => {

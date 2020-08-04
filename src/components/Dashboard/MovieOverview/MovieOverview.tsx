@@ -1,10 +1,9 @@
-/* eslint-disable */
-import React, {useContext, useEffect, useState} from 'react';
-import {MovieContext} from '../../../context/MovieContext';
+import React, {useEffect, useState, useContext} from 'react';
 import MovieOnDashboard from '../MovieOnDashboard/MovieOnDashboard';
 import styled from 'styled-components';
 import {IMovie} from '../../../movieseat';
 import {chunk} from 'lodash';
+import {MovieContext} from '../../../context/MovieContext';
 
 const MovieList = styled.ul`
   list-style: none;
@@ -13,23 +12,26 @@ const MovieList = styled.ul`
   margin: 0 12px;
 `;
 
-
 const MovieOverview = () => {
-  const [movieRows, setMovieRows] = useState<IMovie[][]>([]);
   const [movies] = useContext(MovieContext);
-  let numberOfMovies: number;
+  const [movieRows, setMovieRows] = useState<IMovie[][]>([]);
+
+  const resizeEvent = () => {
+    setMoviesInRow();
+  };
 
   useEffect(() => {
-    setMoviesInRow()
-    window.addEventListener("resize", () => {
-      setMoviesInRow()
-    });
-  }, []);
+    setMoviesInRow();
+    window.addEventListener('resize', resizeEvent);
+    return () => {
+      window.removeEventListener('resize', resizeEvent);
+    };
+  }, [movies]);
 
   const setMoviesInRow = () => {
-    numberOfMovies = Math.floor((window.innerWidth -24) / 185);
+    const numberOfMovies = Math.floor((window.innerWidth -24) / 185);
     setMovieRows(chunk(movies, numberOfMovies));
-  }
+  };
 
   return (
     <div>
@@ -45,5 +47,3 @@ const MovieOverview = () => {
 };
 
 export default MovieOverview;
-
-// 12 x 185 = 2220
