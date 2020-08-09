@@ -37,70 +37,57 @@ const AddMovie = styled.a`
 
 const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
   const {enqueueSnackbar} = useSnackbar();
-
-  const [trackedMovies, setTrackedMovies] = useState<IMovie[]>([]);
-  const [sortConfig, setSortConfig] = useState(
-      {selectedSortType: '', orderType: ''},
-  );
+  const [movies, setMovies] = useContext(MovieContext);
+  const [sortConfig, setSortConfig] = useState({selectedSortType: '', orderType: ''});
   const isMountedRef = useRef(true);
 
   useEffect( () => {
     localforage.getItem<ISortConfig>('sortType').then((value) => {
       if (isMountedRef.current && value) {
         setSortConfig(value);
+        addMovieToLocalStorage(movies);
       }
     });
-    localforage.getItem<IMovie []>('trackedMovies').then((value) => {
-      if (isMountedRef.current && value) {
-        setTrackedMovies(value);
-      }
-    });
-  }, []);
+  }, [movies]);
 
-  const [, setMovies] = useContext(MovieContext);
-
-  const addMovie = async (movie: IMovie) => {
-    if (!checkForDuplicate(trackedMovies, movie)) {
-      addMovieToLocalStorage(movie);
-
-      const sortedTrackedMovies = orderBy(trackedMovies, [(movie: IMovie) =>
-        returnSortType(movie, sortConfig.selectedSortType)], [sortConfig.orderType ? 'asc' : 'desc'],
-      );
-      setMovies(sortedTrackedMovies);
-
-      enqueueSnackbar(
-          'Added ' + movie.original_title + ' to your watchlist.',
-          {variant: 'success'});
-    } else {
-      enqueueSnackbar(
-          'Movie ' + movie.original_title + ' is already on your watchlist.',
-          {variant: 'error'},
-      );
+  const addMovie = (movie: IMovie) => {
+    let message = 'is already added to your watchlist.';
+    let variant = 'warning';
+    if (!checkIsMovieDuplicate(movies, movie)) {
+      setMovies((movies) => sortMovieList([...movies, movie]));
+      message = 'has been added to your watchlist.';
+      variant = 'success';
     }
+    displaySnackbar(`${movie.original_title} ${message}`, {variant});
   };
 
-  const returnSortType = (movie, selectedSortType) => {
+  const displaySnackbar = (message: string, variant: any) => {
+    enqueueSnackbar(message, variant);
+  };
+
+  const returnSortType = (movie: IMovie, selectedSortType: string) => {
     switch (selectedSortType) {
       case 'release_date':
         return movie.release_date;
       case 'title':
-        return movie.title;
+        return movie.original_title;
     }
   };
 
-  const checkForDuplicate = (trackedMovies, movie) => {
-    for (const item of trackedMovies) {
+  const checkIsMovieDuplicate = (movies: IMovie[], movie: IMovie) => {
+    for (const item of movies) {
       if (item.id === movie.id) return true;
     }
   };
 
-  const addMovieToLocalStorage = async (movie: IMovie) => {
-    trackedMovies.push(movie);
-    const sortedTrackedMovies = orderBy(trackedMovies, [(movie: IMovie) =>
+  const addMovieToLocalStorage = async (movies: IMovie[]) => {
+    localforage.setItem('trackedMovies', movies);
+  };
+
+  const sortMovieList = (movies: IMovie[]) => {
+    return orderBy(movies, [(movie: IMovie) =>
       returnSortType(movie, sortConfig.selectedSortType)], [sortConfig.orderType ? 'asc' : 'desc'],
     );
-    setTrackedMovies(sortedTrackedMovies);
-    localforage.setItem('trackedMovies', sortedTrackedMovies);
   };
 
   return (

@@ -5,28 +5,8 @@ import Header from './components/Header/Header';
 import MovieSearchComponent from './components/MovieSearch/MovieSearchComponent';
 import DashboardComponent from './components/Dashboard/DashboardComponent';
 import MovieProvider from './context/MovieContext';
-import localforage from 'localforage';
 
-import {IMovie} from './movieseat';
 const App = () => {
-  const setDefaults = () => {
-    localforage.getItem<IMovie []>('trackedMovies').then((trackedMovies) => {
-      if (!trackedMovies) {
-        localforage.setItem('trackedMovies', []);
-      }
-    });
-
-    localforage.getItem<{}>('sortType').then((sortConfig) => {
-      if (!sortConfig) {
-        localforage.setItem(
-            'sortType', {selectedSortType: 'release_date', orderType: true},
-        );
-      }
-    });
-  };
-
-  setDefaults();
-
   return (
     <React.Fragment>
       <Header />
