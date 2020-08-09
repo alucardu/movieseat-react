@@ -9,8 +9,8 @@ const DashboardComponent = () => {
   const [movies, setMovies] = useContext(MovieContext);
 
   useEffect(() => {
-    localforage.getItem<IMovie []>('trackedMovies').then((value) => {
-      if (value) setMovies(() => value);
+    localforage.getItem<IMovie []>('trackedMovies').then((movieList) => {
+      if (movieList) setMovies(() => movieList);
     });
   }, []);
 

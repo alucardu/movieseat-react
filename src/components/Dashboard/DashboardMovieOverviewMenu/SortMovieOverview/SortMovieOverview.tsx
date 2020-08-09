@@ -74,11 +74,6 @@ const SortMovieOverview = ( {toggleMenu}: {toggleMenu:
     toggleMenu(false);
     enqueueSnackbar('Applied sorting.', {
       variant: 'success',
-      action: (
-        <Button color="primary" size="small" onClick={() => alert('clicked on my custom action')}>
-            Undo
-        </Button>
-      ),
     });
   };
 
@@ -103,7 +98,6 @@ const SortMovieOverview = ( {toggleMenu}: {toggleMenu:
       >
         <MenuItem value={'release_date'}>Release date</MenuItem>
         <MenuItem value={'title'}>Title</MenuItem>
-        {/* <MenuItem value={'Date added'}>Date added</MenuItem> */}
       </Select>
 
       <FormControlLabel
