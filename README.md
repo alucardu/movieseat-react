@@ -47,3 +47,17 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 "# movieseat" 
+
+## Some Docker tips
+
+docker-compose up
+
+docker ls
+
+npx prisma db pull
+
+docker exec -it movieseat-react_postgres_1 bash
+
+psql -U db_user college_db
+
+TABLE "Student";
