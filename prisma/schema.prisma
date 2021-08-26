@@ -17,3 +17,9 @@ model Student {
   dept     String?
   enrolled Boolean @default(false)
 }
+
+model Movie {
+  id      Int     @id @default(autoincrement())
+  name    String
+  tmdb_id Int
+}

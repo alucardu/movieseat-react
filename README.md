@@ -50,7 +50,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 ## Some Docker tips
 
-docker-compose up
+docker-compose up -d
 
 docker ls
 
@@ -60,4 +60,10 @@ docker exec -it movieseat-react_postgres_1 bash
 
 psql -U db_user college_db
 
+\dt+
+
 TABLE "Student";
+
+## Some Prisma tips
+
+npx prisma migrate dev --name **some_name**
