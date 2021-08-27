@@ -4,6 +4,13 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {createGlobalStyle} from 'styled-components';
 
+import {ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
+
+const client = new ApolloClient({
+  uri: 'http://localhost:9090',
+  cache: new InMemoryCache(),
+});
+
 const GlobalStyle = createGlobalStyle`
   body {
     background: #252525;
@@ -14,10 +21,12 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const Root = () => (
-  <React.Fragment>
-    <GlobalStyle />
-    <App />
-  </React.Fragment>
+  <ApolloProvider client={client}>
+    <React.Fragment>
+      <GlobalStyle />
+      <App />
+    </React.Fragment>
+  </ApolloProvider>
 );
 
 render(<Root />, document.getElementById('root'));

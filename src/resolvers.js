@@ -17,6 +17,9 @@ const Movie = {
 };
 
 const Query = {
+  numberSix() {
+    return 6;
+  },
   enrollment: () => {
     return prisma.student.findMany({
       where: {enrolled: true},
@@ -34,7 +37,7 @@ const Query = {
     return prisma.movie;
   },
   movies: () => {
-    return prisma.movie.findMany({});
+    return prisma.movie.findMany();
   },
 };
 
@@ -80,3 +83,10 @@ const resolvers = {Student, Movie, Query, Mutation};
 module.exports = {
   resolvers,
 };
+
+
+// import {gql} from '@apollo/client';
+
+// export const GET_LAUNCHES = gql`
+//   query numberSix: () =>
+// `;

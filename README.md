@@ -67,3 +67,5 @@ TABLE "Student";
 ## Some Prisma tips
 
 npx prisma migrate dev --name **some_name**
+
+yarn graphql-codegen

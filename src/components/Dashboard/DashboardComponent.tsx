@@ -5,7 +5,13 @@ import localforage from 'localforage';
 import DashboardMovieOverviewMenu from './DashboardMovieOverviewMenu/DashboardMovieOverviewMenu';
 import {IMovie} from '../../movieseat';
 
+import {useQuery} from '@apollo/client';
+import resolvers from '../../resolvers';
+
 const DashboardComponent = () => {
+  const {loading, error, data} = useQuery(resolvers.ReturnAllMovies);
+
+  console.log('data: ', loading, error, data);
   const [movies, setMovies] = useContext(MovieContext);
 
   useEffect(() => {

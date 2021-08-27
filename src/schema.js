@@ -28,6 +28,7 @@ const typeDefs = gql`
     student(id: ID!): Student
     movie(id: ID!): Movie
     movies: [Movie!]!
+    numberSix: Int!
   }
 
   type Mutation {
