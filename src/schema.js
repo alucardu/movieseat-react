@@ -16,6 +16,7 @@ const typeDefs = gql`
     id: ID!
     name: String!
     tmdb_id: Int!
+    poster_path: String!
   }
 
   type BatchPayload {
@@ -37,7 +38,9 @@ const typeDefs = gql`
     ): Student!
     enroll(id: ID!): Student
     addMovie(
-      name: String!, tmdb_id: Int!
+      name: String!, 
+      tmdb_id: Int!,
+      poster_path: String!
     ): Movie!
     removeMovie(
       id: Int!

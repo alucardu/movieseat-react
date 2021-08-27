@@ -14,6 +14,7 @@ const Movie = {
   id: (parent) => parent.id,
   name: (parent) => parent.name,
   tmdb_id: (parent) => parent.tmdb_id,
+  poster_path: (parent) => parent.poster_path,
 };
 
 const Query = {
@@ -65,6 +66,7 @@ const Mutation = {
       data: {
         name: args.name,
         tmdb_id: args.tmdb_id,
+        poster_path: args.poster_path,
       },
     });
   },

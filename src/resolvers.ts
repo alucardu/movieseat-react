@@ -4,7 +4,8 @@ const ReturnAllMovies = gql`
   {
     movies {
       id,
-      name
+      name,
+      poster_path
     }
   }
 `;

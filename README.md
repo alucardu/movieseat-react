@@ -62,9 +62,12 @@ psql -U db_user college_db
 
 \dt+
 
-TABLE "Student";
+TABLE "Movie";
 
 ## Some Prisma tips
+
+schema.js is interpreted by apollo server
+prisma.schema is used for migration
 
 npx prisma migrate dev --name **some_name**
 
