@@ -3,7 +3,7 @@
 const {prisma} = require('./database.js');
 
 const Student = {
-  id: (parent, args, context, info) => parent.id,
+  id: (parent) => parent.id,
   email: (parent) => parent.email,
   fullName: (parent) => parent.fullName,
   dept: (parent) => parent.dept,
@@ -17,12 +17,12 @@ const Movie = {
 };
 
 const Query = {
-  enrollment: (parent, args) => {
+  enrollment: () => {
     return prisma.student.findMany({
       where: {enrolled: true},
     });
   },
-  students: (parent, args) => {
+  students: () => {
     return prisma.student.findMany({});
   },
   student: (parent, args) => {
@@ -69,6 +69,9 @@ const Mutation = {
     return prisma.movie.delete({
       where: {id: Number(args.id)},
     });
+  },
+  removeAllMovies: () => {
+    return prisma.movie.deleteMany({});
   },
 };
 

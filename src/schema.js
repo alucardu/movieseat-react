@@ -18,6 +18,10 @@ const typeDefs = gql`
     tmdb_id: Int!
   }
 
+  type BatchPayload {
+    count: Int!
+  }
+
   type Query {
     enrollment: [Student!]
     students: [Student!]!
@@ -37,6 +41,7 @@ const typeDefs = gql`
     removeMovie(
       id: Int!
     ): Movie!
+    removeAllMovies: BatchPayload
   }
 `;
 
