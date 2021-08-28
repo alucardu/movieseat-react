@@ -12,7 +12,7 @@ const Student = {
 
 const Movie = {
   id: (parent) => parent.id,
-  name: (parent) => parent.name,
+  original_title: (parent) => parent.original_title,
   tmdb_id: (parent) => parent.tmdb_id,
   poster_path: (parent) => parent.poster_path,
 };
@@ -64,7 +64,7 @@ const Mutation = {
   addMovie: (parent, args) => {
     return prisma.movie.create({
       data: {
-        name: args.name,
+        original_title: args.original_title,
         tmdb_id: args.tmdb_id,
         poster_path: args.poster_path,
       },

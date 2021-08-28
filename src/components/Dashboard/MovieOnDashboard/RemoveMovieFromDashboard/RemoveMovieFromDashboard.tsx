@@ -5,6 +5,8 @@ import {useSnackbar} from 'notistack';
 import {IMovie} from '../../../../movieseat';
 import localforage from 'localforage';
 import {MovieContext} from '../../../../context/MovieContext';
+import {useMutation} from '@apollo/client';
+import resolvers from '../../../../../src/resolvers';
 
 const DeleteButton = styled.div`
   display: flex;
@@ -17,10 +19,13 @@ const DeleteButton = styled.div`
   }
 `;
 const RemoveMovieFromDashboard = ({movie}: {movie: IMovie}) => {
+  const [removeMovieRes, {data}] = useMutation(resolvers.mutations.RemoveMovie);
   const [, setMovies] = useContext(MovieContext);
   const {enqueueSnackbar} = useSnackbar();
 
   const removeMovieFromList = async (movie) => {
+    removeMovieRes({variables: {id: parseInt(movie.id)}});
+    console.log(data);
     const value = await localforage.getItem<IMovie []>('trackedMovies');
     if (value) {
       value.forEach((item, index) => {

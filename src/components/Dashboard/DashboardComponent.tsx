@@ -7,7 +7,7 @@ import {useQuery} from '@apollo/client';
 import resolvers from '../../resolvers';
 
 const DashboardComponent = () => {
-  const {loading, error, data} = useQuery(resolvers.ReturnAllMovies);
+  const {loading, error, data} = useQuery(resolvers.queries.ReturnAllMovies);
 
   if (loading) return <p>loading</p>;
   if (error) return <p>Error! ${error.message}</p>;

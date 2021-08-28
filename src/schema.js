@@ -14,7 +14,7 @@ const typeDefs = gql`
 
   type Movie {
     id: ID!
-    name: String!
+    original_title: String!
     tmdb_id: Int!
     poster_path: String!
   }
@@ -38,7 +38,7 @@ const typeDefs = gql`
     ): Student!
     enroll(id: ID!): Student
     addMovie(
-      name: String!, 
+      original_title: String!, 
       tmdb_id: Int!,
       poster_path: String!
     ): Movie!

@@ -5,6 +5,8 @@ import {orderBy} from 'lodash';
 import {useSnackbar} from 'notistack';
 import {IMovie, ISortConfig} from '../../../../movieseat';
 import {MovieContext} from '../../../../context/MovieContext';
+import {useMutation} from '@apollo/client';
+import resolvers from '../../../../../src/resolvers';
 
 const backdropUrl = 'https://image.tmdb.org/t/p/w780';
 
@@ -36,6 +38,8 @@ const AddMovie = styled.a`
 `;
 
 const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
+  const [addMovieRes, {data}] = useMutation(resolvers.mutations.AddMovie);
+
   const {enqueueSnackbar} = useSnackbar();
   const [movies, setMovies] = useContext(MovieContext);
   const [sortConfig, setSortConfig] = useState({selectedSortType: '', orderType: ''});
@@ -51,6 +55,13 @@ const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
   }, [movies]);
 
   const addMovie = (movie: IMovie) => {
+    console.log(movie);
+    addMovieRes({variables: {
+      original_title: movie.original_title,
+      tmdb_id: movie.id,
+      poster_path: movie.poster_path,
+    }});
+    console.log(data);
     let message = 'is already added to your watchlist.';
     let variant = 'warning';
     if (!checkIsMovieDuplicate(movies, movie)) {
