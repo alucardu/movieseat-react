@@ -1,23 +1,23 @@
-import React, {useContext, useEffect} from 'react';
+import React from 'react';
 import MovieOverview from './MovieOverview/MovieOverview';
-import {MovieContext} from '../../context/MovieContext';
-import localforage from 'localforage';
 import DashboardMovieOverviewMenu from './DashboardMovieOverviewMenu/DashboardMovieOverviewMenu';
 import {IMovie} from '../../movieseat';
 
-const DashboardComponent = () => {
-  const [movies, setMovies] = useContext(MovieContext);
+import {useQuery} from '@apollo/client';
+import resolvers from '../../resolvers';
 
-  useEffect(() => {
-    localforage.getItem<IMovie []>('trackedMovies').then((movieList) => {
-      if (movieList) setMovies(() => movieList);
-    });
-  }, []);
+const DashboardComponent = () => {
+  const {loading, error, data} = useQuery(resolvers.queries.ReturnAllMovies);
+
+  if (loading) return <p>loading</p>;
+  if (error) return <p>Error! ${error.message}</p>;
+
+  const movies: IMovie[] = data.movies;
 
   return (
     <React.Fragment>
       <DashboardMovieOverviewMenu />
-      { movies.length > 0 ? <MovieOverview /> : null }
+      { movies.length > 0 ? <MovieOverview movies={movies} /> : null }
     </React.Fragment>
   );
 };

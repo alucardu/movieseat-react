@@ -3,7 +3,7 @@
 const {prisma} = require('./database.js');
 
 const Student = {
-  id: (parent, args, context, info) => parent.id,
+  id: (parent) => parent.id,
   email: (parent) => parent.email,
   fullName: (parent) => parent.fullName,
   dept: (parent) => parent.dept,
@@ -12,17 +12,21 @@ const Student = {
 
 const Movie = {
   id: (parent) => parent.id,
-  name: (parent) => parent.name,
+  original_title: (parent) => parent.original_title,
   tmdb_id: (parent) => parent.tmdb_id,
+  poster_path: (parent) => parent.poster_path,
 };
 
 const Query = {
-  enrollment: (parent, args) => {
+  numberSix() {
+    return 6;
+  },
+  enrollment: () => {
     return prisma.student.findMany({
       where: {enrolled: true},
     });
   },
-  students: (parent, args) => {
+  students: () => {
     return prisma.student.findMany({});
   },
   student: (parent, args) => {
@@ -34,7 +38,7 @@ const Query = {
     return prisma.movie;
   },
   movies: () => {
-    return prisma.movie.findMany({});
+    return prisma.movie.findMany();
   },
 };
 
@@ -60,8 +64,9 @@ const Mutation = {
   addMovie: (parent, args) => {
     return prisma.movie.create({
       data: {
-        name: args.name,
+        original_title: args.original_title,
         tmdb_id: args.tmdb_id,
+        poster_path: args.poster_path,
       },
     });
   },
@@ -70,6 +75,9 @@ const Mutation = {
       where: {id: Number(args.id)},
     });
   },
+  removeAllMovies: () => {
+    return prisma.movie.deleteMany({});
+  },
 };
 
 const resolvers = {Student, Movie, Query, Mutation};
@@ -77,3 +85,10 @@ const resolvers = {Student, Movie, Query, Mutation};
 module.exports = {
   resolvers,
 };
+
+
+// import {gql} from '@apollo/client';
+
+// export const GET_LAUNCHES = gql`
+//   query numberSix: () =>
+// `;

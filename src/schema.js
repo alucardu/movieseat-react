@@ -14,8 +14,13 @@ const typeDefs = gql`
 
   type Movie {
     id: ID!
-    name: String!
+    original_title: String!
     tmdb_id: Int!
+    poster_path: String!
+  }
+
+  type BatchPayload {
+    count: Int!
   }
 
   type Query {
@@ -24,6 +29,7 @@ const typeDefs = gql`
     student(id: ID!): Student
     movie(id: ID!): Movie
     movies: [Movie!]!
+    numberSix: Int!
   }
 
   type Mutation {
@@ -32,11 +38,14 @@ const typeDefs = gql`
     ): Student!
     enroll(id: ID!): Student
     addMovie(
-      name: String!, tmdb_id: Int!
+      original_title: String!, 
+      tmdb_id: Int!,
+      poster_path: String!
     ): Movie!
     removeMovie(
       id: Int!
     ): Movie!
+    removeAllMovies: BatchPayload
   }
 `;
 

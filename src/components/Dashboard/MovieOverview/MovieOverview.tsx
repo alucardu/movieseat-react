@@ -1,9 +1,9 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect} from 'react';
+import PropTypes from 'prop-types';
 import MovieOnDashboard from '../MovieOnDashboard/MovieOnDashboard';
 import styled from 'styled-components';
 import {IMovie} from '../../../movieseat';
 import {chunk} from 'lodash';
-import {MovieContext} from '../../../context/MovieContext';
 
 const MovieList = styled.ul`
   list-style: none;
@@ -12,10 +12,8 @@ const MovieList = styled.ul`
   margin: 0 12px;
 `;
 
-const MovieOverview = () => {
-  const [movies] = useContext(MovieContext);
-  const [movieRows, setMovieRows] = useState<IMovie[][]>([]);
-
+const MovieOverview = (props) => {
+  const {movies} = props;
   const resizeEvent = () => {
     setMoviesInRow();
   };
@@ -28,16 +26,19 @@ const MovieOverview = () => {
     };
   }, [movies]);
 
+
   const setMoviesInRow = () => {
     const numberOfMovies = Math.floor((window.innerWidth -24) / 185);
-    setMovieRows(chunk(movies, numberOfMovies));
+    return chunk<IMovie>(movies, numberOfMovies);
   };
+
+  const movieRows = setMoviesInRow();
 
   return (
     <div>
       { movieRows ? movieRows.map((movieRow, index) => (
         <MovieList key={index}>
-          { movieRow.map((movie: IMovie) => (
+          { movieRow.map((movie) => (
             <MovieOnDashboard key={movie.id} movie={movie}/>
           ))}
         </MovieList>
@@ -45,5 +46,10 @@ const MovieOverview = () => {
     </div>
   );
 };
+
+MovieOverview.propTypes = {
+  movies: PropTypes.array,
+};
+
 
 export default MovieOverview;

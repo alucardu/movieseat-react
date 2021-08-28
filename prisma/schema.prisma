@@ -19,7 +19,8 @@ model Student {
 }
 
 model Movie {
-  id      Int     @id @default(autoincrement())
-  name    String
-  tmdb_id Int
+  id                Int     @id @default(autoincrement())
+  original_title    String
+  tmdb_id           Int
+  poster_path       String @default("")
 }
