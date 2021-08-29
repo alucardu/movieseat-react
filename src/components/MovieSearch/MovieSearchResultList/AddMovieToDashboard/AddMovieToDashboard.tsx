@@ -1,15 +1,12 @@
-import React, {useEffect, useState, useRef, useContext} from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import localforage from 'localforage';
-import {orderBy} from 'lodash';
 import {useSnackbar} from 'notistack';
-import {IMovie, ISortConfig} from '../../../../movieseat';
-import {MovieContext} from '../../../../context/MovieContext';
+import {IMovie} from '../../../../movieseat';
 import {useMutation} from '@apollo/client';
 import resolvers from '../../../../../src/resolvers';
+import {movieVar, moviesVar} from '../../../../cache';
 
 const backdropUrl = 'https://image.tmdb.org/t/p/w780';
-
 interface OverlayData {
   readonly backdropPath: string;
 }
@@ -38,34 +35,20 @@ const AddMovie = styled.a`
 `;
 
 const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
-  const [addMovieRes, {data}] = useMutation(resolvers.mutations.AddMovie);
-
+  const [addMovieRes] = useMutation(resolvers.mutations.AddMovie);
   const {enqueueSnackbar} = useSnackbar();
-  const [movies, setMovies] = useContext(MovieContext);
-  const [sortConfig, setSortConfig] = useState({selectedSortType: '', orderType: ''});
-  const isMountedRef = useRef(true);
-
-  useEffect( () => {
-    localforage.getItem<ISortConfig>('sortType').then((value) => {
-      if (isMountedRef.current && value) {
-        setSortConfig(value);
-        addMovieToLocalStorage(movies);
-      }
-    });
-  }, [movies]);
 
   const addMovie = (movie: IMovie) => {
-    console.log(movie);
-    addMovieRes({variables: {
-      original_title: movie.original_title,
-      tmdb_id: movie.id,
-      poster_path: movie.poster_path,
-    }});
-    console.log(data);
     let message = 'is already added to your watchlist.';
     let variant = 'warning';
-    if (!checkIsMovieDuplicate(movies, movie)) {
-      setMovies((movies) => sortMovieList([...movies, movie]));
+    if (!checkIsMovieDuplicate(moviesVar(), movie)) {
+      addMovieRes({variables: {
+        original_title: movie.original_title,
+        tmdb_id: movie.id,
+        poster_path: movie.poster_path,
+      }});
+      movieVar(movie);
+
       message = 'has been added to your watchlist.';
       variant = 'success';
     }
@@ -76,29 +59,10 @@ const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
     enqueueSnackbar(message, variant);
   };
 
-  const returnSortType = (movie: IMovie, selectedSortType: string) => {
-    switch (selectedSortType) {
-      case 'release_date':
-        return movie.release_date;
-      case 'title':
-        return movie.original_title;
-    }
-  };
-
   const checkIsMovieDuplicate = (movies: IMovie[], movie: IMovie) => {
     for (const item of movies) {
-      if (item.id === movie.id) return true;
+      if (item.tmdb_id === movie.id) return true;
     }
-  };
-
-  const addMovieToLocalStorage = async (movies: IMovie[]) => {
-    localforage.setItem('trackedMovies', movies);
-  };
-
-  const sortMovieList = (movies: IMovie[]) => {
-    return orderBy(movies, [(movie: IMovie) =>
-      returnSortType(movie, sortConfig.selectedSortType)], [sortConfig.orderType ? 'asc' : 'desc'],
-    );
   };
 
   return (

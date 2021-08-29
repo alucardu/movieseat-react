@@ -1,9 +1,16 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import MovieOnDashboard from '../MovieOnDashboard/MovieOnDashboard';
 import styled from 'styled-components';
-import {IMovie} from '../../../movieseat';
 import {chunk} from 'lodash';
+import {IMovie} from '../../../movieseat';
+
+import {useQuery, useReactiveVar} from '@apollo/client';
+import resolvers from '../../../resolvers';
+
+import {movieVar, moviesVar} from '../../../cache';
+
+import {useEffect} from 'react';
 
 const MovieList = styled.ul`
   list-style: none;
@@ -12,37 +19,36 @@ const MovieList = styled.ul`
   margin: 0 12px;
 `;
 
-const MovieOverview = (props) => {
-  const {movies} = props;
-  const resizeEvent = () => {
-    setMoviesInRow();
-  };
+const MovieOverview = () => {
+  const {loading, error, data, refetch} = useQuery(resolvers.queries.ReturnAllMovies);
+  const movies: IMovie[] = data?.movies;
+
+  moviesVar(movies);
+
+  let movieRows;
 
   useEffect(() => {
-    setMoviesInRow();
-    window.addEventListener('resize', resizeEvent);
-    return () => {
-      window.removeEventListener('resize', resizeEvent);
-    };
-  }, [movies]);
+    refetch();
+  }, [useReactiveVar(movieVar)]);
 
-
-  const setMoviesInRow = () => {
-    const numberOfMovies = Math.floor((window.innerWidth -24) / 185);
-    return chunk<IMovie>(movies, numberOfMovies);
+  const setMovieRows = () => {
+    movieRows = chunk(movies, 8);
   };
 
-  const movieRows = setMoviesInRow();
+  setMovieRows();
+
+  if (loading) return <p>loading</p>;
+  if (error) return <p>Error! ${error.message}</p>;
 
   return (
     <div>
-      { movieRows ? movieRows.map((movieRow, index) => (
+      { movieRows.map((movieRow, index) => (
         <MovieList key={index}>
-          { movieRow.map((movie) => (
+          { movieRow.map((movie: IMovie) => (
             <MovieOnDashboard key={movie.id} movie={movie}/>
           ))}
         </MovieList>
-      )): null}
+      ))}
     </div>
   );
 };
@@ -50,6 +56,5 @@ const MovieOverview = (props) => {
 MovieOverview.propTypes = {
   movies: PropTypes.array,
 };
-
 
 export default MovieOverview;

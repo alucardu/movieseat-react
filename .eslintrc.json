@@ -23,7 +23,7 @@
         "jsdoc"
     ],
     "rules": {
-        "max-len": [1, 80, 2, {
+        "max-len": [1, 90, 2, {
             "ignoreStrings": true
         }],
         "no-unused-vars": "off",
