@@ -38,10 +38,10 @@ const AddMovie = styled.a`
 `;
 
 const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
-  const [addMovieRes, {data}] = useMutation(resolvers.mutations.AddMovie);
+  const [addMovieRes] = useMutation(resolvers.mutations.AddMovie);
+  const [movies, setMovies] = useContext(MovieContext);
 
   const {enqueueSnackbar} = useSnackbar();
-  const [movies, setMovies] = useContext(MovieContext);
   const [sortConfig, setSortConfig] = useState({selectedSortType: '', orderType: ''});
   const isMountedRef = useRef(true);
 
@@ -61,7 +61,7 @@ const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
       tmdb_id: movie.id,
       poster_path: movie.poster_path,
     }});
-    console.log(data);
+
     let message = 'is already added to your watchlist.';
     let variant = 'warning';
     if (!checkIsMovieDuplicate(movies, movie)) {
