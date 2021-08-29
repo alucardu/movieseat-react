@@ -6,6 +6,7 @@ const ReturnAllMovies = gql`
        id
        original_title
        poster_path
+       tmdb_id
      }
   }
 `;

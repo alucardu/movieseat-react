@@ -4,6 +4,7 @@ export interface IMovie {
   poster_path: string;
   release_date: string;
   backdrop_path: string;
+  tmdb_id: number;
 }
 
 export interface IMovieList {
