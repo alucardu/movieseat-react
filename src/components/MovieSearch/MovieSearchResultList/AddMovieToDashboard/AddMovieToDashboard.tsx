@@ -7,6 +7,7 @@ import {IMovie, ISortConfig} from '../../../../movieseat';
 import {MovieContext} from '../../../../context/MovieContext';
 import {useMutation} from '@apollo/client';
 import resolvers from '../../../../../src/resolvers';
+import {movieVar} from '../../../../cache';
 
 const backdropUrl = 'https://image.tmdb.org/t/p/w780';
 
@@ -55,12 +56,12 @@ const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
   }, [movies]);
 
   const addMovie = (movie: IMovie) => {
-    console.log(movie);
     addMovieRes({variables: {
       original_title: movie.original_title,
       tmdb_id: movie.id,
       poster_path: movie.poster_path,
     }});
+    movieVar(movie);
 
     let message = 'is already added to your watchlist.';
     let variant = 'warning';
