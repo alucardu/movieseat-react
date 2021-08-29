@@ -2,8 +2,11 @@ import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import MovieOnDashboard from '../MovieOnDashboard/MovieOnDashboard';
 import styled from 'styled-components';
-import {IMovie} from '../../../movieseat';
 import {chunk} from 'lodash';
+import {IMovie} from '../../../movieseat';
+
+import {useQuery} from '@apollo/client';
+import resolvers from '../../../resolvers';
 
 const MovieList = styled.ul`
   list-style: none;
@@ -12,10 +15,18 @@ const MovieList = styled.ul`
   margin: 0 12px;
 `;
 
-const MovieOverview = (props) => {
-  const {movies} = props;
+const MovieOverview = () => {
+  const {loading, error, data} = useQuery(resolvers.queries.ReturnAllMovies);
+
+  const movies: IMovie[] = data?.movies;
+
   const resizeEvent = () => {
     setMoviesInRow();
+  };
+
+  const setMoviesInRow = () => {
+    const numberOfMovies = Math.floor((window.innerWidth -24) / 185);
+    return chunk<IMovie>(movies, numberOfMovies);
   };
 
   useEffect(() => {
@@ -26,11 +37,8 @@ const MovieOverview = (props) => {
     };
   }, [movies]);
 
-
-  const setMoviesInRow = () => {
-    const numberOfMovies = Math.floor((window.innerWidth -24) / 185);
-    return chunk<IMovie>(movies, numberOfMovies);
-  };
+  if (loading) return <p>loading</p>;
+  if (error) return <p>Error! ${error.message}</p>;
 
   const movieRows = setMoviesInRow();
 
