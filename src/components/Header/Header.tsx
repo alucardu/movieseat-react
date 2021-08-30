@@ -1,6 +1,7 @@
 /* eslint-disable require-jsdoc */
 import React from 'react';
 import styled from 'styled-components';
+import {Link} from 'react-router-dom';
 
 const HeaderStyle = styled.header`
   background: #0fcece;
@@ -17,7 +18,8 @@ const Title = styled.h1`
 const Header = () => {
   return (
     <HeaderStyle>
-      <Title>Movieseat</Title>
+      <Link to="/"><Title>Movieseat</Title></Link>
+      <Link to="/login">login</Link>
     </HeaderStyle>
   );
 };

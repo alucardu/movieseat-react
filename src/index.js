@@ -9,7 +9,7 @@ const port = process.env.PORT || 9090;
 const server = new ApolloServer({resolvers, typeDefs,
   context: (req) => ({
     prisma,
-    req
+    req,
   })});
 
 server.listen({port}, () => console.log(
