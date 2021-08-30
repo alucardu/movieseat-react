@@ -16,3 +16,10 @@ model Movie {
   tmdb_id           Int
   poster_path       String @default("")
 }
+
+model User {
+  id                Int @id
+  email             String @unique
+  name              String
+  password          String
+}

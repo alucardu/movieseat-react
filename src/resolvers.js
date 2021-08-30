@@ -1,6 +1,7 @@
-//* node-graphql/src/resolvers.js
-
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const {prisma} = require('./database.js');
+const {decodedToken} = require('./decodedToken');
 
 const Movie = {
   id: (parent) => parent.id,
@@ -10,6 +11,11 @@ const Movie = {
 };
 
 const Query = {
+  users: async (root, args, {prisma, req}) => {
+    decodedToken(req);
+    return prisma.user.findMany();
+  },
+
   movie: () => {
     return prisma.movie;
   },
@@ -19,6 +25,30 @@ const Query = {
 };
 
 const Mutation = {
+  signupUser: async (root, args) => {
+    const newUser = await prisma.user.create({
+      data: {
+        id: args.id,
+        email: args.email,
+        password: bcrypt.hashSync(args.password, 3),
+        name: args.name,
+      },
+    });
+    return {token: jwt.sign(newUser, 'supersecret')};
+  },
+
+  loginUser: async (root, args) => {
+    console.log(args.email);
+    const theUser = await prisma.user.findUnique({
+      where: {email: String(args.email)},
+    });
+    console.log(theUser);
+    if (!theUser) throw new Error('Unable to Login');
+    const isMatch = bcrypt.compareSync(args.password, theUser.password);
+    if (!isMatch) throw new Error('Unable to Login');
+    return {token: jwt.sign(theUser, 'supersecret')};
+  },
+
   addMovie: (parent, args) => {
     return prisma.movie.create({
       data: {
@@ -35,6 +65,9 @@ const Mutation = {
   },
   removeAllMovies: () => {
     return prisma.movie.deleteMany({});
+  },
+  removeAllUsers: () => {
+    return prisma.user.deleteMany({});
   },
 };
 
