@@ -3,19 +3,19 @@ const jwt = require('jsonwebtoken');
 const {prisma} = require('./database.js');
 const {decodedToken} = require('./decodedToken');
 
-const Movie = {
-  id: (parent) => parent.id,
-  original_title: (parent) => parent.original_title,
-  tmdb_id: (parent) => parent.tmdb_id,
-  poster_path: (parent) => parent.poster_path,
-};
-
 const Query = {
   currentUser: async (root, args) => {
     const currentUser = await prisma.user.findUnique({
       where: {id: Number(args.id)},
     });
     return currentUser;
+  },
+
+  moviesFromUser: async (root, args) => {
+    const movie = await prisma.movie.findMany({
+      where: {userId: args.userId},
+    });
+    return movie;
   },
 
   users: async (root, args, {prisma, req}) => {
@@ -29,6 +29,7 @@ const Query = {
   movies: () => {
     return prisma.movie.findMany();
   },
+
 };
 
 const Mutation = {
@@ -60,6 +61,7 @@ const Mutation = {
         original_title: args.original_title,
         tmdb_id: args.tmdb_id,
         poster_path: args.poster_path,
+        userId: args.userId,
       },
     });
   },
@@ -76,7 +78,7 @@ const Mutation = {
   },
 };
 
-const resolvers = {Movie, Query, Mutation};
+const resolvers = {Query, Mutation};
 
 module.exports = {
   resolvers,
