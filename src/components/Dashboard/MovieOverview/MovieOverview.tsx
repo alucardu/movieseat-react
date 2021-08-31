@@ -24,14 +24,13 @@ const MovieOverview = () => {
       resolvers.queries.ReturnMoviesFromUser, {variables: {userId: currentUserVar().id}});
 
   const movies: IMovie[] = data?.moviesFromUser;
-
   moviesVar(movies);
 
   let movieRows;
 
   useEffect(() => {
     refetch();
-  }, [useReactiveVar(movieVar)]);
+  }, [useReactiveVar(movieVar), useReactiveVar(currentUserVar)]);
 
   const setMovieRows = () => {
     movieRows = chunk(movies, 8);

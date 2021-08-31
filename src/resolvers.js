@@ -15,6 +15,7 @@ const Query = {
     const movie = await prisma.movie.findMany({
       where: {userId: args.userId},
     });
+    console.log('moviesFromUser: ', movie, args);
     return movie;
   },
 
@@ -56,6 +57,7 @@ const Mutation = {
   },
 
   addMovie: (parent, args) => {
+    console.log('addmovie: ', args);
     return prisma.movie.create({
       data: {
         original_title: args.original_title,
@@ -66,6 +68,7 @@ const Mutation = {
     });
   },
   removeMovie: (parent, args) => {
+    console.log('removeMovie', args);
     return prisma.movie.delete({
       where: {id: Number(args.id)},
     });

@@ -38,11 +38,11 @@ const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
   const [addMovieRes] = useMutation(resolvers.mutations.AddMovie);
   const {enqueueSnackbar} = useSnackbar();
 
-  const addMovie = (movie: IMovie) => {
+  const addMovie = async (movie: IMovie) => {
     let message = 'is already added to your watchlist.';
     let variant = 'warning';
     if (!checkIsMovieDuplicate(moviesVar(), movie)) {
-      addMovieRes({variables: {
+      await addMovieRes({variables: {
         original_title: movie.original_title,
         tmdb_id: movie.id,
         poster_path: movie.poster_path,
