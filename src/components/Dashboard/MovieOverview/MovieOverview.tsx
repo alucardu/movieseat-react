@@ -8,7 +8,7 @@ import {IMovie} from '../../../movieseat';
 import {useQuery, useReactiveVar} from '@apollo/client';
 import resolvers from '../../../resolvers';
 
-import {movieVar, moviesVar} from '../../../cache';
+import {movieVar, moviesVar, currentUserVar} from '../../../cache';
 
 import {useEffect} from 'react';
 
@@ -20,10 +20,10 @@ const MovieList = styled.ul`
 `;
 
 const MovieOverview = () => {
-  const {loading, error, data, refetch} = useQuery(resolvers.queries.ReturnAllMovies);
+  const {loading, error, data, refetch} = useQuery(
+      resolvers.queries.ReturnMoviesFromUser, {variables: {userId: currentUserVar().id}});
 
-  const movies: IMovie[] = data?.movies;
-  // const currentUser = useReactiveVar(currentUserVar);
+  const movies: IMovie[] = data?.moviesFromUser;
 
   moviesVar(movies);
 

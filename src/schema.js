@@ -20,6 +20,7 @@ const typeDefs = gql`
     original_title: String!
     tmdb_id: Int!
     poster_path: String!
+    userId: Int!
   }
 
   type BatchPayload {
@@ -28,6 +29,10 @@ const typeDefs = gql`
 
   type Query {
     currentUser (id: Int!): User
+  }
+
+  type Query {
+    moviesFromUser(userId: Int!): [Movie]
   }
 
   type Query {
@@ -70,6 +75,7 @@ const typeDefs = gql`
       original_title: String!, 
       tmdb_id: Int!,
       poster_path: String!
+      userId: Int!
     ): Movie!
     removeMovie(
       id: Int!

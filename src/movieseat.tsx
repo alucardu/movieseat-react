@@ -5,6 +5,7 @@ export interface IMovie {
   release_date: string;
   backdrop_path: string;
   tmdb_id: number;
+  userId: number;
 }
 
 export interface ICurrentUser {

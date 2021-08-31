@@ -11,17 +11,16 @@ import resolvers from './resolvers';
 import {currentUserVar} from './cache';
 
 const App = () => {
-  if (window.localStorage.getItem('user_id')) {
-    const {loading, error, data} = useQuery(resolvers.queries.ReturnCurrentUser,
-        {variables: {id: 1}});
-    console.log(loading, error, data);
+  const userId = Number(window.localStorage.getItem('user_id'));
+  if (userId) {
+    const {data} = useQuery(resolvers.queries.ReturnCurrentUser,
+        {variables: {id: userId}});
     if (data) {
       currentUserVar({
         id: data.currentUser.id,
         email: data.currentUser.email,
         isLoggedIn: true,
       });
-      console.log(currentUserVar());
     }
   }
 
