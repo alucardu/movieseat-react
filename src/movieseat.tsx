@@ -7,6 +7,12 @@ export interface IMovie {
   tmdb_id: number;
 }
 
+export interface ICurrentUser {
+  id: number,
+  email: string;
+  isLoggedIn: boolean;
+}
+
 export interface IMovieList {
 }
 

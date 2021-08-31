@@ -1,10 +1,13 @@
 import React from 'react';
-import {useMutation} from '@apollo/client';
+import {useMutation, useReactiveVar} from '@apollo/client';
 
 import resolvers from '../../resolvers';
+import {currentUserVar} from '../../cache';
 
 const login = () => {
   const [loginUserRes] = useMutation(resolvers.mutations.LoginUser);
+  const currentUser = useReactiveVar(currentUserVar);
+
   const initialFormData = Object.freeze({
     email: '',
     password: '',
@@ -25,17 +28,31 @@ const login = () => {
       email: formData.email,
       password: formData.password,
     }});
-    console.log(data);
+    if (data) {
+      currentUserVar({
+        email: data.loginUser.currentUser.email,
+        id: data.loginUser.currentUser.id,
+        isLoggedIn: true,
+      });
+      window.localStorage.setItem('token', data.loginUser.token);
+      window.localStorage.setItem('user_id', data.loginUser.currentUser.id);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>Email</label>
-      <input type="email" onChange={handleChange} name="email"/>
-      <label>Password</label>
-      <input type="password" onChange={handleChange} name="password"/>
-      <button type="submit">Login</button>
-    </form>
+    <div>
+      {
+        (currentUser.isLoggedIn) ?
+          <div>Welcome {currentUser.email}</div> :
+          <form onSubmit={handleSubmit}>
+            <label>Email</label>
+            <input type="email" onChange={handleChange} name="email"/>
+            <label>Password</label>
+            <input type="password" onChange={handleChange} name="password"/>
+            <button type="submit">Login</button>
+          </form>
+      }
+    </div>
   );
 };
 

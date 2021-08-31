@@ -27,6 +27,10 @@ const typeDefs = gql`
   }
 
   type Query {
+    currentUser (id: Int!): User
+  }
+
+  type Query {
     movie(id: ID!): Movie
     movies: [Movie!]!
   }
@@ -48,6 +52,7 @@ const typeDefs = gql`
 
   type AuthPayLoad {
     token: String!
+    currentUser: User! 
   }
 
   type Mutation {

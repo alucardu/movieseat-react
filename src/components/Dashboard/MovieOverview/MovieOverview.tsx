@@ -21,7 +21,9 @@ const MovieList = styled.ul`
 
 const MovieOverview = () => {
   const {loading, error, data, refetch} = useQuery(resolvers.queries.ReturnAllMovies);
+
   const movies: IMovie[] = data?.movies;
+  // const currentUser = useReactiveVar(currentUserVar);
 
   moviesVar(movies);
 

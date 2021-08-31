@@ -11,6 +11,13 @@ const Movie = {
 };
 
 const Query = {
+  currentUser: async (root, args) => {
+    const currentUser = await prisma.user.findUnique({
+      where: {id: Number(args.id)},
+    });
+    return currentUser;
+  },
+
   users: async (root, args, {prisma, req}) => {
     decodedToken(req);
     return prisma.user.findMany();
@@ -38,15 +45,13 @@ const Mutation = {
   },
 
   loginUser: async (root, args) => {
-    console.log(args.email);
     const theUser = await prisma.user.findUnique({
       where: {email: String(args.email)},
     });
-    console.log(theUser);
     if (!theUser) throw new Error('Unable to Login');
     const isMatch = bcrypt.compareSync(args.password, theUser.password);
     if (!isMatch) throw new Error('Unable to Login');
-    return {token: jwt.sign(theUser, 'supersecret')};
+    return {token: jwt.sign(theUser, 'supersecret'), currentUser: theUser};
   },
 
   addMovie: (parent, args) => {
@@ -76,10 +81,3 @@ const resolvers = {Movie, Query, Mutation};
 module.exports = {
   resolvers,
 };
-
-
-// import {gql} from '@apollo/client';
-
-// export const GET_LAUNCHES = gql`
-//   query numberSix: () =>
-// `;
