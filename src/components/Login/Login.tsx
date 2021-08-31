@@ -14,6 +14,12 @@ const login = () => {
   });
   const [formData, updateFormData] = React.useState(initialFormData);
 
+  const logout = (event) => {
+    event.preventDefault();
+    window.localStorage.removeItem('token');
+    window.localStorage.removeItem('user_id');
+    currentUserVar({id: 0, email: '', isLoggedIn: false});
+  };
 
   const handleChange = (e) => {
     updateFormData({
@@ -43,7 +49,7 @@ const login = () => {
     <div>
       {
         (currentUser.isLoggedIn) ?
-          <div>Welcome {currentUser.email}</div> :
+          <div><a href="" onClick={logout}>Welcome {currentUser.email}</a></div> :
           <form onSubmit={handleSubmit}>
             <label>Email</label>
             <input type="email" onChange={handleChange} name="email"/>
