@@ -4,12 +4,8 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {createGlobalStyle} from 'styled-components';
 
-import {ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
-
-const client = new ApolloClient({
-  uri: 'http://localhost:9090',
-  cache: new InMemoryCache(),
-});
+import {ApolloClient, InMemoryCache, ApolloProvider, createHttpLink} from '@apollo/client';
+import {setContext} from '@apollo/client/link/context';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -20,16 +16,42 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const Root = () => (
-  <ApolloProvider client={client}>
-    <React.Fragment>
-      <GlobalStyle />
-      <App />
-    </React.Fragment>
-  </ApolloProvider>
-);
+const init = async () => {
+  const httpLink = createHttpLink({
+    uri: 'http://localhost:9090',
+  });
 
-render(<Root />, document.getElementById('root'));
+  const authLink = setContext((_, {headers}) => {
+    const token = localStorage.getItem('token');
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? `Bearer ${token}` : '',
+      },
+    };
+  });
+
+  const cache = new InMemoryCache();
+
+  const client = new ApolloClient({
+    link: authLink.concat(httpLink),
+    cache,
+  });
+
+  const Root = () => (
+    <ApolloProvider client={client}>
+      <React.Fragment>
+        <GlobalStyle />
+        <App />
+      </React.Fragment>
+    </ApolloProvider>
+  );
+
+  render(<Root />, document.getElementById('root'));
+};
+
+init();
+
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA

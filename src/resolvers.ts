@@ -1,5 +1,14 @@
 import {gql} from '@apollo/client';
 
+const ReturnCurrentUser = gql`
+  query currentUser($id: Int!) {
+    currentUser(id: $id) {
+      id
+      email
+    }
+  }
+`;
+
 const ReturnAllMovies = gql`
   query ReturnAllMovies {
      movies {
@@ -27,25 +36,33 @@ const AddMovie = gql`
     }
 `;
 
-// mutation {
-//   addMovie (
-//     original_title: "Dune"
-//     tmdb_id: 2
-//     poster_path: "cDbNAY0KM84cxXhmj8f0dLWza3t.jpg"
-//   ) {
-//     original_title
-//   }
-// }
-
 const RemoveMovie = gql`
-  mutation removeMovie($id: Int!) {
+  mutation removeMovie(
+    $id: Int!) {
     removeMovie(id: $id) {
       id
     }
   }
 `;
 
-const queries = {ReturnAllMovies};
-const mutations = {AddMovie, RemoveMovie};
+const LoginUser = gql`
+  mutation loginUser(
+    $email: String!
+    $password: String!) {
+      loginUser(
+        email: $email
+        password: $password
+      ) {
+        token,
+        currentUser {
+          email
+          id
+        }
+      }
+    }
+`;
+
+const queries = {ReturnAllMovies, ReturnCurrentUser};
+const mutations = {AddMovie, RemoveMovie, LoginUser};
 
 export default {queries, mutations};

@@ -1,14 +1,7 @@
-//* node-graphql/src/resolvers.js
-
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const {prisma} = require('./database.js');
-
-const Student = {
-  id: (parent) => parent.id,
-  email: (parent) => parent.email,
-  fullName: (parent) => parent.fullName,
-  dept: (parent) => parent.dept,
-  enrolled: (parent) => parent.enrolled,
-};
+const {decodedToken} = require('./decodedToken');
 
 const Movie = {
   id: (parent) => parent.id,
@@ -18,22 +11,18 @@ const Movie = {
 };
 
 const Query = {
-  numberSix() {
-    return 6;
-  },
-  enrollment: () => {
-    return prisma.student.findMany({
-      where: {enrolled: true},
-    });
-  },
-  students: () => {
-    return prisma.student.findMany({});
-  },
-  student: (parent, args) => {
-    return prisma.student.findFirst({
+  currentUser: async (root, args) => {
+    const currentUser = await prisma.user.findUnique({
       where: {id: Number(args.id)},
     });
+    return currentUser;
   },
+
+  users: async (root, args, {prisma, req}) => {
+    decodedToken(req);
+    return prisma.user.findMany();
+  },
+
   movie: () => {
     return prisma.movie;
   },
@@ -43,24 +32,28 @@ const Query = {
 };
 
 const Mutation = {
-  registerStudent: (parent, args) => {
-    return prisma.student.create({
+  signupUser: async (root, args) => {
+    const newUser = await prisma.user.create({
       data: {
+        id: args.id,
         email: args.email,
-        fullName: args.fullName,
-        dept: args.dept,
-        enrolled: args.enrolled,
+        password: bcrypt.hashSync(args.password, 3),
+        name: args.name,
       },
     });
+    return {token: jwt.sign(newUser, 'supersecret')};
   },
-  enroll: (parent, args) => {
-    return prisma.student.update({
-      where: {id: Number(args.id)},
-      data: {
-        enrolled: true,
-      },
+
+  loginUser: async (root, args) => {
+    const theUser = await prisma.user.findUnique({
+      where: {email: String(args.email)},
     });
+    if (!theUser) throw new Error('Unable to Login');
+    const isMatch = bcrypt.compareSync(args.password, theUser.password);
+    if (!isMatch) throw new Error('Unable to Login');
+    return {token: jwt.sign(theUser, 'supersecret'), currentUser: theUser};
   },
+
   addMovie: (parent, args) => {
     return prisma.movie.create({
       data: {
@@ -78,17 +71,13 @@ const Mutation = {
   removeAllMovies: () => {
     return prisma.movie.deleteMany({});
   },
+  removeAllUsers: () => {
+    return prisma.user.deleteMany({});
+  },
 };
 
-const resolvers = {Student, Movie, Query, Mutation};
+const resolvers = {Movie, Query, Mutation};
 
 module.exports = {
   resolvers,
 };
-
-
-// import {gql} from '@apollo/client';
-
-// export const GET_LAUNCHES = gql`
-//   query numberSix: () =>
-// `;

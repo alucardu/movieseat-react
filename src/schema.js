@@ -4,12 +4,15 @@ const {gql} = require('apollo-server');
 
 const typeDefs = gql`
 
-  type Student {
-    id: ID!
+  type User {
+    name: String!
     email: String!
-    fullName: String!
-    dept: String
-    enrolled: Boolean
+    password: String!
+    id: Int
+  }
+
+  type Query {
+    users: [User]
   }
 
   type Movie {
@@ -24,19 +27,45 @@ const typeDefs = gql`
   }
 
   type Query {
-    enrollment: [Student!]
-    students: [Student!]!
-    student(id: ID!): Student
+    currentUser (id: Int!): User
+  }
+
+  type Query {
     movie(id: ID!): Movie
     movies: [Movie!]!
-    numberSix: Int!
+  }
+
+  type Query {
+    users: [User]
+  }
+
+  input UserCreateInput {
+    email: String!
+    name: String!
+    password: String!
+  }
+  
+  input UserLoginInput {
+    email: String!
+    password: String!
+  }
+
+  type AuthPayLoad {
+    token: String!
+    currentUser: User! 
   }
 
   type Mutation {
-    registerStudent(
-      email: String!, fullName: String!, dept: String, enrolled: Boolean
-    ): Student!
-    enroll(id: ID!): Student
+    signupUser(
+      id: Int!
+      email: String!
+      password: String!
+      name: String!) : AuthPayLoad!
+
+    loginUser(
+      email: String!
+      password: String!) : AuthPayLoad!
+
     addMovie(
       original_title: String!, 
       tmdb_id: Int!,
@@ -46,6 +75,7 @@ const typeDefs = gql`
       id: Int!
     ): Movie!
     removeAllMovies: BatchPayload
+    removeAllUsers: BatchPayload
   }
 `;
 
