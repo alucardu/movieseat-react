@@ -1,3 +1,5 @@
+// Apollo client resolvers
+
 import {gql} from '@apollo/client';
 
 const ReturnCurrentUser = gql`
@@ -46,17 +48,27 @@ const AddMovie = gql`
       poster_path: $poster_path
       userId: $userId
       ) {
-        original_title
-        userId
-      }
+          id
+          original_title
+          poster_path
+          tmdb_id
+          userId
+        }
     }
 `;
 
 const RemoveMovie = gql`
   mutation removeMovie(
-    $id: Int!) {
-    removeMovie(id: $id) {
-      id
+    $id: Int!
+  ) {
+    removeMovie(
+      id: $id
+    ) {
+        id
+        original_title
+        poster_path
+        tmdb_id
+        userId
     }
   }
 `;

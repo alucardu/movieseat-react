@@ -5,24 +5,28 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import Header from './components/Header/Header';
 import MovieSearchComponent from './components/MovieSearch/MovieSearchComponent';
 import DashboardComponent from './components/Dashboard/DashboardComponent';
-import {useQuery} from '@apollo/client';
-import resolvers from './resolvers';
+import {currentUserVar, moviesVar} from './cache';
 
-import {currentUserVar} from './cache';
+import jwt from 'jsonwebtoken';
+import returnMoviesFromUserHook from './customHooks/returnMoviesFromUserHook';
 
 const App = () => {
-  const userId = Number(window.localStorage.getItem('user_id'));
-  if (userId) {
-    const {data} = useQuery(resolvers.queries.ReturnCurrentUser,
-        {variables: {id: userId}});
-    if (data) {
-      currentUserVar({
-        id: data.currentUser.id,
-        email: data.currentUser.email,
-        isLoggedIn: true,
-      });
+  const getUser = (token) => {
+    if (token) {
+      token = token.replace('Bearer ', '');
+      const currentUser: any = jwt.verify(token, 'supersecret');
+      currentUserVar({id: currentUser.id, email: currentUser.email, isLoggedIn: true});
+      return currentUser;
     }
-  }
+  };
+
+  moviesVar(returnMoviesFromUserHook());
+
+  const isUserLoggedIn = () => {
+    getUser(window.localStorage.getItem('token'));
+  };
+
+  isUserLoggedIn();
 
   return (
     <React.Fragment>

@@ -4,7 +4,7 @@ import {useSnackbar} from 'notistack';
 import {IMovie} from '../../../../movieseat';
 import {useMutation} from '@apollo/client';
 import resolvers from '../../../../../src/resolvers';
-import {movieVar, moviesVar, currentUserVar} from '../../../../cache';
+import {moviesVar, currentUserVar} from '../../../../cache';
 
 const backdropUrl = 'https://image.tmdb.org/t/p/w780';
 interface OverlayData {
@@ -42,13 +42,13 @@ const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
     let message = 'is already added to your watchlist.';
     let variant = 'warning';
     if (!checkIsMovieDuplicate(moviesVar(), movie)) {
-      await addMovieRes({variables: {
+      const movies = await addMovieRes({variables: {
         original_title: movie.original_title,
         tmdb_id: movie.id,
         poster_path: movie.poster_path,
         userId: currentUserVar().id,
       }});
-      movieVar(movie);
+      moviesVar(movies.data.addMovie);
 
       message = 'has been added to your watchlist.';
       variant = 'success';

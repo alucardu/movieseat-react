@@ -1,11 +1,15 @@
+// Apollo server resolvers
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const {prisma} = require('./database.js');
 const {decodedToken} = require('./decodedToken');
 
+let currentUser;
+
 const Query = {
   currentUser: async (root, args) => {
-    const currentUser = await prisma.user.findUnique({
+    currentUser = await prisma.user.findUnique({
       where: {id: Number(args.id)},
     });
     return currentUser;
@@ -15,7 +19,6 @@ const Query = {
     const movie = await prisma.movie.findMany({
       where: {userId: args.userId},
     });
-    console.log('moviesFromUser: ', movie, args);
     return movie;
   },
 
@@ -56,9 +59,8 @@ const Mutation = {
     return {token: jwt.sign(theUser, 'supersecret'), currentUser: theUser};
   },
 
-  addMovie: (parent, args) => {
-    console.log('addmovie: ', args);
-    return prisma.movie.create({
+  addMovie: async (parent, args, context) => {
+    await prisma.movie.create({
       data: {
         original_title: args.original_title,
         tmdb_id: args.tmdb_id,
@@ -66,12 +68,13 @@ const Mutation = {
         userId: args.userId,
       },
     });
+    return prisma.movie.findMany({where: {userId: context.user.id}});
   },
-  removeMovie: (parent, args) => {
-    console.log('removeMovie', args);
-    return prisma.movie.delete({
+  removeMovie: async (parent, args, context) => {
+    await prisma.movie.delete({
       where: {id: Number(args.id)},
     });
+    return prisma.movie.findMany({where: {userId: context.user.id}});
   },
   removeAllMovies: () => {
     return prisma.movie.deleteMany({});

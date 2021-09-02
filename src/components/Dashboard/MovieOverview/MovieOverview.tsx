@@ -5,12 +5,11 @@ import styled from 'styled-components';
 import {chunk} from 'lodash';
 import {IMovie} from '../../../movieseat';
 
-import {useQuery, useReactiveVar} from '@apollo/client';
-import resolvers from '../../../resolvers';
+import {useReactiveVar} from '@apollo/client';
 
-import {movieVar, moviesVar, currentUserVar} from '../../../cache';
+import {moviesVar} from '../../../cache';
 
-import {useEffect} from 'react';
+// import {useEffect} from 'react';
 
 const MovieList = styled.ul`
   list-style: none;
@@ -20,17 +19,9 @@ const MovieList = styled.ul`
 `;
 
 const MovieOverview = () => {
-  const {loading, error, data, refetch} = useQuery(
-      resolvers.queries.ReturnMoviesFromUser, {variables: {userId: currentUserVar().id}});
-
-  const movies: IMovie[] = data?.moviesFromUser;
-  moviesVar(movies);
-
   let movieRows;
 
-  useEffect(() => {
-    refetch();
-  }, [useReactiveVar(movieVar), useReactiveVar(currentUserVar)]);
+  const movies: IMovie[] = useReactiveVar(moviesVar);
 
   const setMovieRows = () => {
     movieRows = chunk(movies, 8);
@@ -38,8 +29,8 @@ const MovieOverview = () => {
 
   setMovieRows();
 
-  if (loading) return <p>loading</p>;
-  if (error) return <p>Error! ${error.message}</p>;
+  // if (loading) return <p>loading</p>;
+  // if (error) return <p>Error! ${error.message}</p>;
 
   return (
     <div>

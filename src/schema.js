@@ -76,10 +76,11 @@ const typeDefs = gql`
       tmdb_id: Int!,
       poster_path: String!
       userId: Int!
-    ): Movie!
+    ): [Movie]
+    
     removeMovie(
       id: Int!
-    ): Movie!
+    ): [Movie]
     removeAllMovies: BatchPayload
     removeAllUsers: BatchPayload
   }

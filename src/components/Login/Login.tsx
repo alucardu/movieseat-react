@@ -14,10 +14,10 @@ const login = () => {
   });
   const [formData, updateFormData] = React.useState(initialFormData);
 
+
   const logout = (event) => {
     event.preventDefault();
     window.localStorage.removeItem('token');
-    window.localStorage.removeItem('user_id');
     currentUserVar({id: 0, email: '', isLoggedIn: false});
   };
 
@@ -28,20 +28,17 @@ const login = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
+  const login = async (e) => {
     e.preventDefault();
     const {data} = await loginUserRes({variables: {
-      email: formData.email,
-      password: formData.password,
+      ...formData,
     }});
     if (data) {
       currentUserVar({
-        email: data.loginUser.currentUser.email,
-        id: data.loginUser.currentUser.id,
+        ...data.loginUser.currentUser,
         isLoggedIn: true,
       });
       window.localStorage.setItem('token', data.loginUser.token);
-      window.localStorage.setItem('user_id', data.loginUser.currentUser.id);
     }
   };
 
@@ -50,7 +47,7 @@ const login = () => {
       {
         (currentUser.isLoggedIn) ?
           <div><a href="" onClick={logout}>Welcome {currentUser.email}</a></div> :
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={login}>
             <label>Email</label>
             <input type="email" onChange={handleChange} name="email"/>
             <label>Password</label>
