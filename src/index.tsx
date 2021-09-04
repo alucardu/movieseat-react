@@ -7,7 +7,6 @@ import * as serviceWorker from './serviceWorker';
 import {createGlobalStyle} from 'styled-components';
 
 import {ApolloClient, InMemoryCache, ApolloProvider, createHttpLink} from '@apollo/client';
-import {setContext} from '@apollo/client/link/context';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -20,23 +19,14 @@ const GlobalStyle = createGlobalStyle`
 
 const init = async () => {
   const httpLink = createHttpLink({
-    uri: 'http://localhost:9090',
-  });
-
-  const authLink = setContext((_, {headers}) => {
-    const token = localStorage.getItem('token');
-    return {
-      headers: {
-        ...headers,
-        authorization: token ? `Bearer ${token}` : '',
-      },
-    };
+    uri: 'http://localhost:9090/graphql',
+    credentials: 'include',
   });
 
   const cache = new InMemoryCache();
 
   const client = new ApolloClient({
-    link: authLink.concat(httpLink),
+    link: httpLink,
     cache,
   });
 

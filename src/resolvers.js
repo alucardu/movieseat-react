@@ -8,6 +8,12 @@ const {decodedToken} = require('./decodedToken');
 let currentUser;
 
 const Query = {
+  returnUser: async (_, args, {req}) => {
+    return prisma.user.findUnique({
+      where: {id: req.userId},
+    });
+  },
+
   currentUser: async (root, args) => {
     currentUser = await prisma.user.findUnique({
       where: {id: Number(args.id)},
@@ -49,14 +55,33 @@ const Mutation = {
     return {token: jwt.sign(newUser, 'supersecret')};
   },
 
-  loginUser: async (root, args) => {
+  loginUser: async (_, args, {req, res}) => {
     const theUser = await prisma.user.findUnique({
       where: {email: String(args.email)},
     });
     if (!theUser) throw new Error('Unable to Login');
     const isMatch = bcrypt.compareSync(args.password, theUser.password);
     if (!isMatch) throw new Error('Unable to Login');
-    return {token: jwt.sign(theUser, 'supersecret'), currentUser: theUser};
+
+    const token = jwt.sign(theUser, 'supersecret');
+
+    res.cookie('id', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    });
+
+    return theUser;
+  },
+
+  logoutUser: async (_, args, {req, res}) => {
+    res.cookie('id', '', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    });
+
+    return true;
   },
 
   addMovie: async (parent, args, context) => {

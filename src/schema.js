@@ -28,6 +28,10 @@ const typeDefs = gql`
   }
 
   type Query {
+    returnUser: User
+  }
+
+  type Query {
     currentUser (id: Int!): User
   }
 
@@ -56,7 +60,6 @@ const typeDefs = gql`
   }
 
   type AuthPayLoad {
-    token: String!
     currentUser: User! 
   }
 
@@ -65,11 +68,13 @@ const typeDefs = gql`
       id: Int!
       email: String!
       password: String!
-      name: String!) : AuthPayLoad!
+      name: String!) : Boolean!
 
     loginUser(
       email: String!
-      password: String!) : AuthPayLoad!
+      password: String!) : User!
+
+    logoutUser: Boolean!
 
     addMovie(
       original_title: String!, 

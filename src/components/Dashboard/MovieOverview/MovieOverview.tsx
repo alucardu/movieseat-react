@@ -7,7 +7,7 @@ import {IMovie} from '../../../movieseat';
 
 import {useReactiveVar} from '@apollo/client';
 
-import {moviesVar} from '../../../cache';
+import {moviesVar, currentUserVar} from '../../../cache';
 
 // import {useEffect} from 'react';
 
@@ -22,6 +22,7 @@ const MovieOverview = () => {
   let movieRows;
 
   const movies: IMovie[] = useReactiveVar(moviesVar);
+  const currentUser = useReactiveVar(currentUserVar);
 
   const setMovieRows = () => {
     movieRows = chunk(movies, 8);
@@ -29,11 +30,9 @@ const MovieOverview = () => {
 
   setMovieRows();
 
-  // if (loading) return <p>loading</p>;
-  // if (error) return <p>Error! ${error.message}</p>;
-
   return (
     <div>
+      {currentUser.email}
       { movieRows.map((movieRow, index) => (
         <MovieList key={index}>
           { movieRow.map((movie: IMovie) => (

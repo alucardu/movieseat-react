@@ -1,30 +1,60 @@
 // entry point for the apollo server
 
 const {PrismaClient} = require('@prisma/client');
-const {ApolloServer} = require('apollo-server');
+const {ApolloServer} = require('apollo-server-express');
 const {typeDefs} = require('./schema');
 const {resolvers} = require('./resolvers');
+const cors = require('cors');
 const prisma = new PrismaClient();
+const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
+const express = require('express');
+// const port = process.env.PORT || 9090;
 
-const port = process.env.PORT || 9090;
+const startApolloServer = async () => {
+  const app = express();
+  const server = new ApolloServer({
+    resolvers,
+    typeDefs,
+    context: async ({req, res}) => ({
+      req,
+      res,
+      prisma,
+    }),
+  });
+  await server.start();
 
-const getUser = (token) => {
-  if (token) {
-    token = token.replace('Bearer ', '');
-    const decoded = jwt.verify(token, 'supersecret');
-    return decoded;
-  }
+  const corsOptions = {
+    origin: 'http://localhost:8080',
+    credentials: true,
+  };
+
+  app.use(cors(corsOptions));
+  app.use(
+      '/graphql',
+      cookieParser(),
+      (req, res, next) => {
+        try {
+          if (req.cookies.id) {
+            const currentUser = jwt.verify(req.cookies.id, 'supersecret');
+            req.userId = currentUser.id;
+          }
+          return next();
+        } catch (err) {
+          console.log(err);
+        }
+      },
+  );
+  app.use(express.urlencoded({
+    extended: true,
+  }));
+  server.applyMiddleware({
+    app, cors: corsOptions,
+  });
+
+  app.listen({port: 9090}, () =>
+    console.log(`🚀 Server ready at http://localhost:9090${server.graphqlPath}`),
+  );
 };
 
-const server = new ApolloServer({resolvers, typeDefs,
-  context: ({req}) => {
-    prisma;
-    const token = req.headers.authorization || '';
-    const user = getUser(token);
-    return {user};
-  },
-});
-
-server.listen({port}, () => console.log(
-    `Server runs at: http://localhost:${port}`));
+startApolloServer();

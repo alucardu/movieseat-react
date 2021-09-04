@@ -4,8 +4,10 @@ import {useMutation, useReactiveVar} from '@apollo/client';
 import resolvers from '../../resolvers';
 import {currentUserVar} from '../../cache';
 
+
 const login = () => {
   const [loginUserRes] = useMutation(resolvers.mutations.LoginUser);
+  const [logoutUser] = useMutation(resolvers.mutations.LogoutUser);
   const currentUser = useReactiveVar(currentUserVar);
 
   const initialFormData = Object.freeze({
@@ -17,7 +19,7 @@ const login = () => {
 
   const logout = (event) => {
     event.preventDefault();
-    window.localStorage.removeItem('token');
+    logoutUser();
     currentUserVar({id: 0, email: '', isLoggedIn: false});
   };
 
@@ -30,15 +32,15 @@ const login = () => {
 
   const login = async (e) => {
     e.preventDefault();
+
     const {data} = await loginUserRes({variables: {
       ...formData,
     }});
     if (data) {
       currentUserVar({
-        ...data.loginUser.currentUser,
+        ...data.loginUser,
         isLoggedIn: true,
       });
-      window.localStorage.setItem('token', data.loginUser.token);
     }
   };
 

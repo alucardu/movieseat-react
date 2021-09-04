@@ -2,6 +2,15 @@
 
 import {gql} from '@apollo/client';
 
+const ReturnUser = gql`
+  query returnUser {
+    returnUser {
+      id
+      email
+    }
+  }
+`;
+
 const ReturnCurrentUser = gql`
   query currentUser($id: Int!) {
     currentUser(id: $id) {
@@ -81,16 +90,19 @@ const LoginUser = gql`
         email: $email
         password: $password
       ) {
-        token,
-        currentUser {
-          email
-          id
-        }
+        email,
+        id
       }
     }
 `;
 
-const queries = {ReturnAllMovies, ReturnCurrentUser, ReturnMoviesFromUser};
-const mutations = {AddMovie, RemoveMovie, LoginUser};
+const LogoutUser = gql`
+    mutation logoutUser {
+      logoutUser 
+    }
+`;
+
+const queries = {ReturnAllMovies, ReturnCurrentUser, ReturnMoviesFromUser, ReturnUser};
+const mutations = {AddMovie, RemoveMovie, LoginUser, LogoutUser};
 
 export default {queries, mutations};
