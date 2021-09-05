@@ -4,7 +4,6 @@ import {useMutation, useReactiveVar} from '@apollo/client';
 import resolvers from '../../resolvers';
 import {currentUserVar} from '../../cache';
 
-
 const login = () => {
   const [loginUserRes] = useMutation(resolvers.mutations.LoginUser);
   const [logoutUser] = useMutation(resolvers.mutations.LogoutUser);
@@ -15,7 +14,6 @@ const login = () => {
     password: '',
   });
   const [formData, updateFormData] = React.useState(initialFormData);
-
 
   const logout = (event) => {
     event.preventDefault();

@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import MovieOnDashboard from '../MovieOnDashboard/MovieOnDashboard';
 import styled from 'styled-components';
 import {chunk} from 'lodash';
-import {IMovie} from '../../../movieseat';
-
 import {useReactiveVar} from '@apollo/client';
-
-import {moviesVar, currentUserVar} from '../../../cache';
+import {IMovie} from '../../../movieseat';
+import {currentUserVar} from '../../../cache';
+import returnMoviesFromUserHook from '../../../customHooks/returnMoviesFromUserHook';
 
 // import {useEffect} from 'react';
 
@@ -19,10 +18,10 @@ const MovieList = styled.ul`
 `;
 
 const MovieOverview = () => {
+  useReactiveVar(currentUserVar);
   let movieRows;
 
-  const movies: IMovie[] = useReactiveVar(moviesVar);
-  const currentUser = useReactiveVar(currentUserVar);
+  const movies: IMovie[] = returnMoviesFromUserHook();
 
   const setMovieRows = () => {
     movieRows = chunk(movies, 8);
@@ -32,7 +31,6 @@ const MovieOverview = () => {
 
   return (
     <div>
-      {currentUser.email}
       { movieRows.map((movieRow, index) => (
         <MovieList key={index}>
           { movieRow.map((movie: IMovie) => (

@@ -5,9 +5,8 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import Header from './components/Header/Header';
 import MovieSearchComponent from './components/MovieSearch/MovieSearchComponent';
 import DashboardComponent from './components/Dashboard/DashboardComponent';
-import {moviesVar, currentUserVar} from './cache';
+import {currentUserVar} from './cache';
 
-import returnMoviesFromUserHook from './customHooks/returnMoviesFromUserHook';
 import resolvers from './resolvers';
 import {useQuery} from '@apollo/client';
 
@@ -24,7 +23,6 @@ const App = () => {
   };
 
   checkIfUserIsLoggedIn();
-  moviesVar(returnMoviesFromUserHook());
 
   return (
     <React.Fragment>
