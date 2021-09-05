@@ -76,6 +76,12 @@ const typeDefs = gql`
 
     logoutUser: Boolean!
 
+    addUserToMovie (
+      original_title: String!, 
+      tmdb_id: Int!,
+      poster_path: String!
+    ) : [Movie]
+
     addMovie(
       original_title: String!, 
       tmdb_id: Int!,

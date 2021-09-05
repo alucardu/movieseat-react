@@ -24,10 +24,9 @@ const ReturnMoviesFromUser = gql`
   query moviesFromUser($userId: Int!) {
     moviesFromUser(userId: $userId) {
       id
-       original_title
-       poster_path
-       tmdb_id
-       userId
+      original_title
+      poster_path
+      tmdb_id
     }
   }
 `;
@@ -39,9 +38,27 @@ const ReturnAllMovies = gql`
        original_title
        poster_path
        tmdb_id
-       userId
      }
   }
+`;
+
+const AddUserToMovie = gql`
+  mutation addUserToMovie(
+    $original_title: String!,
+    $tmdb_id: Int!,
+    $poster_path: String!
+  ) {
+    addUserToMovie (
+      original_title: $original_title,
+      tmdb_id: $tmdb_id,
+      poster_path: $poster_path
+    ) {
+        id
+        original_title
+        poster_path
+        tmdb_id
+      }
+    }
 `;
 
 const AddMovie = gql`
@@ -50,16 +67,16 @@ const AddMovie = gql`
     $tmdb_id: Int!,
     $poster_path: String!
   ) {
-      addMovie(
+    addMovie(
       original_title: $original_title,
       tmdb_id: $tmdb_id,
       poster_path: $poster_path
-      ) {
-          id
-          original_title
-          poster_path
-          tmdb_id
-        }
+    ) {
+        id
+        original_title
+        poster_path
+        tmdb_id
+      }
     }
 `;
 
@@ -74,7 +91,6 @@ const RemoveMovie = gql`
         original_title
         poster_path
         tmdb_id
-        userId
     }
   }
 `;
@@ -100,6 +116,6 @@ const LogoutUser = gql`
 `;
 
 const queries = {ReturnAllMovies, ReturnCurrentUser, ReturnMoviesFromUser, ReturnUser};
-const mutations = {AddMovie, RemoveMovie, LoginUser, LogoutUser};
+const mutations = {AddMovie, RemoveMovie, LoginUser, LogoutUser, AddUserToMovie};
 
 export default {queries, mutations};

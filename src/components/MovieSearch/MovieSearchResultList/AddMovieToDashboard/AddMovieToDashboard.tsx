@@ -35,23 +35,26 @@ const AddMovie = styled.a`
 `;
 
 const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
-  const [addMovieRes] = useMutation(resolvers.mutations.AddMovie);
+  const [addUserToMovie] = useMutation(resolvers.mutations.AddUserToMovie);
   const {enqueueSnackbar} = useSnackbar();
 
   const addMovie = async (movie: IMovie) => {
     let message = 'is already added to your watchlist.';
     let variant = 'warning';
     if (!checkIsMovieDuplicate(moviesVar(), movie)) {
-      const movies = await addMovieRes({variables: {
+      const movies = await addUserToMovie({variables: {
         original_title: movie.original_title,
         tmdb_id: movie.id,
         poster_path: movie.poster_path,
       }});
-      moviesVar(movies.data.addMovie);
+
+      moviesVar(movies.data.addUserToMovie);
 
       message = 'has been added to your watchlist.';
       variant = 'success';
     }
+
+
     displaySnackbar(`${movie.original_title} ${message}`, {variant});
   };
 

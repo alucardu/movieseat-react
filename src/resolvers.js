@@ -25,10 +25,13 @@ const Query = {
 
   moviesFromUser: async (root, args, {res, req}) => {
     if (req.userId) {
-      const movies = await prisma.movie.findMany({
-        where: {userId: args.userId},
+      const user = await prisma.user.findMany({
+        where: {id: args.userId},
+        select: {
+          movies: true,
+        },
       });
-      return movies;
+      return user[0].movies;
     }
   },
 
@@ -88,6 +91,44 @@ const Mutation = {
     return true;
   },
 
+  addUserToMovie: async (_, args, {req, res}) => {
+    const moviesAlreadyExists = await prisma.movie.findUnique({
+      where: {tmdb_id: args.tmdb_id}});
+
+    if (!moviesAlreadyExists) {
+      await prisma.movie.create({
+        data: {
+          original_title: args.original_title,
+          tmdb_id: args.tmdb_id,
+          poster_path: args.poster_path,
+          users: {
+            connect: [{id: req.userId}],
+          },
+        },
+      });
+    }
+
+    if (moviesAlreadyExists) {
+      await prisma.movie.update({
+        where: {tmdb_id: args.tmdb_id},
+        data: {
+          users: {
+            connect: [{id: req.userId}],
+          },
+        },
+      });
+    }
+
+    const user = await prisma.user.findMany({
+      where: {id: req.userId},
+      select: {
+        movies: true,
+      },
+    });
+
+    return user[0].movies;
+  },
+
   addMovie: async (parent, args, {req, res}) => {
     await prisma.movie.create({
       data: {
@@ -100,10 +141,23 @@ const Mutation = {
     return prisma.movie.findMany({where: {userId: req.userId}});
   },
   removeMovie: async (parent, args, {req, res}) => {
-    await prisma.movie.delete({
-      where: {id: Number(args.id)},
+    await prisma.user.update({
+      where: {id: req.userId},
+      data: {
+        movies: {
+          disconnect: [{id: args.id}],
+        },
+      },
     });
-    return prisma.movie.findMany({where: {userId: req.userId}});
+
+    const user = await prisma.user.findMany({
+      where: {id: req.userId},
+      select: {
+        movies: true,
+      },
+    });
+
+    return user[0].movies;
   },
   removeAllMovies: () => {
     return prisma.movie.deleteMany({});
