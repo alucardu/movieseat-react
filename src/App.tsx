@@ -5,24 +5,26 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import Header from './components/Header/Header';
 import MovieSearchComponent from './components/MovieSearch/MovieSearchComponent';
 import DashboardComponent from './components/Dashboard/DashboardComponent';
-import {useQuery} from '@apollo/client';
-import resolvers from './resolvers';
-
 import {currentUserVar} from './cache';
 
+
+import resolvers from './resolvers';
+import {useQuery} from '@apollo/client';
+
+
 const App = () => {
-  const userId = Number(window.localStorage.getItem('user_id'));
-  if (userId) {
-    const {data} = useQuery(resolvers.queries.ReturnCurrentUser,
-        {variables: {id: userId}});
-    if (data) {
+  const checkIfUserIsLoggedIn = () => {
+    const {error, loading, data} = useQuery(
+        resolvers.queries.ReturnUser);
+    if (!error && !loading && data.returnUser) {
       currentUserVar({
-        id: data.currentUser.id,
-        email: data.currentUser.email,
+        ...data.returnUser,
         isLoggedIn: true,
       });
     }
-  }
+  };
+
+  checkIfUserIsLoggedIn();
 
   return (
     <React.Fragment>

@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import {useSnackbar} from 'notistack';
 import {IMovie} from '../../../../movieseat';
 import {useMutation} from '@apollo/client';
-import resolvers from '../../../../../src/resolvers';
-import {movieVar} from '../../../../cache';
+import resolvers from '../../../..//resolvers';
+import {moviesVar} from '../../../../cache';
 
 const DeleteButton = styled.div`
   display: flex;
@@ -22,8 +22,9 @@ const RemoveMovieFromDashboard = ({movie}: {movie: IMovie}) => {
   const {enqueueSnackbar} = useSnackbar();
 
   const removeMovieFromList = async (movie) => {
-    removeMovieRes({variables: {id: parseInt(movie.id)}});
-    movieVar(movie);
+    const movies = await removeMovieRes({variables: {id: parseInt(movie.id)}});
+    moviesVar(movies.data.removeMovie);
+
     enqueueSnackbar(
         'Removed ' + movie.original_title + ' from your watchlist.',
         {variant: 'success'},

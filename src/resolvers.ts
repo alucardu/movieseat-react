@@ -1,4 +1,15 @@
+// Apollo client resolvers
+
 import {gql} from '@apollo/client';
+
+const ReturnUser = gql`
+  query returnUser {
+    returnUser {
+      id
+      email
+    }
+  }
+`;
 
 const ReturnCurrentUser = gql`
   query currentUser($id: Int!) {
@@ -38,25 +49,32 @@ const AddMovie = gql`
     $original_title: String!,
     $tmdb_id: Int!,
     $poster_path: String!
-    $userId: Int!
   ) {
       addMovie(
       original_title: $original_title,
       tmdb_id: $tmdb_id,
       poster_path: $poster_path
-      userId: $userId
       ) {
-        original_title
-        userId
-      }
+          id
+          original_title
+          poster_path
+          tmdb_id
+        }
     }
 `;
 
 const RemoveMovie = gql`
   mutation removeMovie(
-    $id: Int!) {
-    removeMovie(id: $id) {
-      id
+    $id: Int!
+  ) {
+    removeMovie(
+      id: $id
+    ) {
+        id
+        original_title
+        poster_path
+        tmdb_id
+        userId
     }
   }
 `;
@@ -69,16 +87,19 @@ const LoginUser = gql`
         email: $email
         password: $password
       ) {
-        token,
-        currentUser {
-          email
-          id
-        }
+        email,
+        id
       }
     }
 `;
 
-const queries = {ReturnAllMovies, ReturnCurrentUser, ReturnMoviesFromUser};
-const mutations = {AddMovie, RemoveMovie, LoginUser};
+const LogoutUser = gql`
+    mutation logoutUser {
+      logoutUser 
+    }
+`;
+
+const queries = {ReturnAllMovies, ReturnCurrentUser, ReturnMoviesFromUser, ReturnUser};
+const mutations = {AddMovie, RemoveMovie, LoginUser, LogoutUser};
 
 export default {queries, mutations};

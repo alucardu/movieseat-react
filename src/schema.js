@@ -28,11 +28,15 @@ const typeDefs = gql`
   }
 
   type Query {
+    returnUser: User
+  }
+
+  type Query {
     currentUser (id: Int!): User
   }
 
   type Query {
-    moviesFromUser(userId: Int!): [Movie]
+    moviesFromUser (userId: Int!): [Movie]
   }
 
   type Query {
@@ -56,7 +60,6 @@ const typeDefs = gql`
   }
 
   type AuthPayLoad {
-    token: String!
     currentUser: User! 
   }
 
@@ -65,21 +68,23 @@ const typeDefs = gql`
       id: Int!
       email: String!
       password: String!
-      name: String!) : AuthPayLoad!
+      name: String!) : Boolean!
 
     loginUser(
       email: String!
-      password: String!) : AuthPayLoad!
+      password: String!) : User!
+
+    logoutUser: Boolean!
 
     addMovie(
       original_title: String!, 
       tmdb_id: Int!,
       poster_path: String!
-      userId: Int!
-    ): Movie!
+    ): [Movie]
+    
     removeMovie(
       id: Int!
-    ): Movie!
+    ): [Movie]
     removeAllMovies: BatchPayload
     removeAllUsers: BatchPayload
   }
