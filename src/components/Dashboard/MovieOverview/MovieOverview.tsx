@@ -5,10 +5,7 @@ import styled from 'styled-components';
 import {chunk} from 'lodash';
 import {useReactiveVar} from '@apollo/client';
 import {IMovie} from '../../../movieseat';
-import {currentUserVar} from '../../../cache';
-import returnMoviesFromUserHook from '../../../customHooks/returnMoviesFromUserHook';
-
-// import {useEffect} from 'react';
+import {currentUserVar, moviesVar} from '../../../cache';
 
 const MovieList = styled.ul`
   list-style: none;
@@ -19,9 +16,11 @@ const MovieList = styled.ul`
 
 const MovieOverview = () => {
   useReactiveVar(currentUserVar);
+  useReactiveVar(moviesVar);
+
   let movieRows;
 
-  const movies: IMovie[] = returnMoviesFromUserHook();
+  const movies: IMovie[] = useReactiveVar(moviesVar);
 
   const setMovieRows = () => {
     movieRows = chunk(movies, 8);

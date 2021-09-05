@@ -49,19 +49,16 @@ const AddMovie = gql`
     $original_title: String!,
     $tmdb_id: Int!,
     $poster_path: String!
-    $userId: Int!
   ) {
       addMovie(
       original_title: $original_title,
       tmdb_id: $tmdb_id,
       poster_path: $poster_path
-      userId: $userId
       ) {
           id
           original_title
           poster_path
           tmdb_id
-          userId
         }
     }
 `;

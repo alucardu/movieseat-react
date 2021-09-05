@@ -36,7 +36,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    moviesFromUser(userId: Int!): [Movie]
+    moviesFromUser (userId: Int!): [Movie]
   }
 
   type Query {
@@ -80,7 +80,6 @@ const typeDefs = gql`
       original_title: String!, 
       tmdb_id: Int!,
       poster_path: String!
-      userId: Int!
     ): [Movie]
     
     removeMovie(

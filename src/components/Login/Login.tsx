@@ -2,12 +2,14 @@ import React from 'react';
 import {useMutation, useReactiveVar} from '@apollo/client';
 
 import resolvers from '../../resolvers';
-import {currentUserVar} from '../../cache';
+import {currentUserVar, moviesVar} from '../../cache';
+import returnMoviesFromUserHook from '../../customHooks/returnMoviesFromUserHook';
 
 const login = () => {
   const [loginUserRes] = useMutation(resolvers.mutations.LoginUser);
   const [logoutUser] = useMutation(resolvers.mutations.LogoutUser);
   const currentUser = useReactiveVar(currentUserVar);
+  moviesVar(returnMoviesFromUserHook());
 
   const initialFormData = Object.freeze({
     email: '',

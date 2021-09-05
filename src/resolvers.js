@@ -9,9 +9,11 @@ let currentUser;
 
 const Query = {
   returnUser: async (_, args, {req}) => {
-    return prisma.user.findUnique({
-      where: {id: req.userId},
-    });
+    if (req.userId) {
+      return prisma.user.findUnique({
+        where: {id: req.userId},
+      });
+    }
   },
 
   currentUser: async (root, args) => {
@@ -21,11 +23,13 @@ const Query = {
     return currentUser;
   },
 
-  moviesFromUser: async (root, args) => {
-    const movie = await prisma.movie.findMany({
-      where: {userId: args.userId},
-    });
-    return movie;
+  moviesFromUser: async (root, args, {res, req}) => {
+    if (req.userId) {
+      const movies = await prisma.movie.findMany({
+        where: {userId: args.userId},
+      });
+      return movies;
+    }
   },
 
   users: async (root, args, {prisma, req}) => {
@@ -84,22 +88,22 @@ const Mutation = {
     return true;
   },
 
-  addMovie: async (parent, args, context) => {
+  addMovie: async (parent, args, {req, res}) => {
     await prisma.movie.create({
       data: {
         original_title: args.original_title,
         tmdb_id: args.tmdb_id,
         poster_path: args.poster_path,
-        userId: args.userId,
+        userId: req.userId,
       },
     });
-    return prisma.movie.findMany({where: {userId: context.user.id}});
+    return prisma.movie.findMany({where: {userId: req.userId}});
   },
-  removeMovie: async (parent, args, context) => {
+  removeMovie: async (parent, args, {req, res}) => {
     await prisma.movie.delete({
       where: {id: Number(args.id)},
     });
-    return prisma.movie.findMany({where: {userId: context.user.id}});
+    return prisma.movie.findMany({where: {userId: req.userId}});
   },
   removeAllMovies: () => {
     return prisma.movie.deleteMany({});
