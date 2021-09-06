@@ -32,10 +32,6 @@ const typeDefs = gql`
   }
 
   type Query {
-    currentUser (id: Int!): User
-  }
-
-  type Query {
     moviesFromUser (userId: Int!): [Movie]
   }
 
