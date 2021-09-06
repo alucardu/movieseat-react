@@ -3,9 +3,18 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const {prisma} = require('./database.js');
-const {decodedToken} = require('./decodedToken');
 
-let currentUser;
+const returnMoviesFromUser = async (args, req) => {
+  if (req.userId) {
+    const user = await prisma.user.findMany({
+      where: {id: args.userId || req.userId},
+      select: {
+        movies: true,
+      },
+    });
+    return user[0].movies;
+  }
+};
 
 const Query = {
   returnUser: async (_, args, {req}) => {
@@ -16,33 +25,18 @@ const Query = {
     }
   },
 
-  currentUser: async (root, args) => {
-    currentUser = await prisma.user.findUnique({
-      where: {id: Number(args.id)},
-    });
-    return currentUser;
-  },
-
   moviesFromUser: async (root, args, {res, req}) => {
-    if (req.userId) {
-      const user = await prisma.user.findMany({
-        where: {id: args.userId},
-        select: {
-          movies: true,
-        },
-      });
-      return user[0].movies;
-    }
+    return returnMoviesFromUser(args, req);
   },
 
   users: async (root, args, {prisma, req}) => {
-    decodedToken(req);
     return prisma.user.findMany();
   },
 
   movie: () => {
     return prisma.movie;
   },
+
   movies: () => {
     return prisma.movie.findMany();
   },
@@ -92,54 +86,28 @@ const Mutation = {
   },
 
   addUserToMovie: async (_, args, {req, res}) => {
-    const moviesAlreadyExists = await prisma.movie.findUnique({
-      where: {tmdb_id: args.tmdb_id}});
-
-    if (!moviesAlreadyExists) {
-      await prisma.movie.create({
-        data: {
-          original_title: args.original_title,
-          tmdb_id: args.tmdb_id,
-          poster_path: args.poster_path,
-          users: {
-            connect: [{id: req.userId}],
-          },
-        },
-      });
-    }
-
-    if (moviesAlreadyExists) {
-      await prisma.movie.update({
-        where: {tmdb_id: args.tmdb_id},
-        data: {
-          users: {
-            connect: [{id: req.userId}],
-          },
-        },
-      });
-    }
-
-    const user = await prisma.user.findMany({
-      where: {id: req.userId},
-      select: {
-        movies: true,
+    await prisma.movie.upsert({
+      where: {
+        tmdb_id: args.tmdb_id,
       },
-    });
-
-    return user[0].movies;
-  },
-
-  addMovie: async (parent, args, {req, res}) => {
-    await prisma.movie.create({
-      data: {
+      update: {
+        users: {
+          connect: [{id: req.userId}],
+        },
+      },
+      create: {
         original_title: args.original_title,
         tmdb_id: args.tmdb_id,
         poster_path: args.poster_path,
-        userId: req.userId,
+        users: {
+          connect: [{id: req.userId}],
+        },
       },
     });
-    return prisma.movie.findMany({where: {userId: req.userId}});
+
+    return returnMoviesFromUser(args, req);
   },
+
   removeMovie: async (parent, args, {req, res}) => {
     await prisma.user.update({
       where: {id: req.userId},
@@ -150,18 +118,13 @@ const Mutation = {
       },
     });
 
-    const user = await prisma.user.findMany({
-      where: {id: req.userId},
-      select: {
-        movies: true,
-      },
-    });
-
-    return user[0].movies;
+    return returnMoviesFromUser(args, req);
   },
+
   removeAllMovies: () => {
     return prisma.movie.deleteMany({});
   },
+
   removeAllUsers: () => {
     return prisma.user.deleteMany({});
   },
