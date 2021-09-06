@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
+  devtool: 'eval-cheap-source-map',
   entry: './src/index.tsx',
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],

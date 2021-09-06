@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MovieOnDashboard from '../MovieOnDashboard/MovieOnDashboard';
 import styled from 'styled-components';
 import {chunk} from 'lodash';
 import {useReactiveVar} from '@apollo/client';
+
 import {IMovie} from '../../../movieseat';
-import {currentUserVar, moviesVar} from '../../../cache';
+import {moviesVar} from '../../../cache';
+import MovieOnDashboard from '../MovieOnDashboard/MovieOnDashboard';
 
 const MovieList = styled.ul`
   list-style: none;
@@ -15,12 +16,8 @@ const MovieList = styled.ul`
 `;
 
 const MovieOverview = () => {
-  useReactiveVar(currentUserVar);
-  useReactiveVar(moviesVar);
-
-  let movieRows;
-
   const movies: IMovie[] = useReactiveVar(moviesVar);
+  let movieRows;
 
   const setMovieRows = () => {
     movieRows = chunk(movies, 8);

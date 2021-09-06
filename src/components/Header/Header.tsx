@@ -3,7 +3,6 @@ import React from 'react';
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import Login from '../Login/Login';
-import {Route} from 'react-router-dom';
 
 const HeaderStyle = styled.header`
   background: #0fcece;
@@ -20,7 +19,7 @@ const Title = styled.h1`
 const Header = () => {
   return (
     <HeaderStyle>
-      <Route path="/" exact component={Login} />
+      <Login />
       <Link to="/"><Title>Movieseat</Title></Link>
     </HeaderStyle>
   );
