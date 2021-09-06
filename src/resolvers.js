@@ -7,7 +7,7 @@ const {prisma} = require('./database.js');
 const returnMoviesFromUser = async (args, req) => {
   if (req.userId) {
     const user = await prisma.user.findMany({
-      where: {id: args.userId || req.userId},
+      where: {id: args.userId},
       select: {
         movies: true,
       },
