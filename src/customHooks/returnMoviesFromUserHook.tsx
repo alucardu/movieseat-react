@@ -4,8 +4,12 @@ import {currentUserVar} from '../cache';
 
 const returnMoviesFromUserHook = () => {
   const {error, loading, data} = useQuery(
-      resolvers.queries.ReturnMoviesFromUser, {fetchPolicy: 'no-cache', variables: {userId: currentUserVar().id}});
-  if (!loading && !error) {
+      resolvers.queries.ReturnMoviesFromUser, {
+        fetchPolicy: 'no-cache',
+        variables: {userId: currentUserVar().id},
+        skip: currentUserVar().id === 0,
+      });
+  if (!loading && !error && data) {
     return data.moviesFromUser;
   }
 };
