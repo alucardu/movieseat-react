@@ -1,24 +1,29 @@
 import React, {useRef} from 'react';
-import styled from 'styled-components';
 import {debounce} from 'lodash';
+import {makeStyles} from '@material-ui/styles';
 
-const SearchInput = styled.input`
-  box-sizing: border-box;
-  padding: 8px;
-  margin: 12px 0 12px 0;
-  width: 50%;
-  border: none;
-  font-size: 16px;
-  &:focus {
-    outline: none;
-    color: #fff;
-    background: #ff6a00;
-    &::placeholder {
-      color: #fff;
-    }
-  }
-`;
+
+const useStyles = makeStyles({
+  searchInput: {
+    'boxSizing': 'border-box',
+    'padding': '8px',
+    'margin': '12px 0 12px 0',
+    'width': '50%',
+    'border': 'none',
+    'fontSize': '16px',
+    '&:focus': {
+      'outline': 'none',
+      'color': '#fff',
+      'background': '#ff6a00',
+      '&::placeholder': {
+        color: '#fff',
+      },
+    },
+  },
+});
+
 const MovieSearch = ( {createSearchResults}: {createSearchResults: any} ) => {
+  const classes = useStyles();
   const searchInpuit = useRef<HTMLInputElement | null>(null);
 
   const baseurl = 'https://api.themoviedb.org/3/search/movie?';
@@ -44,7 +49,8 @@ const MovieSearch = ( {createSearchResults}: {createSearchResults: any} ) => {
     }
   }, 500);
 
-  return <SearchInput
+  return <input
+    className={classes.searchInput}
     ref={searchInpuit}
     placeholder="Search for a movie..."
     onChange={setMovieSearchResults}

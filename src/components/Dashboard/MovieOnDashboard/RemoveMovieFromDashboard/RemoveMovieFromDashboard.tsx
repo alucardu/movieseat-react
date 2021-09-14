@@ -1,40 +1,40 @@
 import React from 'react';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import styled from 'styled-components';
-import {useSnackbar} from 'notistack';
 import {IMovie} from '../../../../movieseat';
 import {useMutation} from '@apollo/client';
 import resolvers from '../../../..//resolvers';
-import {moviesVar} from '../../../../cache';
+import {moviesVar, snackbarVar} from '../../../../cache';
+import {makeStyles} from '@material-ui/styles';
+import sortMovies from '../../../../helpers/sortMovies';
 
-const DeleteButton = styled.div`
-  display: flex;
-  align-self: flex-end;
-  justify-content: center;  
-  width: 100%;
-  padding-bottom: 8px;
-  svg {
-    cursor: pointer;
-  }
-`;
+const useStyles = makeStyles({
+  deleteButton: {
+    'display': 'flex',
+    'alignSelf': 'flex-end',
+    'justifyContent': 'center',
+    'width': '100%',
+    'paddingBottom': '8px',
+    '& svg': {
+      cursor: 'pointer',
+    },
+  },
+});
+
 const RemoveMovieFromDashboard = ({movie}: {movie: IMovie}) => {
+  const classes = useStyles();
   const [removeMovieRes] = useMutation(resolvers.mutations.RemoveMovie);
-  const {enqueueSnackbar} = useSnackbar();
 
   const removeMovieFromList = async (movie) => {
-    const movies = await removeMovieRes({variables: {id: parseInt(movie.id)}});
-    moviesVar(movies.data.removeMovie);
-
-    enqueueSnackbar(
-        'Removed ' + movie.original_title + ' from your watchlist.',
-        {variant: 'success'},
-    );
+    removeMovieRes({variables: {id: parseInt(movie.id)}}).then(async (movies) => {
+      moviesVar(await sortMovies(movies.data.removeMovie));
+      snackbarVar({message: 'Removed ' + movie.original_title + ' from your watchlist', severity: 'success'});
+    });
   };
 
   return (
-    <DeleteButton onClick={() => removeMovieFromList(movie)}>
+    <div className={classes.deleteButton} onClick={() => removeMovieFromList(movie)}>
       <DeleteForeverIcon/>
-    </DeleteButton>
+    </div>
   );
 };
 

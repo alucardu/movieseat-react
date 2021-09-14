@@ -1,20 +1,23 @@
+import {makeStyles} from '@material-ui/styles';
 import React, {useState} from 'react';
 import MovieSearch from './MovieSearch/MovieSearch';
 import MovieSearchResultList from './MovieSearchResultList/MovieSearchResultList';
-import styled from 'styled-components';
+
+const useStyles = makeStyles({
+  movieSearchContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    position: 'relative',
+  },
+});
 
 interface Movie {
   originalTitle: string;
   id: string;
 }
 
-const MovieSearchContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  position: relative;
-`;
-
 const MovieSearchComponent = () => {
+  const classes = useStyles();
   const [movieList, setMovies] = useState<Movie[]>([]);
 
   const [showList, toggleList] = useState(false);
@@ -24,10 +27,10 @@ const MovieSearchComponent = () => {
   });
 
   return (
-    <MovieSearchContainer>
+    <div className={classes.movieSearchContainer}>
       <MovieSearch createSearchResults={createSearchResults} />
       { showList ? <MovieSearchResultList movieList={movieList}/> : null}
-    </MovieSearchContainer>
+    </div>
   );
 };
 

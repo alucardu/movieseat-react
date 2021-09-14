@@ -18,6 +18,7 @@ const ReturnMoviesFromUser = gql`
       original_title
       poster_path
       tmdb_id
+      release_date
     }
   }
 `;
@@ -38,16 +39,19 @@ const AddUserToMovie = gql`
     $original_title: String!,
     $tmdb_id: Int!,
     $poster_path: String!
+    $release_date: String!
   ) {
     addUserToMovie (
       original_title: $original_title,
       tmdb_id: $tmdb_id,
       poster_path: $poster_path
+      release_date: $release_date
     ) {
         id
         original_title
         poster_path
         tmdb_id
+        release_date
       }
     }
 `;
@@ -63,6 +67,7 @@ const RemoveMovie = gql`
         original_title
         poster_path
         tmdb_id
+        release_date
     }
   }
 `;

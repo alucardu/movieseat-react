@@ -1,21 +1,23 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import {chunk} from 'lodash';
 import {useReactiveVar} from '@apollo/client';
+import {makeStyles} from '@material-ui/styles';
 
 import {IMovie} from '../../../movieseat';
 import {moviesVar} from '../../../cache';
 import MovieOnDashboard from '../MovieOnDashboard/MovieOnDashboard';
 
-const MovieList = styled.ul`
-  list-style: none;
-  display: flex;
-  padding: 0;
-  margin: 0 12px;
-`;
+const useStyles = makeStyles({
+  movieList: {
+    listStyle: 'none',
+    display: 'flex',
+    padding: '0',
+    margin: '0 12px',
+  },
+});
 
 const MovieOverview = () => {
+  const classes = useStyles();
   const movies: IMovie[] = useReactiveVar(moviesVar);
   let movieRows;
 
@@ -28,18 +30,14 @@ const MovieOverview = () => {
   return (
     <div>
       { movieRows.map((movieRow, index) => (
-        <MovieList key={index}>
+        <ul className={classes.movieList} key={index}>
           { movieRow.map((movie: IMovie) => (
             <MovieOnDashboard key={movie.id} movie={movie}/>
           ))}
-        </MovieList>
+        </ul>
       ))}
     </div>
   );
-};
-
-MovieOverview.propTypes = {
-  movies: PropTypes.array,
 };
 
 export default MovieOverview;
