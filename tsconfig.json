@@ -2,11 +2,14 @@
   "compilerOptions": {
     "sourceMap": true,
     "noImplicitAny": false,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
     "module": "esnext",
     "target": "es2017",
     "lib": [
       "es2015",
       "es2017",
+      "ES6",
       "dom"
     ],
     "allowJs": true,

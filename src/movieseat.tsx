@@ -25,3 +25,8 @@ export interface ISelectedSortType {
   selectedSortType: string;
   orderType: boolean;
 }
+
+export interface ISnackbar {
+  severity: string;
+  message: string;
+}

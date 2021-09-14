@@ -20,7 +20,7 @@ const typeDefs = gql`
     original_title: String!
     tmdb_id: Int!
     poster_path: String!
-    userId: Int!
+    release_date: String!
   }
 
   type BatchPayload {
@@ -76,12 +76,14 @@ const typeDefs = gql`
       original_title: String!, 
       tmdb_id: Int!,
       poster_path: String!
+      release_date: String!
     ) : [Movie]
 
     addMovie(
       original_title: String!, 
       tmdb_id: Int!,
       poster_path: String!
+      release_date: String!
     ): [Movie]
     
     removeMovie(

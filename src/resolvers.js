@@ -99,6 +99,7 @@ const Mutation = {
         original_title: args.original_title,
         tmdb_id: args.tmdb_id,
         poster_path: args.poster_path,
+        release_date: args.release_date,
         users: {
           connect: [{id: req.userId}],
         },

@@ -12,13 +12,17 @@ const login = () => {
   const movies = returnMoviesFromUserHook();
 
   useEffect(() => {
-    moviesVar(movies);
+    const setMovies = async () => {
+      moviesVar(await movies);
+    };
+    setMovies();
   });
 
   const initialFormData = Object.freeze({
     email: '',
     password: '',
   });
+
   const [formData, updateFormData] = React.useState(initialFormData);
 
   const logout = (event) => {

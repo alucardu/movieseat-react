@@ -1,5 +1,4 @@
 import React from 'react';
-import {SnackbarProvider} from 'notistack';
 import {BrowserRouter as Router} from 'react-router-dom';
 import {useQuery} from '@apollo/client';
 
@@ -8,6 +7,8 @@ import MovieSearchComponent from './components/MovieSearch/MovieSearchComponent'
 import DashboardComponent from './components/Dashboard/DashboardComponent';
 import {currentUserVar} from './cache';
 import resolvers from './resolvers';
+
+import SnackbarStack from './helpers/snackbar';
 
 const App = () => {
   const checkIfUserIsLoggedIn = () => {
@@ -29,10 +30,9 @@ const App = () => {
     <React.Fragment>
       <Router>
         <Header />
-        <SnackbarProvider maxSnack={3}>
-          <MovieSearchComponent />
-          <DashboardComponent />
-        </SnackbarProvider>
+        <MovieSearchComponent />
+        <DashboardComponent />
+        <SnackbarStack />
       </Router>
     </React.Fragment>
   );

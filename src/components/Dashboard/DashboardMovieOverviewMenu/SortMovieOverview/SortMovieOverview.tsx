@@ -1,125 +1,69 @@
-import React, {useState, useEffect, useRef, useContext} from 'react';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+import React, {useState, useEffect} from 'react';
+import {FormGroup, Checkbox, MenuItem, FormControlLabel} from '@mui/material';
+import {Button, FormControl, InputLabel, Select} from '@material-ui/core';
+import {makeStyles} from '@material-ui/styles';
 import localforage from 'localforage';
-import {orderBy} from 'lodash';
-import {FormControlLabel, Checkbox} from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import styled from 'styled-components';
-import {useSnackbar} from 'notistack';
-import {IMovie, ISelectedSortType} from '../../../../movieseat';
-import {MovieContext} from '../../../../context/MovieContext';
+import {ISelectedSortType} from 'src/movieseat';
+import {moviesVar, snackbarVar} from '../../../../cache';
+import sortMovies from '../../../../helpers/sortMovies';
 
-
-const MyButton = styled(Button)({
-  background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-  border: 0,
-  borderRadius: 3,
-  boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-  color: 'white',
-  height: 48,
-  padding: '0 30px',
+const useStyles = makeStyles({
+  menuButton: {
+    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    border: 0,
+    borderRadius: 3,
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    color: 'white',
+    height: 48,
+    padding: '0 30px',
+  },
 });
 
 const SortMovieOverview = ( {toggleMenu}: {toggleMenu:
   React.Dispatch<React.SetStateAction<boolean>>}) => {
-  const [, setMovies] = useContext(MovieContext);
-  const {enqueueSnackbar} = useSnackbar();
-  const isMountedRef = useRef(true);
-  useEffect(() => () => {
-    isMountedRef.current = false;
+  const classes = useStyles();
+  const initalSortData: ISelectedSortType = {selectedSortType: 'release_date', orderType: true};
+  const [sortData, setSortdata] = useState(initalSortData);
+
+  const returnMovieSort = async () => {
+    return await localforage.getItem<ISelectedSortType>('movieSort') || initalSortData;
+  };
+
+  useEffect(() => {
+    returnMovieSort().then((value) => {
+      setSortdata(value);
+    });
   }, []);
-  useEffect(() => getOrderConfig(), []);
 
-  const getOrderConfig = () => {
-    localforage.getItem<ISelectedSortType>('sortType').then((value) => {
-      if (isMountedRef.current) {
-        setSortType(value ? value.selectedSortType : 'release_date');
-        setOrderType(value ? value.orderType : true);
-      }
+
+  const handleChange = (e) => {
+    setSortdata({
+      ...sortData,
+      [e.target.name]: e.target.value.length > 0 ?
+        e.target.value : e.target.checked,
     });
   };
 
-  const [sortType, setSortType] = useState('');
-  const handleSortTypeChange = (event) => {
-    setSortType(event.target.value);
-  };
-
-  const applySorting = async () => {
-    setSortType(sortType);
-    const selectedSortType = sortType;
-
-    const returnSortType = (movie) => {
-      switch (selectedSortType) {
-        case 'release_date':
-          return movie.release_date;
-        case 'title':
-          return movie.title;
-      }
-    };
-
-    storeOrderConfig(selectedSortType, orderType);
-
-    const value = await localforage.getItem<IMovie []>('trackedMovies');
-    if (value) {
-      let trackedMovies = value;
-      trackedMovies = orderBy(trackedMovies, [(movie) => returnSortType(movie)], [orderType ? 'asc' : 'desc']);
-      localforage.setItem('trackedMovies', trackedMovies);
-      setMovies(trackedMovies);
-    }
-
-    toggleMenu(false);
-    enqueueSnackbar('Applied sorting.', {
-      variant: 'success',
+  const submitChange = () => {
+    localforage.setItem('movieSort', sortData).then( async () => {
+      moviesVar(await sortMovies(moviesVar()));
+      snackbarVar({message: 'Sorting has been updated', severity: 'success'});
+      toggleMenu(false);
     });
-  };
-
-  const [orderType, setOrderType] = useState(false);
-  const handleSortOderChange = () => {
-    setOrderType(!orderType);
-    storeOrderConfig(sortType, orderType);
-  };
-
-  const storeOrderConfig = (selectedSortType, orderType) => {
-    localforage.setItem('sortType', {selectedSortType, orderType});
   };
 
   return (
-    <FormControl>
-      <InputLabel id="demo-simple-select-label">Sort movies on dashboard by:</InputLabel>
-      <Select
-        onChange={handleSortTypeChange}
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        value={sortType}
-      >
-        <MenuItem value={'release_date'}>Release date</MenuItem>
-        <MenuItem value={'title'}>Title</MenuItem>
-      </Select>
-
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={orderType}
-            onChange={handleSortOderChange}
-            color="primary"
-          />
-        }
-        label="List in ascending order"
-      />
-      <MyButton
-        onClick={applySorting}
-        variant="contained"
-        color="primary"
-        size="small"
-        startIcon={<CheckCircleIcon />}
-      >
-        Apply sorting
-      </MyButton>
-    </FormControl>
+    <FormGroup>
+      <FormControl fullWidth>
+        <InputLabel id='sort-type-label'>Sort Type</InputLabel>
+        <Select labelId='sort-type-label' id='selectedSortType' value={sortData.selectedSortType} label='Sort type' name='selectedSortType' onChange={handleChange}>
+          <MenuItem value='release_date'>Release date</MenuItem>
+          <MenuItem value='title'>Title</MenuItem>
+        </Select>
+      </FormControl>
+      <FormControlLabel control={<Checkbox />} label='Ascending order' checked={sortData.orderType} name='orderType' onChange={handleChange}/>
+      <Button variant='contained' onClick={submitChange} className={classes.menuButton} >Apply sorting</Button>
+    </FormGroup>
   );
 };
 

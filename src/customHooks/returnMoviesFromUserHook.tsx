@@ -1,8 +1,12 @@
 import {useQuery} from '@apollo/client';
 import resolvers from '../resolvers';
 import {currentUserVar} from '../cache';
+import {IMovie} from '../movieseat';
+import sortMovies from '../helpers/sortMovies';
 
-const returnMoviesFromUserHook = () => {
+let movies: IMovie[];
+
+const returnMoviesFromUserHook = async () => {
   const {error, loading, data} = useQuery(
       resolvers.queries.ReturnMoviesFromUser, {
         fetchPolicy: 'no-cache',
@@ -10,8 +14,9 @@ const returnMoviesFromUserHook = () => {
         skip: currentUserVar().id === 0,
       });
   if (!loading && !error && data) {
-    return data.moviesFromUser;
+    movies = await sortMovies(data.moviesFromUser);
   }
+  return movies;
 };
 
 export default returnMoviesFromUserHook;

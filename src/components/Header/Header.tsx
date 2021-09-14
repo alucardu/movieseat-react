@@ -1,27 +1,30 @@
 /* eslint-disable require-jsdoc */
 import React from 'react';
-import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import Login from '../Login/Login';
+import {makeStyles} from '@material-ui/styles';
 
-const HeaderStyle = styled.header`
-  background: #0fcece;
-  padding: 24px;
-`;
-const Title = styled.h1`
-  font-size: 3.5em;
-  color: #fff;
-  margin: 0;
-  font-family: 'Oleo Script Swash Caps', cursive;
-  text-shadow: 2px 2px 5px #000;
-`;
+const useStyles = makeStyles({
+  headerStyle: {
+    background: '#0fcece',
+    padding: '24px',
+  },
+  title: {
+    fontSize: '3.5em',
+    color: '#fff',
+    margin: 0,
+    fontFamily: 'Oleo Script Swash Caps, cursive',
+    textShadow: '2px 2px 5px #000',
+  },
+});
 
 const Header = () => {
+  const classes = useStyles();
   return (
-    <HeaderStyle>
+    <header className={classes.headerStyle}>
       <Login />
-      <Link to="/"><Title>Movieseat</Title></Link>
-    </HeaderStyle>
+      <Link to="/"><h1 className={classes.title}>Movieseat</h1></Link>
+    </header>
   );
 };
 

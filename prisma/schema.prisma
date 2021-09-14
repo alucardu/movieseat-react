@@ -15,6 +15,7 @@ model Movie {
   original_title    String
   tmdb_id           Int     @unique
   poster_path       String  @default("")
+  release_date      String
   users             User[]
 }
 

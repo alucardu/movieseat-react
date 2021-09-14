@@ -1,66 +1,46 @@
 import React from 'react';
-import styled from 'styled-components';
-import {useSnackbar} from 'notistack';
+// import {useSnackbar} from 'notistack';
 import {IMovie} from '../../../../movieseat';
 import {useMutation} from '@apollo/client';
 import resolvers from '../../../../../src/resolvers';
-import {moviesVar} from '../../../../cache';
+import {moviesVar, snackbarVar} from '../../../../cache';
+import {makeStyles} from '@material-ui/styles';
+import sortMovies from '../../../../helpers/sortMovies';
 
-const backdropUrl = 'https://image.tmdb.org/t/p/w780';
+const backdropUrl = 'https://image.tmdb.org/t/p/w780/';
 interface OverlayData {
   readonly backdropPath: string;
 }
-const Overlay = styled.div<OverlayData>`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  background: ${(movie) => movie.backdropPath ?
-    `url(${backdropUrl + movie.backdropPath} ) no-repeat center center` : null};
-  background-size: cover;
-  div {
-    background: #00000073;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-`;
 
-const AddMovie = styled.a`
-  padding: 8px;
-  background: #0fcece;
-  border-radius: 12px;
-`;
+const useStyles = makeStyles({
+  overlay: (props: OverlayData) => ({
+    'position': 'absolute',
+    'width': '100%',
+    'height': '100%',
+    'left': 0,
+    'background': props.backdropPath ? `url(${backdropUrl + props.backdropPath}) no-repeat center center` : '#4d4d4d',
+    'backgroundSize': 'cover',
+    '& div': {
+      background: '#00000073',
+      height: '100%',
+      width: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  }),
+
+  addMovie: {
+    padding: '8px',
+    background: '#0fcece',
+    borderRadius: '12px',
+  },
+});
 
 const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
+  const props = {backdropPath: movie.backdrop_path};
+  const classes = useStyles(props);
   const [addUserToMovie] = useMutation(resolvers.mutations.AddUserToMovie);
-  const {enqueueSnackbar} = useSnackbar();
-
-  const addMovie = async (movie: IMovie) => {
-    let message = 'is already added to your watchlist.';
-    let variant = 'warning';
-    if (!checkIsMovieDuplicate(moviesVar(), movie)) {
-      const movies = await addUserToMovie({variables: {
-        original_title: movie.original_title,
-        tmdb_id: movie.id,
-        poster_path: movie.poster_path,
-      }});
-
-      moviesVar(movies.data.addUserToMovie);
-
-      message = 'has been added to your watchlist.';
-      variant = 'success';
-    }
-
-
-    displaySnackbar(`${movie.original_title} ${message}`, {variant});
-  };
-
-  const displaySnackbar = (message: string, variant: any) => {
-    enqueueSnackbar(message, variant);
-  };
 
   const checkIsMovieDuplicate = (movies: IMovie[], movie: IMovie) => {
     for (const item of movies) {
@@ -68,14 +48,34 @@ const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
     }
   };
 
+
+  const addMovie = async (movie: IMovie) => {
+    let message = 'is already added to your watchlist.';
+    let severity = 'warning';
+    if (!checkIsMovieDuplicate(moviesVar(), movie)) {
+      await addUserToMovie({variables: {
+        ...movie,
+        tmdb_id: movie.id,
+      }}).then(async (movies) => {
+        moviesVar(await sortMovies(movies.data.addUserToMovie));
+      });
+
+      message = 'has been added to your watchlist.';
+      severity = 'success';
+    }
+
+    snackbarVar({message: `${movie.original_title} ${message}`, severity: severity});
+  };
+
+
   return (
-    <Overlay backdropPath={movie.backdrop_path}>
+    <div className={classes.overlay}>
       <div>
-        <AddMovie onClick={() => addMovie(movie)}>
-          Add movie to your watchlist
-        </AddMovie>
+        <a className={classes.addMovie} onClick={() => addMovie(movie)}>
+        Add movie to your watchlist
+        </a>
       </div>
-    </Overlay>
+    </div>
   );
 };
 
