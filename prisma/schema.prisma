@@ -12,9 +12,9 @@ generator client {
 
 model Movie {
   id                Int     @id @default(autoincrement())
-  original_title    String
+  original_title    String  @unique
   tmdb_id           Int     @unique
-  poster_path       String  @default("")
+  poster_path       String  @unique
   release_date      String
   users             User[]
 }
@@ -23,6 +23,7 @@ model User {
   id                Int @id @default(autoincrement())
   email             String  @unique
   name              String
+  user_name         String  @unique
   password          String
   movies            Movie[]
 }

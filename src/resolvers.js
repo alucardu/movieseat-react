@@ -6,23 +6,21 @@ const {prisma} = require('./database.js');
 
 const returnMoviesFromUser = async (args, req) => {
   if (req.userId) {
-    const user = await prisma.user.findMany({
+    const user = await prisma.user.findUnique({
       where: {id: req.userId},
       select: {
         movies: true,
       },
     });
-    return user[0].movies;
+    return user.movies;
   }
 };
 
 const Query = {
   returnUser: async (_, args, {req}) => {
-    if (req.userId) {
-      return prisma.user.findUnique({
-        where: {id: req.userId},
-      });
-    }
+    return prisma.user.findUnique({
+      where: {id: args.userId || req.userId},
+    });
   },
 
   moviesFromUser: async (root, args, {res, req}) => {
@@ -51,6 +49,7 @@ const Mutation = {
         email: args.email,
         password: bcrypt.hashSync(args.password, 3),
         name: args.name,
+        user_name: args.user_name,
       },
     });
     return {token: jwt.sign(newUser, 'supersecret')};
@@ -60,9 +59,9 @@ const Mutation = {
     const theUser = await prisma.user.findUnique({
       where: {email: String(args.email)},
     });
-    if (!theUser) throw new Error('Unable to Login');
+    if (!theUser) throw new Error('Unable to Login, user not found');
     const isMatch = bcrypt.compareSync(args.password, theUser.password);
-    if (!isMatch) throw new Error('Unable to Login');
+    if (!isMatch) throw new Error('Unable to Login, password missmatch');
 
     const token = jwt.sign(theUser, 'supersecret');
 

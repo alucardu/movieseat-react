@@ -10,5 +10,6 @@ export const snackbarVar: ReactiveVar<ISnackbar> = makeVar<ISnackbar>({message: 
 export const currentUserVar: ReactiveVar<ICurrentUser> = makeVar<ICurrentUser>({
   id: 0,
   email: '',
+  user_name: '',
   isLoggedIn: false,
 });

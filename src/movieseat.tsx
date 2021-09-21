@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 export interface IMovie {
   id: number;
   original_title: string;
@@ -10,6 +11,7 @@ export interface IMovie {
 export interface ICurrentUser {
   id: number,
   email: string;
+  user_name: string;
   isLoggedIn: boolean;
 }
 

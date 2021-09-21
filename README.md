@@ -64,6 +64,8 @@ psql -U db_user college_db
 
 TABLE "Movie";
 
+DELETE FROM "Movie";
+
 ## Some Prisma tips
 
 Apollo client resolvers have to connect to Apollo server resolvers
