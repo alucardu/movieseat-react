@@ -1,11 +1,10 @@
 import React from 'react';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import {IMovie} from '../../../../movieseat';
 import {useMutation} from '@apollo/client';
 import resolvers from '../../../..//resolvers';
-import {moviesVar, snackbarVar} from '../../../../cache';
+import {snackbarVar} from '../../../../cache';
 import {makeStyles} from '@material-ui/styles';
-import sortMovies from '../../../../helpers/sortMovies';
 
 const useStyles = makeStyles({
   deleteButton: {
@@ -25,8 +24,18 @@ const RemoveMovieFromDashboard = ({movie}: {movie: IMovie}) => {
   const [removeMovieRes] = useMutation(resolvers.mutations.RemoveMovie);
 
   const removeMovieFromList = async (movie) => {
-    removeMovieRes({variables: {id: parseInt(movie.id)}}).then(async (movies) => {
-      moviesVar(await sortMovies(movies.data.removeMovie));
+    removeMovieRes({
+      variables: {id: parseInt(movie.id)},
+      update: (cache, {data}) => {
+        cache.modify({
+          fields: {
+            moviesFromUser: () => {
+              return [...data.removeMovie];
+            },
+          },
+        });
+      },
+    }).then(() => {
       snackbarVar({message: 'Removed ' + movie.original_title + ' from your watchlist', severity: 'success'});
     });
   };

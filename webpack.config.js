@@ -10,6 +10,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, '/dist'),
+    publicPath: '/',
     filename: 'bundle.min.js',
   },
   module: {
@@ -41,7 +42,9 @@ module.exports = {
     ],
   },
   devServer: {
-    historyApiFallback: true,
+    historyApiFallback: {
+      index: '/',
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({

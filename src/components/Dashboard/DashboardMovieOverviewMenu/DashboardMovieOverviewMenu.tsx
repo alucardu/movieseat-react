@@ -1,14 +1,14 @@
 import {makeStyles} from '@material-ui/styles';
 import React, {useState} from 'react';
 
-import ListIcon from '@material-ui/icons/List';
+import ListIcon from '@mui/icons-material/List';
 import SortMovieOverview from './SortMovieOverview/SortMovieOverview';
 
 const useStyles = makeStyles({
   menuIcon: {
     'margin': '-48px 0 0 8px',
     'position': 'absolute',
-    'fontSize': '2.5em!important',
+    'fontSize': '2.5em',
     'cursor': 'pointer',
   },
 

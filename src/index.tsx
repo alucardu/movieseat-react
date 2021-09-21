@@ -5,6 +5,7 @@ import {render} from 'react-dom';
 import App from './App';
 import {ApolloClient, InMemoryCache, ApolloProvider, createHttpLink} from '@apollo/client';
 import {makeStyles} from '@material-ui/styles';
+import {StyledEngineProvider} from '@mui/material/styles';
 
 const useStyles = makeStyles({
   '@global': {
@@ -34,7 +35,9 @@ const init = () => {
     return (
       <ApolloProvider client={client}>
         <React.Fragment>
-          <App />
+          <StyledEngineProvider injectFirst>
+            <App />
+          </StyledEngineProvider>
         </React.Fragment>
       </ApolloProvider>
     );

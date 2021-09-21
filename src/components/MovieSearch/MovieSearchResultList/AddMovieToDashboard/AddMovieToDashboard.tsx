@@ -1,11 +1,9 @@
 import React from 'react';
-// import {useSnackbar} from 'notistack';
 import {IMovie} from '../../../../movieseat';
-import {useMutation} from '@apollo/client';
+import {useApolloClient, useMutation} from '@apollo/client';
 import resolvers from '../../../../../src/resolvers';
-import {moviesVar, snackbarVar} from '../../../../cache';
+import {currentUserVar, snackbarVar} from '../../../../cache';
 import {makeStyles} from '@material-ui/styles';
-import sortMovies from '../../../../helpers/sortMovies';
 
 const backdropUrl = 'https://image.tmdb.org/t/p/w780/';
 interface OverlayData {
@@ -38,8 +36,13 @@ const useStyles = makeStyles({
 });
 
 const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
+  const client = useApolloClient();
+  const movies = client.readQuery({
+    query: resolvers.queries.ReturnMoviesFromUser,
+    variables: {userId: currentUserVar().id}});
   const props = {backdropPath: movie.backdrop_path};
   const classes = useStyles(props);
+
   const [addUserToMovie] = useMutation(resolvers.mutations.AddUserToMovie);
 
   const checkIsMovieDuplicate = (movies: IMovie[], movie: IMovie) => {
@@ -48,22 +51,27 @@ const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
     }
   };
 
-
   const addMovie = async (movie: IMovie) => {
     let message = 'is already added to your watchlist.';
     let severity = 'warning';
-    if (!checkIsMovieDuplicate(moviesVar(), movie)) {
-      await addUserToMovie({variables: {
-        ...movie,
-        tmdb_id: movie.id,
-      }}).then(async (movies) => {
-        moviesVar(await sortMovies(movies.data.addUserToMovie));
+    if (!checkIsMovieDuplicate(movies.moviesFromUser, movie)) {
+      await addUserToMovie({
+        variables: {...movie, tmdb_id: movie.id},
+        update: (cache, {data}) => {
+          console.log(cache);
+          cache.modify({
+            fields: {
+              moviesFromUser: () => {
+                return [...data.addUserToMovie];
+              },
+            },
+          });
+        },
+      }).then(() => {
+        message = 'has been added to your watchlist.';
+        severity = 'success';
       });
-
-      message = 'has been added to your watchlist.';
-      severity = 'success';
     }
-
     snackbarVar({message: `${movie.original_title} ${message}`, severity: severity});
   };
 

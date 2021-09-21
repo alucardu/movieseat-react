@@ -8,6 +8,7 @@ const typeDefs = gql`
     name: String!
     email: String!
     password: String!
+    user_name: String!
     id: Int
   }
 
@@ -28,7 +29,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    returnUser: User
+    returnUser(userId: Int): User
   }
 
   type Query {
@@ -59,12 +60,17 @@ const typeDefs = gql`
     currentUser: User! 
   }
 
+  type AuthPayLoadToken {
+    token: String!
+  }
+
   type Mutation {
     signupUser(
       id: Int!
       email: String!
       password: String!
-      name: String!) : Boolean!
+      name: String!
+      user_name: String!) : AuthPayLoadToken
 
     loginUser(
       email: String!

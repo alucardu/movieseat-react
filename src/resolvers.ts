@@ -3,10 +3,11 @@
 import {gql} from '@apollo/client';
 
 const ReturnUser = gql`
-  query returnUser {
-    returnUser {
+  query returnUser($userId: Int) {
+    returnUser(userId: $userId) {
       id
       email
+      user_name
     }
   }
 `;
@@ -81,7 +82,8 @@ const LoginUser = gql`
         password: $password
       ) {
         email,
-        id
+        id,
+        user_name
       }
     }
 `;

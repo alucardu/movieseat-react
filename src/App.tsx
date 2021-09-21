@@ -1,14 +1,14 @@
 import React from 'react';
-import {BrowserRouter as Router} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {useQuery} from '@apollo/client';
 
 import Header from './components/Header/Header';
-import MovieSearchComponent from './components/MovieSearch/MovieSearchComponent';
 import DashboardComponent from './components/Dashboard/DashboardComponent';
 import {currentUserVar} from './cache';
 import resolvers from './resolvers';
 
 import SnackbarStack from './helpers/snackbar';
+import Profile from './components/Profile/Profile';
 
 const App = () => {
   const checkIfUserIsLoggedIn = () => {
@@ -30,8 +30,14 @@ const App = () => {
     <React.Fragment>
       <Router>
         <Header />
-        <MovieSearchComponent />
-        <DashboardComponent />
+        <Switch>
+          <Route exact path='/'>
+            <DashboardComponent />
+          </Route>
+          <Route path='/profile/:id'>
+            <Profile />
+          </Route>
+        </Switch>
         <SnackbarStack />
       </Router>
     </React.Fragment>

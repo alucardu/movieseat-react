@@ -4,8 +4,10 @@ import {Button, FormControl, InputLabel, Select} from '@material-ui/core';
 import {makeStyles} from '@material-ui/styles';
 import localforage from 'localforage';
 import {ISelectedSortType} from 'src/movieseat';
-import {moviesVar, snackbarVar} from '../../../../cache';
-import sortMovies from '../../../../helpers/sortMovies';
+import {snackbarVar} from '../../../../cache';
+import {useApolloClient} from '@apollo/client';
+import {currentUserVar} from '../../../../cache';
+import resolvers from '../../../../resolvers';
 
 const useStyles = makeStyles({
   menuButton: {
@@ -21,6 +23,8 @@ const useStyles = makeStyles({
 
 const SortMovieOverview = ( {toggleMenu}: {toggleMenu:
   React.Dispatch<React.SetStateAction<boolean>>}) => {
+  const client = useApolloClient();
+
   const classes = useStyles();
   const initalSortData: ISelectedSortType = {selectedSortType: 'release_date', orderType: true};
   const [sortData, setSortdata] = useState(initalSortData);
@@ -45,8 +49,22 @@ const SortMovieOverview = ( {toggleMenu}: {toggleMenu:
   };
 
   const submitChange = () => {
+    const movies = client.readQuery({
+      query: resolvers.queries.ReturnMoviesFromUser,
+      variables: {userId: currentUserVar().id}});
+
+    const reversedMovies = [...movies.moviesFromUser];
+    reversedMovies.reverse();
+
+    client.cache.modify({
+      fields: {
+        moviesFromUser: () => {
+          return reversedMovies;
+        },
+      },
+    });
+
     localforage.setItem('movieSort', sortData).then( async () => {
-      moviesVar(await sortMovies(moviesVar()));
       snackbarVar({message: 'Sorting has been updated', severity: 'success'});
       toggleMenu(false);
     });
