@@ -27,7 +27,7 @@ const Query = {
     return returnMoviesFromUser(args, req);
   },
 
-  users: async (root, args, {prisma, req}) => {
+  returnUsers: async (root, args, {prisma, req}) => {
     return prisma.user.findMany();
   },
 

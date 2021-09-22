@@ -15,6 +15,12 @@ export interface ICurrentUser {
   isLoggedIn: boolean;
 }
 
+export interface IUser {
+  id: number,
+  email: string;
+  user_name: string;
+}
+
 export interface IMovieList {
 }
 
