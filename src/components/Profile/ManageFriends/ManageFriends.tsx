@@ -25,7 +25,7 @@ const ManageFriends = () => {
   };
 
   const [
-    {error: error1, loading: loading1, data: {returnFollowedUsers: followedUsers = {}} = {}},
+    {error: error1, loading: loading1, data: {returnFollowedUsers: followedUsers = {}, returnFollowedBy: followedBy = {}} = {}},
     {error: error2, loading: loading2, data: {returnUsers: users = {}} = {}},
   ] = multipleQueries();
 
@@ -101,8 +101,18 @@ const ManageFriends = () => {
               <span onClick={() => {
                 unfollowUser(user);
               }}> X</span>
-            </li>)
-          ;
+            </li>
+          );
+        })}
+      </ul>
+      Followed by users:
+      <ul>
+        {followedBy.map((user) => {
+          return (
+            <li key={user.id}>
+              <Link to={`/profile/${user.id}`}>{user.user_name}</Link>
+            </li>
+          );
         })}
       </ul>
     </div>

@@ -19,6 +19,11 @@ const ReturnFollowedUsers = gql`
       email
       user_name
     }
+    returnFollowedBy(userId: $userId) {
+      id
+      email
+      user_name
+    }
   }
 `;
 

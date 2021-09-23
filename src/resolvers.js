@@ -5,14 +5,25 @@ const jwt = require('jsonwebtoken');
 const {prisma} = require('./database.js');
 
 const followedUsers = async (args, req) => {
-  const user = await prisma.user.findUnique({
+  const following = await prisma.user.findUnique({
     where: {id: req.userId || args.userId},
     select: {
       following: true,
     },
   });
 
-  return user.following;
+  return following.following;
+};
+
+const followedBy = async (args, req) => {
+  const followedBy = await prisma.user.findUnique({
+    where: {id: req.userId},
+    select: {
+      followedBy: true,
+    },
+  });
+
+  return followedBy.followedBy;
 };
 
 const returnMoviesFromUser = async (args, req) => {
@@ -29,7 +40,11 @@ const returnMoviesFromUser = async (args, req) => {
 
 const Query = {
   returnFollowedUsers: async (root, args, {res, req}) => {
-    return followedUsers(args, req);
+    return await followedUsers(args, req);
+  },
+
+  returnFollowedBy: async (root, args, {res, req}) => {
+    return await followedBy(args, req);
   },
 
   returnUser: async (_, args, {req}) => {
@@ -78,6 +93,17 @@ const Mutation = {
       data: {
         following: {
           connect: {id: args.userId},
+        },
+      },
+    });
+
+    await prisma.user.update({
+      where: {
+        id: args.userId,
+      },
+      data: {
+        followedBy: {
+          connect: {id: req.userId},
         },
       },
     });
