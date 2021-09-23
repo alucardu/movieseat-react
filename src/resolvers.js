@@ -4,6 +4,28 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const {prisma} = require('./database.js');
 
+const followedUsers = async (args, req) => {
+  const following = await prisma.user.findUnique({
+    where: {id: req.userId || args.userId},
+    select: {
+      following: true,
+    },
+  });
+
+  return following.following;
+};
+
+const followedBy = async (args, req) => {
+  const followedBy = await prisma.user.findUnique({
+    where: {id: req.userId},
+    select: {
+      followedBy: true,
+    },
+  });
+
+  return followedBy.followedBy;
+};
+
 const returnMoviesFromUser = async (args, req) => {
   if (req.userId) {
     const user = await prisma.user.findUnique({
@@ -17,6 +39,14 @@ const returnMoviesFromUser = async (args, req) => {
 };
 
 const Query = {
+  returnFollowedUsers: async (root, args, {res, req}) => {
+    return await followedUsers(args, req);
+  },
+
+  returnFollowedBy: async (root, args, {res, req}) => {
+    return await followedBy(args, req);
+  },
+
   returnUser: async (_, args, {req}) => {
     return prisma.user.findUnique({
       where: {id: args.userId || req.userId},
@@ -27,7 +57,7 @@ const Query = {
     return returnMoviesFromUser(args, req);
   },
 
-  users: async (root, args, {prisma, req}) => {
+  returnUsers: async (root, args, {prisma, req}) => {
     return prisma.user.findMany();
   },
 
@@ -42,6 +72,45 @@ const Query = {
 };
 
 const Mutation = {
+  unfollowUser: async (_, args, {req, res}) => {
+    await prisma.user.update({
+      where: {id: req.userId},
+      data: {
+        following: {
+          disconnect: [{id: args.id}],
+        },
+      },
+    });
+
+    return followedUsers(args, req);
+  },
+
+  followUser: async (_, args, {req, res}) => {
+    await prisma.user.update({
+      where: {
+        id: req.userId,
+      },
+      data: {
+        following: {
+          connect: {id: args.userId},
+        },
+      },
+    });
+
+    await prisma.user.update({
+      where: {
+        id: args.userId,
+      },
+      data: {
+        followedBy: {
+          connect: {id: req.userId},
+        },
+      },
+    });
+
+    return followedUsers(args, req);
+  },
+
   signupUser: async (root, args) => {
     const newUser = await prisma.user.create({
       data: {

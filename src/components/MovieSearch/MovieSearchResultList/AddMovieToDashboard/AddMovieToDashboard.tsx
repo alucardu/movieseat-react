@@ -58,7 +58,6 @@ const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
       await addUserToMovie({
         variables: {...movie, tmdb_id: movie.id},
         update: (cache, {data}) => {
-          console.log(cache);
           cache.modify({
             fields: {
               moviesFromUser: () => {
