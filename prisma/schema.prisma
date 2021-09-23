@@ -26,4 +26,6 @@ model User {
   user_name         String  @unique
   password          String
   movies            Movie[]
+  followedBy        User[] @relation("UserFollows", references: [id])
+  following         User[] @relation("UserFollows", references: [id])
 }

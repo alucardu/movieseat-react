@@ -12,6 +12,16 @@ const returnUsers = gql`
   }
 `;
 
+const ReturnFollowedUsers = gql`
+  query returnFollowedUsers($userId: Int) {
+    returnFollowedUsers(userId: $userId) {
+      id
+      email
+      user_name
+    }
+  }
+`;
+
 const ReturnUser = gql`
   query returnUser($userId: Int) {
     returnUser(userId: $userId) {
@@ -67,6 +77,20 @@ const AddUserToMovie = gql`
     }
 `;
 
+const UnfollowUser = gql`
+    mutation unfollowUser(
+      $id: Int
+    ) {
+      unfollowUser (
+        id: $id
+      ) {
+        id
+        user_name
+        email
+      }
+    }
+`;
+
 const RemoveMovie = gql`
   mutation removeMovie(
     $id: Int!
@@ -79,6 +103,20 @@ const RemoveMovie = gql`
         poster_path
         tmdb_id
         release_date
+    }
+  }
+`;
+
+const FollowUser = gql`
+  mutation followUser(
+    $userId: Int
+  ) {
+    followUser(
+      userId: $userId
+    ) {
+      id
+      user_name
+      email
     }
   }
 `;
@@ -104,7 +142,7 @@ const LogoutUser = gql`
     }
 `;
 
-const queries = {ReturnAllMovies, ReturnMoviesFromUser, ReturnUser, returnUsers};
-const mutations = {RemoveMovie, LoginUser, LogoutUser, AddUserToMovie};
+const queries = {ReturnAllMovies, ReturnMoviesFromUser, ReturnUser, returnUsers, ReturnFollowedUsers};
+const mutations = {RemoveMovie, LoginUser, LogoutUser, AddUserToMovie, FollowUser, UnfollowUser};
 
 export default {queries, mutations};

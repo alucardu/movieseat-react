@@ -29,6 +29,10 @@ const typeDefs = gql`
   }
 
   type Query {
+    returnFollowedUsers (userId: Int): [User]
+  }
+
+  type Query {
     returnUser(userId: Int): User
   }
 
@@ -65,6 +69,11 @@ const typeDefs = gql`
   }
 
   type Mutation {
+
+    followUser(
+      userId: Int
+    ) : [User]
+
     signupUser(
       id: Int!
       email: String!
@@ -91,10 +100,15 @@ const typeDefs = gql`
       poster_path: String!
       release_date: String!
     ): [Movie]
+
+    unfollowUser (
+      id: Int
+    ) : [User]
     
     removeMovie(
       id: Int!
     ): [Movie]
+    
     removeAllMovies: BatchPayload
     removeAllUsers: BatchPayload
   }

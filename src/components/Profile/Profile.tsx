@@ -4,10 +4,12 @@ import {useParams} from 'react-router';
 import resolvers from '../../resolvers';
 import ManageFriends from './ManageFriends/ManageFriends';
 import {currentUserVar} from '../../cache';
+import FollowUser from './ManageFriends/FollowStatus';
 
 const profile = () => {
   const currentUser = useReactiveVar(currentUserVar);
   const {id: paramId} = useParams<{id: string}>();
+
   const {error, loading, data: {returnUser: user} = {}} =
     useQuery(resolvers.queries.ReturnUser, {
       variables: {userId: parseInt(paramId)},
@@ -26,8 +28,8 @@ const profile = () => {
 
   return (
     <div>
-      {paramId}, {user.id}
       <p>Profile {user.user_name}</p>
+      {currentUser.id !== parseInt(paramId) && <FollowUser user={user} />}
       {currentUser.id == parseInt(paramId) && <ProfileDashboad/> }
     </div>
   );

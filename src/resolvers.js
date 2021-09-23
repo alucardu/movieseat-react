@@ -4,6 +4,17 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const {prisma} = require('./database.js');
 
+const followedUsers = async (args, req) => {
+  const user = await prisma.user.findUnique({
+    where: {id: req.userId || args.userId},
+    select: {
+      following: true,
+    },
+  });
+
+  return user.following;
+};
+
 const returnMoviesFromUser = async (args, req) => {
   if (req.userId) {
     const user = await prisma.user.findUnique({
@@ -17,6 +28,10 @@ const returnMoviesFromUser = async (args, req) => {
 };
 
 const Query = {
+  returnFollowedUsers: async (root, args, {res, req}) => {
+    return followedUsers(args, req);
+  },
+
   returnUser: async (_, args, {req}) => {
     return prisma.user.findUnique({
       where: {id: args.userId || req.userId},
@@ -42,6 +57,34 @@ const Query = {
 };
 
 const Mutation = {
+  unfollowUser: async (_, args, {req, res}) => {
+    await prisma.user.update({
+      where: {id: req.userId},
+      data: {
+        following: {
+          disconnect: [{id: args.id}],
+        },
+      },
+    });
+
+    return followedUsers(args, req);
+  },
+
+  followUser: async (_, args, {req, res}) => {
+    await prisma.user.update({
+      where: {
+        id: req.userId,
+      },
+      data: {
+        following: {
+          connect: {id: args.userId},
+        },
+      },
+    });
+
+    return followedUsers(args, req);
+  },
+
   signupUser: async (root, args) => {
     const newUser = await prisma.user.create({
       data: {
