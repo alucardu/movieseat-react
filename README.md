@@ -64,7 +64,7 @@ psql -U db_user college_db
 
 TABLE "Movie";
 
-DELETE FROM "Movie";
+DELETE FROM "Notification";
 
 ## Some Prisma tips
 

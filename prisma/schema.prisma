@@ -11,21 +11,37 @@ generator client {
 }
 
 model Movie {
-  id                Int     @id @default(autoincrement())
-  original_title    String  @unique
-  tmdb_id           Int     @unique
-  poster_path       String  @unique
-  release_date      String
-  users             User[]
+  id             Int    @id @default(autoincrement())
+  original_title String @unique
+  tmdb_id        Int    @unique
+  poster_path    String @unique
+  release_date   String
+  users          User[]
 }
 
 model User {
-  id                Int @id @default(autoincrement())
-  email             String  @unique
-  name              String
-  user_name         String  @unique
-  password          String
-  movies            Movie[]
-  followedBy        User[] @relation("UserFollows", references: [id])
-  following         User[] @relation("UserFollows", references: [id])
+  id            Int            @id @default(autoincrement())
+  email         String         @unique
+  name          String
+  user_name     String         @unique
+  password      String
+  movies        Movie[]
+  notifications Notification[]
+  followedBy    User[]         @relation("UserFollows", references: [id])
+  following     User[]         @relation("UserFollows", references: [id])
+  Notification  Notification[] @relation("FollowedUser")
+}
+
+model Notification {
+  id           Int     @id @default(autoincrement())
+  link         String?
+  movie_id     Int?
+  message      String
+  icon         String?
+  thumbnail    String?
+  user         User    @relation(fields: [userId], references: [id])
+  followedUser User    @relation("FollowedUser", fields: [actor_id], references: [id])
+  actor_id     Int
+  userId       Int
+  watched      Boolean
 }

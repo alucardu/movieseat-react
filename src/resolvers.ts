@@ -2,6 +2,19 @@
 
 import {gql} from '@apollo/client';
 
+const ReturnNotifications = gql`
+  query returnNotifications {
+    returnNotifications {
+      watched
+      message
+      id
+      followedUser {
+        id
+      }
+    }
+  }
+`;
+
 const returnUsers = gql`
   query returnUsers {
     returnUsers {
@@ -82,6 +95,24 @@ const AddUserToMovie = gql`
     }
 `;
 
+const CreateNotification = gql`
+  mutation createNotification(
+    $message: String
+    $actor_id: Int
+    $movie_id: Int
+  ) {
+    createNotification (
+      actor_id: $actor_id
+      movie_id: $movie_id
+      message: $message
+    ) {
+      message
+      actor_id
+      movie_id
+    }
+  }
+`;
+
 const UnfollowUser = gql`
     mutation unfollowUser(
       $id: Int
@@ -147,7 +178,7 @@ const LogoutUser = gql`
     }
 `;
 
-const queries = {ReturnAllMovies, ReturnMoviesFromUser, ReturnUser, returnUsers, ReturnFollowedUsers};
-const mutations = {RemoveMovie, LoginUser, LogoutUser, AddUserToMovie, FollowUser, UnfollowUser};
+const queries = {ReturnAllMovies, ReturnMoviesFromUser, ReturnUser, returnUsers, ReturnFollowedUsers, ReturnNotifications};
+const mutations = {RemoveMovie, LoginUser, LogoutUser, AddUserToMovie, FollowUser, UnfollowUser, CreateNotification};
 
 export default {queries, mutations};

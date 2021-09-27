@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom';
 import {useMutation} from '@apollo/client';
 import resolvers from '../../../resolvers';
 import {currentUserVar} from '../../../cache';
+import Notifications from '../..//Notifications/Notifications';
 
 const useStyles = makeStyles({
   profileIcon: {
@@ -19,6 +20,7 @@ const useStyles = makeStyles({
     'right': 0,
     'top': '5rem',
     'display': 'flex',
+    'flexDirection': 'column',
     'padding': '0.5rem',
     'boxShadow': '3px 3px 6px #000;',
     'zIndex': 1,
@@ -41,9 +43,12 @@ const HeaderMenu = () => {
     currentUserVar({id: 0, email: '', user_name: '', isLoggedIn: false});
   };
 
-  const Notifications = () => {
+  const ShowMenu = () => {
     return (
       <div className={classes.profile}>
+        <ul>
+          <Notifications />
+        </ul>
         <ul>
           <li><Link to={`/profile/${currentUserVar().id}`}>Profile</Link></li>
           <li><Link to='/' onClick={logout}>Logout</Link></li>
@@ -57,7 +62,7 @@ const HeaderMenu = () => {
       setShowProfile(!showProfile);
     }}>
       <AccountCircleIcon className={classes.profileIcon} />
-      {showProfile ? <Notifications /> : null}
+      {showProfile ? <ShowMenu /> : null}
     </IconButton>
   );
 };

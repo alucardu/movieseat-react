@@ -16,6 +16,13 @@ const typeDefs = gql`
     returnUsers: [User]
   }
 
+  type notification {
+    id: ID!
+    actor_id: Int
+    movie_id: Int
+    message: String
+  }
+
   type Movie {
     id: ID!
     original_title: String!
@@ -35,6 +42,18 @@ const typeDefs = gql`
 
   type Query {
     returnUser(userId: Int): User
+  }
+
+  type notificationPayload {
+    watched: Boolean
+    message: String
+    actor_id: Int
+    followedUser: User
+    id: Int
+  }
+
+  type Query {
+    returnNotifications: [notificationPayload]
   }
 
   type Query {
@@ -69,7 +88,18 @@ const typeDefs = gql`
     token: String!
   }
 
+  type NotificationPayload {
+    message: String
+    actor_id: Int
+    movie_id: Int
+  }
+
   type Mutation {
+    createNotification (
+      message: String
+      actor_id: Int
+      movie_id: Int
+    ): NotificationPayload 
 
     followUser(
       userId: Int
