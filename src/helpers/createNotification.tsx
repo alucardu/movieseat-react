@@ -10,7 +10,7 @@ export const useCreateNotification = () => {
     if (notification.movie) {
       await createNotification({
         variables: {
-          movie_id: notification.movie.id,
+          movieId: notification.movie.id,
           followedUserId: notification.user.id,
           action: notification.action,
         },

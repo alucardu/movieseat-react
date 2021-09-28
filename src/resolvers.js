@@ -91,6 +91,17 @@ const Query = {
 };
 
 const Mutation = {
+  watchNotification: async (_, args, {req, res}) => {
+    await prisma.notification.update({
+      where: {id: args.notificationId},
+      data: {
+        watched: true,
+      },
+    });
+
+    return returnUserNotifications(args, req);
+  },
+
   unfollowUser: async (_, args, {req, res}) => {
     await prisma.user.update({
       where: {id: req.userId},
@@ -183,7 +194,7 @@ const Mutation = {
               create: {
                 action: args.action,
                 movie: {
-                  connect: {id: args.movie_id},
+                  connect: {id: args.movieId},
                 },
                 followedUser: {
                   connect: {id: args.followedUserId},

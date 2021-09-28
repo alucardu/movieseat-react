@@ -108,20 +108,33 @@ const AddUserToMovie = gql`
     }
 `;
 
+const WatchNotification = gql`
+  mutation watchNotification(
+    $notificationId: Int
+  ) {
+    watchNotification (
+      notificationId: $notificationId
+    ) {
+      id
+      watched
+    }
+  }
+`;
+
 const CreateNotification = gql`
   mutation createNotification(
     $action: String
     $followedUserId: Int
-    $movie_id: Int
+    $movieId: Int
   ) {
     createNotification (
       followedUserId: $followedUserId
-      movie_id: $movie_id
+      movieId: $movieId
       action: $action
     ) {
       action
       followedUserId
-      movie_id
+      movieId
       watched
     }
   }
@@ -193,6 +206,6 @@ const LogoutUser = gql`
 `;
 
 const queries = {ReturnAllMovies, ReturnMoviesFromUser, ReturnUser, returnUsers, ReturnFollowedUsers, ReturnNotifications};
-const mutations = {RemoveMovie, LoginUser, LogoutUser, AddUserToMovie, FollowUser, UnfollowUser, CreateNotification};
+const mutations = {RemoveMovie, LoginUser, LogoutUser, AddUserToMovie, FollowUser, UnfollowUser, CreateNotification, WatchNotification};
 
 export default {queries, mutations};

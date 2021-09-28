@@ -19,8 +19,9 @@ const typeDefs = gql`
   type notification {
     id: ID!
     followedUserId: Int
-    movie_id: Int
+    movieId: Int
     action: String
+    watched: Boolean
   }
 
   type Movie {
@@ -48,7 +49,9 @@ const typeDefs = gql`
     id:             Int
     action:         String
     followedUser:   User
+    followedUserId: Int
     movie:          Movie
+    movieId:        Int
     watched:        Boolean
   }
 
@@ -94,10 +97,16 @@ const typeDefs = gql`
   }
 
   type Mutation {
+    watchNotification (
+      notificationId: Int
+    ) : [notification]
+  }
+
+  type Mutation {
     createNotification (
       action: String
       followedUserId: Int
-      movie_id: Int
+      movieId: Int
     ): notificationPayload 
 
     followUser(
