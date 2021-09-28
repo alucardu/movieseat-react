@@ -17,7 +17,11 @@ const Notifications = () => {
         {notifications.map((notification) => {
           return (
             <li key={notification.id}>
-              {notification.message}
+              {`
+                ${notification.followedUser.user_name} 
+                ${notification.action} 
+                ${notification.movie.original_title} 
+                to their watchlist.`}
             </li>
           );
         })}

@@ -16,10 +16,9 @@ export interface ICurrentUser {
 }
 
 export interface INotification {
-  message: string
-  icon?: string
-  thumbnail?: string
-  watched: boolean
+  action: string
+  user: IUser
+  movie?: IMovie
 }
 
 export interface IUser {
@@ -44,4 +43,8 @@ export interface ISelectedSortType {
 export interface ISnackbar {
   severity: string
   message: string
+}
+
+export enum EAction {
+  Added_Movie = 'has added'
 }

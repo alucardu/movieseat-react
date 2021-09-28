@@ -5,11 +5,15 @@ import {gql} from '@apollo/client';
 const ReturnNotifications = gql`
   query returnNotifications {
     returnNotifications {
-      watched
-      message
+      action
       id
+      watched
+      movie {
+        original_title
+      }
       followedUser {
         id
+        user_name
       }
     }
   }
@@ -86,29 +90,39 @@ const AddUserToMovie = gql`
       poster_path: $poster_path
       release_date: $release_date
     ) {
-        id
-        original_title
-        poster_path
-        tmdb_id
-        release_date
+        addUserToMovie {
+          id
+          original_title
+          poster_path
+          tmdb_id
+          release_date
+        }
+        addedMovie {
+          id
+          original_title
+          poster_path
+          tmdb_id
+          release_date
+        }
       }
     }
 `;
 
 const CreateNotification = gql`
   mutation createNotification(
-    $message: String
-    $actor_id: Int
+    $action: String
+    $followedUserId: Int
     $movie_id: Int
   ) {
     createNotification (
-      actor_id: $actor_id
+      followedUserId: $followedUserId
       movie_id: $movie_id
-      message: $message
+      action: $action
     ) {
-      message
-      actor_id
+      action
+      followedUserId
       movie_id
+      watched
     }
   }
 `;

@@ -32,12 +32,12 @@ const returnUserNotifications = async (args, req) => {
     include: {
       notifications: {
         include: {
+          movie: true,
           followedUser: true,
         },
       },
     },
   });
-  console.log(user.notifications);
   return user.notifications;
 };
 
@@ -174,7 +174,6 @@ const Mutation = {
 
 
   createNotification: async (_, args, {req, res}) => {
-    console.log(args);
     await followedUsers(args, req).then((followedBy) => {
       followedBy.map(async (user) => {
         await prisma.user.update({
@@ -182,10 +181,12 @@ const Mutation = {
           data: {
             notifications: {
               create: {
-                message: args.message,
-                watched: false,
+                action: args.action,
+                movie: {
+                  connect: {id: args.movie_id},
+                },
                 followedUser: {
-                  connect: {id: args.actor_id},
+                  connect: {id: args.followedUserId},
                 },
               },
             },
@@ -198,7 +199,7 @@ const Mutation = {
   },
 
   addUserToMovie: async (_, args, {req, res}) => {
-    await prisma.movie.upsert({
+    const addedMovie = await prisma.movie.upsert({
       where: {
         tmdb_id: args.tmdb_id,
       },
@@ -218,7 +219,7 @@ const Mutation = {
       },
     });
 
-    return returnMoviesFromUser(args, req);
+    return {addUserToMovie: returnMoviesFromUser(args, req), addedMovie};
   },
 
   removeMovie: async (parent, args, {req, res}) => {

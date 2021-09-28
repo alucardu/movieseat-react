@@ -4,7 +4,8 @@ import {useApolloClient, useMutation} from '@apollo/client';
 import resolvers from '../../../../../src/resolvers';
 import {currentUserVar, snackbarVar} from '../../../../cache';
 import {makeStyles} from '@material-ui/styles';
-// import createNotification from '../../../../helpers/createNotification';
+import {useCreateNotification} from '../../../../helpers/createNotification';
+import {EAction} from '../../../../movieseat';
 
 const backdropUrl = 'https://image.tmdb.org/t/p/w780/';
 interface OverlayData {
@@ -37,6 +38,7 @@ const useStyles = makeStyles({
 });
 
 const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
+  const createNotification = useCreateNotification();
   const client = useApolloClient();
   const movies = client.readQuery({
     query: resolvers.queries.ReturnMoviesFromUser,
@@ -45,7 +47,6 @@ const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
   const classes = useStyles(props);
 
   const [addUserToMovie] = useMutation(resolvers.mutations.AddUserToMovie);
-  const [createNotification] = useMutation(resolvers.mutations.CreateNotification);
 
   const checkIsMovieDuplicate = (movies: IMovie[], movie: IMovie) => {
     for (const item of movies) {
@@ -63,27 +64,22 @@ const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
           cache.modify({
             fields: {
               moviesFromUser: () => {
-                return [...data.addUserToMovie];
+                return [...data.addUserToMovie.addUserToMovie];
               },
             },
           });
         },
-      }).then( async () => {
-        await createNotification({
-          variables: {
-            movie_id: movie.id,
-            actor_id: currentUserVar().id,
-            message:
-              `${currentUserVar().user_name} has added ${movie.original_title} to their watchlist.`,
-          },
-        }).then((res) => console.log(res));
+      }).then( async (res) => {
+        createNotification.createNotification({
+          movie: res.data.addUserToMovie.addedMovie,
+          user: currentUserVar(),
+          action: EAction.Added_Movie,
+        });
         message = 'has been added to your watchlist.';
         severity = 'success';
       });
     }
     snackbarVar({message: `${movie.original_title} ${message}`, severity: severity});
-    // notificationVar({message: 'movie added', watched: false});
-    // createNotification('message');
   };
 
 

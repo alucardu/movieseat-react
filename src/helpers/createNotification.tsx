@@ -1,23 +1,27 @@
-import React from 'react';
 import {useMutation} from '@apollo/client';
-
 import resolvers from '../resolvers';
+import {INotification} from '../movieseat';
 
-const createNotification = (message) => {
-  const [createNotification] = useMutation(resolvers.mutations.CreateNotification);
+export const useCreateNotification = () => {
+  const [createNotification,
+    {data, loading, error}] = useMutation(resolvers.mutations.CreateNotification);
 
-  const someFunction = async () => {
-    console.log('z');
-    await createNotification({}).then((res) => {
-      console.log('res: ', res);
-    });
+  const handleCreateNotification = async (notification: INotification) => {
+    if (notification.movie) {
+      await createNotification({
+        variables: {
+          movie_id: notification.movie.id,
+          followedUserId: notification.user.id,
+          action: notification.action,
+        },
+      });
+    }
   };
 
-  console.log('q: ', message);
-
-  someFunction();
-
-  return (<div>asd</div>);
+  return {
+    createNotification: handleCreateNotification,
+    result: data,
+    isLoading: loading,
+    error,
+  };
 };
-
-export default createNotification;
