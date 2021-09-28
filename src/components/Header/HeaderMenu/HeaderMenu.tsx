@@ -59,11 +59,11 @@ const HeaderMenu = () => {
     return (
       <div className={classes.profile}>
         <ul>
-          <Notifications />
+          <Notifications handleClose={handleClose}/>
         </ul>
         <ul>
-          <li><Link to={`/profile/${currentUserVar().id}`}>Profile</Link></li>
-          <li><Link to='/' onClick={logout}>Logout</Link></li>
+          <li onClick={handleClose}><Link to={`/profile/${currentUserVar().id}`}>Profile</Link></li>
+          <li onClick={handleClose}><Link to='/' onClick={logout}>Logout</Link></li>
         </ul>
       </div>
     );

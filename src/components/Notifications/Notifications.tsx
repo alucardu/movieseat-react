@@ -4,7 +4,11 @@ import resolvers from '../../resolvers';
 import {makeStyles} from '@material-ui/styles';
 import CircleIcon from '@mui/icons-material/Circle';
 import IconButton from '@mui/material/IconButton';
+import {Link} from 'react-router-dom';
 
+type Props = {
+  handleClose: React.MouseEventHandler<HTMLAnchorElement>
+};
 
 const useStyles = makeStyles({
   unwatched: {
@@ -15,7 +19,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Notifications = () => {
+const Notifications = ({handleClose}: Props) => {
   const classes = useStyles();
   const [watchNotificationRes] = useMutation(resolvers.mutations.WatchNotification);
   const {error, loading, data: {returnNotifications: notifications} = {}} =
@@ -26,7 +30,6 @@ const Notifications = () => {
   if (loading) return (<p>loading</p>);
 
   const watchNotification = (notification) => {
-    console.log('watch notification ', notification);
     watchNotificationRes({
       variables: {notificationId: notification.id},
       update: (cache, {data}) => {
@@ -48,12 +51,12 @@ const Notifications = () => {
           return (
             <li key={notification.id}
               className={notification.watched ? classes.watched : classes.unwatched}>
-              <p>{`
-                ${notification.followedUser.user_name} 
-                ${notification.action} 
-                ${notification.movie.original_title} 
-                to their watchlist.`
-              }</p>
+              <p>{<>
+                <Link to={`/profile/${notification.followedUser.id}`} onClick={handleClose}>{notification.followedUser.user_name}</Link>{' '}
+                {notification.action}{' '}
+                {notification.movie.original_title}{' '}
+                  to their watchlist.
+              </>}</p>
               { notification.watched ||
                 <IconButton onClick={() => {
                   watchNotification(notification);

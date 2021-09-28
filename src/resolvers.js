@@ -31,6 +31,9 @@ const returnUserNotifications = async (args, req) => {
     where: {id: req.userId},
     include: {
       notifications: {
+        orderBy: {
+          id: 'desc',
+        },
         include: {
           movie: true,
           followedUser: true,
