@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import {makeStyles} from '@material-ui/styles';
 import {Link} from 'react-router-dom';
-import {useMutation} from '@apollo/client';
+import {useMutation, useApolloClient} from '@apollo/client';
 import resolvers from '../../../resolvers';
 import {currentUserVar} from '../../../cache';
 
@@ -32,6 +32,7 @@ const useStyles = makeStyles({
 });
 
 const HeaderMenu = () => {
+  const client = useApolloClient();
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
@@ -52,6 +53,7 @@ const HeaderMenu = () => {
     event.preventDefault();
     logoutUser();
     currentUserVar({id: 0, email: '', user_name: '', isLoggedIn: false});
+    client.cache.reset();
   };
 
   const ShowMenu = () => {
