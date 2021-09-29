@@ -45,6 +45,11 @@ const typeDefs = gql`
     returnUser(userId: Int): User
   }
 
+  type returnNotificationsPayload {
+    returnNotifications: [notificationPayload]
+    unwatchedNotificationsCount: Int
+  }
+
   type notificationPayload {
     id:             Int
     action:         String
@@ -56,7 +61,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    returnNotifications: [notificationPayload]
+    returnNotifications: returnNotificationsPayload
   }
 
   type Query {
@@ -99,7 +104,7 @@ const typeDefs = gql`
   type Mutation {
     watchNotification (
       notificationId: Int
-    ) : [notification]
+    ) : returnNotificationsPayload
   }
 
   type Mutation {

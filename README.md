@@ -78,3 +78,14 @@ npx prisma migrate dev --name **some_name**
 
 yarn graphql-codegen
 
+alucardu has added Dune to their watchlist
+
+alucardu has rated Dune
+
+alucardu has reviewed Dune
+
+alucardu has commented on your Dune review
+
+alucardu is following you
+
+[followedUser] [action] [movie]

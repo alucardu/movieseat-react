@@ -7,7 +7,6 @@ import {Link} from 'react-router-dom';
 import {useMutation} from '@apollo/client';
 import resolvers from '../../../resolvers';
 import {currentUserVar} from '../../../cache';
-import Notifications from '../..//Notifications/Notifications';
 
 const useStyles = makeStyles({
   profileIcon: {
@@ -58,9 +57,6 @@ const HeaderMenu = () => {
   const ShowMenu = () => {
     return (
       <div className={classes.profile}>
-        <ul>
-          <Notifications handleClose={handleClose}/>
-        </ul>
         <ul>
           <li onClick={handleClose}><Link to={`/profile/${currentUserVar().id}`}>Profile</Link></li>
           <li onClick={handleClose}><Link to='/' onClick={logout}>Logout</Link></li>

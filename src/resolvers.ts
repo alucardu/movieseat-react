@@ -5,16 +5,19 @@ import {gql} from '@apollo/client';
 const ReturnNotifications = gql`
   query returnNotifications {
     returnNotifications {
-      action
-      id
-      watched
-      movie {
-        original_title
-      }
-      followedUser {
+      returnNotifications {
+        action
         id
-        user_name
+        watched
+        movie {
+          original_title
+        }
+        followedUser {
+          id
+          user_name
+        }
       }
+      unwatchedNotificationsCount
     }
   }
 `;
@@ -115,8 +118,19 @@ const WatchNotification = gql`
     watchNotification (
       notificationId: $notificationId
     ) {
-      id
-      watched
+      returnNotifications {
+        action
+        id
+        watched
+        movie {
+          original_title
+        }
+        followedUser {
+          id
+          user_name
+        }
+      }
+      unwatchedNotificationsCount
     }
   }
 `;

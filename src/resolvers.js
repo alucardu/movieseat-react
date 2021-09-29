@@ -41,7 +41,15 @@ const returnUserNotifications = async (args, req) => {
       },
     },
   });
-  return user.notifications;
+
+  const unwatchedNotificationsCount = await prisma.notification.count({
+    where: {
+      userId: req.userId,
+      watched: false,
+    },
+  });
+
+  return {returnNotifications: user.notifications, unwatchedNotificationsCount};
 };
 
 const returnMoviesFromUser = async (args, req) => {
