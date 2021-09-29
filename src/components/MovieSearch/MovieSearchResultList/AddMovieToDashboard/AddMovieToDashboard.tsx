@@ -4,6 +4,8 @@ import {useApolloClient, useMutation} from '@apollo/client';
 import resolvers from '../../../../../src/resolvers';
 import {currentUserVar, snackbarVar} from '../../../../cache';
 import {makeStyles} from '@material-ui/styles';
+import {useCreateNotification} from '../../../../helpers/createNotification';
+import {EAction} from '../../../../movieseat';
 
 const backdropUrl = 'https://image.tmdb.org/t/p/w780/';
 interface OverlayData {
@@ -36,6 +38,7 @@ const useStyles = makeStyles({
 });
 
 const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
+  const createNotification = useCreateNotification();
   const client = useApolloClient();
   const movies = client.readQuery({
     query: resolvers.queries.ReturnMoviesFromUser,
@@ -61,12 +64,17 @@ const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
           cache.modify({
             fields: {
               moviesFromUser: () => {
-                return [...data.addUserToMovie];
+                return [...data.addUserToMovie.addUserToMovie];
               },
             },
           });
         },
-      }).then(() => {
+      }).then( async (res) => {
+        createNotification.createNotification({
+          movie: res.data.addUserToMovie.addedMovie,
+          user: currentUserVar(),
+          action: EAction.Added_Movie,
+        });
         message = 'has been added to your watchlist.';
         severity = 'success';
       });

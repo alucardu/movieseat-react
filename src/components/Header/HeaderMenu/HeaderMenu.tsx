@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import IconButton from '@mui/material/IconButton';
+import Popover from '@mui/material/Popover';
+import Button from '@mui/material/Button';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import {makeStyles} from '@material-ui/styles';
 import {Link} from 'react-router-dom';
@@ -15,10 +16,10 @@ const useStyles = makeStyles({
   profile: {
     'width': '10rem',
     'background': '#ff6a00',
-    'position': 'absolute',
     'right': 0,
     'top': '5rem',
     'display': 'flex',
+    'flexDirection': 'column',
     'padding': '0.5rem',
     'boxShadow': '3px 3px 6px #000;',
     'zIndex': 1,
@@ -31,9 +32,21 @@ const useStyles = makeStyles({
 });
 
 const HeaderMenu = () => {
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+
   const [logoutUser] = useMutation(resolvers.mutations.LogoutUser);
   const classes = useStyles();
-  const [showProfile, setShowProfile] = useState(false);
 
   const logout = (event) => {
     event.preventDefault();
@@ -41,24 +54,35 @@ const HeaderMenu = () => {
     currentUserVar({id: 0, email: '', user_name: '', isLoggedIn: false});
   };
 
-  const Notifications = () => {
+  const ShowMenu = () => {
     return (
       <div className={classes.profile}>
         <ul>
-          <li><Link to={`/profile/${currentUserVar().id}`}>Profile</Link></li>
-          <li><Link to='/' onClick={logout}>Logout</Link></li>
+          <li onClick={handleClose}><Link to={`/profile/${currentUserVar().id}`}>Profile</Link></li>
+          <li onClick={handleClose}><Link to='/' onClick={logout}>Logout</Link></li>
         </ul>
       </div>
     );
   };
 
   return (
-    <IconButton onClick={() => {
-      setShowProfile(!showProfile);
-    }}>
-      <AccountCircleIcon className={classes.profileIcon} />
-      {showProfile ? <Notifications /> : null}
-    </IconButton>
+    <div>
+      <Button onClick={handleClick}>
+        <AccountCircleIcon className={classes.profileIcon} />
+      </Button>
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+      >
+        <ShowMenu />
+      </Popover>
+    </div>
   );
 };
 

@@ -4,12 +4,16 @@ import {Link} from 'react-router-dom';
 import Login from './Login/Login';
 import {makeStyles} from '@material-ui/styles';
 import HeaderMenu from './HeaderMenu/HeaderMenu';
+import NotificationsMenu from '../Notifications/NotificationsMenu';
 
 import {useReactiveVar} from '@apollo/client';
 
 import {currentUserVar} from '../../cache';
 
 const useStyles = makeStyles({
+  menuContainer: {
+    display: 'flex',
+  },
   headerStyle: {
     background: '#0fcece',
     padding: '24px',
@@ -32,7 +36,9 @@ const Header = () => {
   return (
     <header className={classes.headerStyle}>
       <Link to="/"><h1 className={classes.title}>Movieseat</h1></Link>
-      {currentUser.isLoggedIn ? <HeaderMenu /> : <Login />}
+      {currentUser.isLoggedIn ?
+        <div className={classes.menuContainer}><HeaderMenu /> <NotificationsMenu /></div> :
+        <Login />}
     </header>
   );
 };

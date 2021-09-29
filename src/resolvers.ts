@@ -2,6 +2,26 @@
 
 import {gql} from '@apollo/client';
 
+const ReturnNotifications = gql`
+  query returnNotifications {
+    returnNotifications {
+      returnNotifications {
+        action
+        id
+        watched
+        movie {
+          original_title
+        }
+        followedUser {
+          id
+          user_name
+        }
+      }
+      unwatchedNotificationsCount
+    }
+  }
+`;
+
 const returnUsers = gql`
   query returnUsers {
     returnUsers {
@@ -73,13 +93,65 @@ const AddUserToMovie = gql`
       poster_path: $poster_path
       release_date: $release_date
     ) {
-        id
-        original_title
-        poster_path
-        tmdb_id
-        release_date
+        addUserToMovie {
+          id
+          original_title
+          poster_path
+          tmdb_id
+          release_date
+        }
+        addedMovie {
+          id
+          original_title
+          poster_path
+          tmdb_id
+          release_date
+        }
       }
     }
+`;
+
+const WatchNotification = gql`
+  mutation watchNotification(
+    $notificationId: Int
+  ) {
+    watchNotification (
+      notificationId: $notificationId
+    ) {
+      returnNotifications {
+        action
+        id
+        watched
+        movie {
+          original_title
+        }
+        followedUser {
+          id
+          user_name
+        }
+      }
+      unwatchedNotificationsCount
+    }
+  }
+`;
+
+const CreateNotification = gql`
+  mutation createNotification(
+    $action: String
+    $followedUserId: Int
+    $movieId: Int
+  ) {
+    createNotification (
+      followedUserId: $followedUserId
+      movieId: $movieId
+      action: $action
+    ) {
+      action
+      followedUserId
+      movieId
+      watched
+    }
+  }
 `;
 
 const UnfollowUser = gql`
@@ -147,7 +219,7 @@ const LogoutUser = gql`
     }
 `;
 
-const queries = {ReturnAllMovies, ReturnMoviesFromUser, ReturnUser, returnUsers, ReturnFollowedUsers};
-const mutations = {RemoveMovie, LoginUser, LogoutUser, AddUserToMovie, FollowUser, UnfollowUser};
+const queries = {ReturnAllMovies, ReturnMoviesFromUser, ReturnUser, returnUsers, ReturnFollowedUsers, ReturnNotifications};
+const mutations = {RemoveMovie, LoginUser, LogoutUser, AddUserToMovie, FollowUser, UnfollowUser, CreateNotification, WatchNotification};
 
 export default {queries, mutations};

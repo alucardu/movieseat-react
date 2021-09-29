@@ -16,8 +16,16 @@ const typeDefs = gql`
     returnUsers: [User]
   }
 
-  type Movie {
+  type notification {
     id: ID!
+    followedUserId: Int
+    movieId: Int
+    action: String
+    watched: Boolean
+  }
+
+  type Movie {
+    id: Int!
     original_title: String!
     tmdb_id: Int!
     poster_path: String!
@@ -35,6 +43,25 @@ const typeDefs = gql`
 
   type Query {
     returnUser(userId: Int): User
+  }
+
+  type returnNotificationsPayload {
+    returnNotifications: [notificationPayload]
+    unwatchedNotificationsCount: Int
+  }
+
+  type notificationPayload {
+    id:             Int
+    action:         String
+    followedUser:   User
+    followedUserId: Int
+    movie:          Movie
+    movieId:        Int
+    watched:        Boolean
+  }
+
+  type Query {
+    returnNotifications: returnNotificationsPayload
   }
 
   type Query {
@@ -65,11 +92,27 @@ const typeDefs = gql`
     currentUser: User! 
   }
 
+  type AddedMoviePayload {
+    addUserToMovie: [Movie]
+    addedMovie: Movie
+  }
+
   type AuthPayLoadToken {
     token: String!
   }
 
   type Mutation {
+    watchNotification (
+      notificationId: Int
+    ) : returnNotificationsPayload
+  }
+
+  type Mutation {
+    createNotification (
+      action: String
+      followedUserId: Int
+      movieId: Int
+    ): notificationPayload 
 
     followUser(
       userId: Int
@@ -93,7 +136,7 @@ const typeDefs = gql`
       tmdb_id: Int!,
       poster_path: String!
       release_date: String!
-    ) : [Movie]
+    ) : AddedMoviePayload
 
     addMovie(
       original_title: String!, 
