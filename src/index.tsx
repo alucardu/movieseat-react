@@ -15,6 +15,9 @@ const useStyles = makeStyles({
       color: '#fff',
       fontFamily: 'Arial, Helvetica, sans-serif',
     },
+    '#root': {
+      display: 'flex',
+    },
   },
 });
 

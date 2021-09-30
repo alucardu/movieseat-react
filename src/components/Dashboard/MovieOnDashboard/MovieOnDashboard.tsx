@@ -14,10 +14,10 @@ const useStyles = makeStyles({
   },
 
   movieContainer: {
-    maxHeight: '300px',
-    maxWitdth: '185px',
-    position: 'relative',
-    img: {
+    'maxHeight': '300px',
+    'maxWidth': '185px',
+    'position': 'relative',
+    '& img': {
       height: '100%',
       width: '100%',
     },

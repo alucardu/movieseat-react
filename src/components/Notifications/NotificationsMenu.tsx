@@ -7,7 +7,13 @@ import IconButton from '@mui/material/IconButton';
 import {Link} from 'react-router-dom';
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 import Popover from '@mui/material/Popover';
-import Button from '@mui/material/Button';
+import {currentUserVar} from '../../cache';
+
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import {ListItemButton} from '@mui/material';
+
 
 const useStyles = makeStyles({
   notificationCount: {
@@ -51,7 +57,9 @@ const NotificationsMenu = () => {
   const classes = useStyles();
   const [watchNotificationRes] = useMutation(resolvers.mutations.WatchNotification);
   const {error, loading, data: {returnNotifications: notifications} = {}} =
-    useQuery(resolvers.queries.ReturnNotifications);
+    useQuery(resolvers.queries.ReturnNotifications, {
+      skip: currentUserVar().id === 0,
+    });
 
 
   if (error) return (<p>error</p>);
@@ -77,7 +85,7 @@ const NotificationsMenu = () => {
       <div>
         notification
         <ul>
-          {notifications.returnNotifications.map((notification) => {
+          {notifications?.returnNotifications.map((notification) => {
             return (
               <li key={notification.id}
                 className={notification.watched ? classes.watched : classes.unwatched}>
@@ -105,15 +113,21 @@ const NotificationsMenu = () => {
 
   return (
     <div>
-      <Button onClick={handleClick}>
-        {notifications.unwatchedNotificationsCount ?
-          <span className={classes.notificationCount}>
-            {notifications.unwatchedNotificationsCount}
-          </span> :
-          null
-        }
-        <CircleNotificationsIcon className={classes.profileIcon} />
-      </Button>
+      <ListItem disablePadding>
+        <ListItemButton disabled={currentUserVar().id === 0} onClick={handleClick} >
+          <ListItemIcon>
+            <CircleNotificationsIcon fontSize='large'/>
+          </ListItemIcon>
+          {notifications?.unwatchedNotificationsCount ?
+        <span className={classes.notificationCount}>
+          {notifications?.unwatchedNotificationsCount}
+        </span> :
+        null
+          }
+          <ListItemText primary="Notifications" />
+        </ListItemButton>
+      </ListItem >
+
       <Popover
         id={id}
         open={open}
