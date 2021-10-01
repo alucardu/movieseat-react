@@ -169,9 +169,9 @@ const Mutation = {
     const theUser = await prisma.user.findUnique({
       where: {email: String(args.email)},
     });
-    if (!theUser) throw new Error('Unable to Login, user not found');
+    if (!theUser) throw new Error('Incorrect email address or password');
     const isMatch = bcrypt.compareSync(args.password, theUser.password);
-    if (!isMatch) throw new Error('Unable to Login, password missmatch');
+    if (!isMatch) throw new Error('Incorrect email address or password');
 
     const token = jwt.sign(theUser, 'supersecret');
 

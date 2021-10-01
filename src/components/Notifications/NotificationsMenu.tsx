@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useMutation, useQuery} from '@apollo/client';
+import {useMutation, useQuery, useReactiveVar} from '@apollo/client';
 import resolvers from '../../resolvers';
 import {makeStyles} from '@material-ui/styles';
 import CircleIcon from '@mui/icons-material/Circle';
@@ -41,6 +41,7 @@ const useStyles = makeStyles({
 });
 
 const NotificationsMenu = () => {
+  const currentUser = useReactiveVar(currentUserVar);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
@@ -114,7 +115,7 @@ const NotificationsMenu = () => {
   return (
     <div>
       <ListItem disablePadding>
-        <ListItemButton disabled={currentUserVar().id === 0} onClick={handleClick} >
+        <ListItemButton disabled={!currentUser.isLoggedIn} onClick={handleClick} >
           <ListItemIcon>
             <CircleNotificationsIcon fontSize='large'/>
           </ListItemIcon>

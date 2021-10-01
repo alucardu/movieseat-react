@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {styled, Theme, CSSObject} from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
 import NotificationsMenu from '../Notifications/NotificationsMenu';
+import Login from '../Login/Login';
 import {currentUserVar} from '../../cache';
 
 import List from '@mui/material/List';
@@ -9,12 +10,12 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import {ListItemButton} from '@mui/material';
-import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Divider from '@mui/material/Divider';
+import {useReactiveVar} from '@apollo/client';
 
 const drawerWidth = 240;
 
@@ -58,13 +59,12 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
 );
 
 export const DrawerContainer = () => {
+  const currentUser = useReactiveVar(currentUserVar);
   const [open, setOpen] = useState(false);
 
   const handleToggle = () => {
     setOpen(!open);
   };
-
-  console.log(currentUserVar().id == 0);
 
   const drawerItems = [
     {
@@ -73,14 +73,15 @@ export const DrawerContainer = () => {
       callback: handleToggle,
     },
     {
-      text: 'Notifications',
-      icon: <CircleNotificationsIcon fontSize='large'/>,
       component: <NotificationsMenu/>,
     },
     {
       text: 'Profile',
       icon: <AccountCircleIcon fontSize='large'/>,
       link: `/profile/${currentUserVar().id}`,
+    },
+    {
+      component: <Login/>,
     },
     {
       component: <Divider/>,
@@ -99,7 +100,7 @@ export const DrawerContainer = () => {
           return (
             drawerItem.component ? <div key={i}>{drawerItem.component}</div> :
             <ListItem key={i} disablePadding>
-              <ListItemButton disabled={currentUserVar().id === 0} component='a' href={drawerItem.link} onClick={drawerItem.callback}>
+              <ListItemButton disabled={!currentUser.isLoggedIn} component='a' href={drawerItem.link} onClick={drawerItem.callback}>
                 <ListItemIcon>
                   {drawerItem.icon}
                 </ListItemIcon>
