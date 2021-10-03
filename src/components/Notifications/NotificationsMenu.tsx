@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, forwardRef} from 'react';
 import {useMutation, useQuery, useReactiveVar} from '@apollo/client';
 import resolvers from '../../resolvers';
 import {makeStyles} from '@material-ui/styles';
@@ -8,44 +8,69 @@ import {Link} from 'react-router-dom';
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 import Popover from '@mui/material/Popover';
 import {currentUserVar} from '../../cache';
-
 import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import {ListItemButton} from '@mui/material';
+import {List, ListItemButton, Typography} from '@mui/material';
+import {Box} from '@mui/system';
 
+import ListItemIcon from '@mui/material/ListItemIcon';
+import {} from 'react-router/node_modules/@types/react';
 
 const useStyles = makeStyles({
+  paperRoot: {
+    left: '8px',
+    top: '50px',
+  },
+  ListItemRoot: {
+    'display': 'flex',
+    'justifyContent': 'space-between',
+    'borderBottom': '1px solid #ebebeb',
+    'height': '64px',
+    '& p': {
+      transition: 'margin-left 0.1s ease-in',
+    },
+    '&:hover': {
+      'background': '#f6e0fa',
+      '&> p': {
+        marginLeft: '4px',
+      },
+    },
+  },
   notificationCount: {
     borderRadius: '50%',
-    background: 'red',
-    width: '2em',
-    height: '2em',
+    background: 'purple',
+    color: 'white',
+    width: '1.5em',
+    height: '1.5em',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     position: 'absolute',
-    left: '3.5em',
-    bottom: '0.5em',
+    left: '4em',
+    bottom: '3em',
+    fontWeight: 'bold',
+    fontSize: '0.6rem',
   },
-
   profileIcon: {
     fontSize: '4rem',
   },
   unwatched: {
-    background: 'grey',
+    background: '#e0e0e0',
   },
   watched: {
-    background: 'orange',
+    background: '#ffffff',
   },
 });
 
-const NotificationsMenu = () => {
+const NotificationsMenu = (props, ref) => {
+  const classes = useStyles();
   const currentUser = useReactiveVar(currentUserVar);
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleClick = () => {
+    if (ref && 'current' in ref && ref.current) {
+      setAnchorEl(ref.current);
+    }
   };
 
   const handleClose = () => {
@@ -55,7 +80,6 @@ const NotificationsMenu = () => {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
-  const classes = useStyles();
   const [watchNotificationRes] = useMutation(resolvers.mutations.WatchNotification);
   const {error, loading, data: {returnNotifications: notifications} = {}} =
     useQuery(resolvers.queries.ReturnNotifications, {
@@ -83,37 +107,47 @@ const NotificationsMenu = () => {
 
   const ShowNotifications = () => {
     return (
-      <div>
-        notification
-        <ul>
-          {notifications?.returnNotifications.map((notification) => {
-            return (
-              <li key={notification.id}
-                className={notification.watched ? classes.watched : classes.unwatched}>
-                <p>{<>
-                  <Link to={`/profile/${notification.followedUser.id}`} onClick={handleClose}>{notification.followedUser.user_name}</Link>{' '}
-                  {notification.action}{' '}
-                  {notification.movie.original_title}{' '}
+      <Box>
+        {notifications.returnNotifications.length > 0 ?
+          <List sx={{maxWidth: '474px'}}>
+            {notifications?.returnNotifications.map((notification) => {
+              return (
+                <ListItem key={notification.id}
+                  className={notification.watched ? classes.watched : classes.unwatched}
+                  classes={{root: classes.ListItemRoot}}
+                >
+                  <Typography variant='body2'>
+                    <Link to={`/profile/${notification.followedUser.id}`} onClick={handleClose}>{notification.followedUser.user_name}</Link>{' '}
+                    {notification.action}{' '}
+                    {notification.movie.original_title}{' '}
                     to their watchlist.
-                </>}</p>
-                { notification.watched ||
-                  <IconButton onClick={() => {
-                    watchNotification(notification);
-                  }}>
-                    <CircleIcon color="primary"/>
-                  </IconButton>
-                }
-              </li>
-            );
-          })}
-
-        </ul>
-      </div>
+                  </Typography>
+                  { !notification.watched ?
+                    <IconButton onClick={() => {
+                      watchNotification(notification);
+                    }}>
+                      <CircleIcon color="primary"/>
+                    </IconButton> :
+                    null
+                  }
+                </ListItem>
+              );
+            })}
+          </List> :
+          <List>
+            <ListItem sx={{width: '474px'}}>
+              <Typography variant='body2'>
+                No notifications
+              </Typography>
+            </ListItem>
+          </List>
+        }
+      </Box>
     );
   };
 
   return (
-    <div>
+    <>
       <ListItem disablePadding>
         <ListItemButton disabled={!currentUser.isLoggedIn} onClick={handleClick} >
           <ListItemIcon>
@@ -135,14 +169,17 @@ const NotificationsMenu = () => {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        classes={{
+          root: classes.paperRoot,
         }}
       >
         <ShowNotifications />
       </Popover>
-    </div>
+    </>
   );
 };
 
-export default NotificationsMenu;
+export default forwardRef(NotificationsMenu);
