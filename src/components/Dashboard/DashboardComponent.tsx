@@ -5,6 +5,7 @@ import {currentUserVar} from '../../cache';
 import {useReactiveVar} from '@apollo/client';
 import MovieSearchComponent from '../../components/MovieSearch/MovieSearchComponent';
 import {RandomBackground} from './RandomBackground/RandomBackground';
+import {Box} from '@mui/system';
 
 
 const DashboardComponent = () => {
@@ -13,11 +14,11 @@ const DashboardComponent = () => {
   return (
     <React.Fragment>
       {currentUser.isLoggedIn ?
-        <div>
+        <Box sx={{width: '100vw'}}>
           <MovieSearchComponent />
           <DashboardMovieOverviewMenu />
           <MovieOverview/>
-        </div> :
+        </Box> :
         <RandomBackground />
       }
     </React.Fragment>

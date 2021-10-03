@@ -31,7 +31,7 @@ const MovieOverview = () => {
 
   useEffect(() => {
     sortMovies(movies).then((res) => {
-      setMovieRows(chunk(res, 8));
+      if (movies) setMovieRows(chunk(res, 8));
     });
   }, [movies]);
 
