@@ -4,6 +4,7 @@ import DashboardMovieOverviewMenu from './DashboardMovieOverviewMenu/DashboardMo
 import {currentUserVar} from '../../cache';
 import {useReactiveVar} from '@apollo/client';
 import MovieSearchComponent from '../../components/MovieSearch/MovieSearchComponent';
+import {RandomBackground} from './RandomBackground/RandomBackground';
 
 
 const DashboardComponent = () => {
@@ -11,12 +12,13 @@ const DashboardComponent = () => {
 
   return (
     <React.Fragment>
-      {currentUser.isLoggedIn &&
+      {currentUser.isLoggedIn ?
         <div>
           <MovieSearchComponent />
           <DashboardMovieOverviewMenu />
           <MovieOverview/>
-        </div>
+        </div> :
+        <RandomBackground />
       }
     </React.Fragment>
   );
