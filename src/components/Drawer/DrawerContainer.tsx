@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {styled, Theme, CSSObject} from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
 import NotificationsMenu from '../Notifications/NotificationsMenu';
@@ -40,7 +40,6 @@ const closedMixin = (theme: Theme): CSSObject => ({
   },
 });
 
-
 const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})(
     ({theme, open}) => ({
       width: drawerWidth,
@@ -59,6 +58,7 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
 );
 
 export const DrawerContainer = () => {
+  const elRef = useRef(null);
   const currentUser = useReactiveVar(currentUserVar);
   const [open, setOpen] = useState(false);
 
@@ -73,7 +73,7 @@ export const DrawerContainer = () => {
       callback: handleToggle,
     },
     {
-      component: <NotificationsMenu/>,
+      component: <NotificationsMenu ref={elRef}/>,
     },
     {
       text: 'Profile',
@@ -94,16 +94,14 @@ export const DrawerContainer = () => {
   ];
 
   return (
-    <Drawer variant="permanent" open={open}>
+    <Drawer variant="permanent" open={open} ref={elRef}>
       <List>
         {drawerItems.map((drawerItem, i) => {
           return (
             drawerItem.component ? <div key={i}>{drawerItem.component}</div> :
             <ListItem key={i} disablePadding>
               <ListItemButton disabled={!currentUser.isLoggedIn} component='a' href={drawerItem.link} onClick={drawerItem.callback}>
-                <ListItemIcon>
-                  {drawerItem.icon}
-                </ListItemIcon>
+                <ListItemIcon>{drawerItem.icon}</ListItemIcon>
                 <ListItemText primary={drawerItem.text} />
               </ListItemButton>
             </ListItem>
