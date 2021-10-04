@@ -10,8 +10,8 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, '/dist'),
-    publicPath: '/',
-    filename: 'bundle.min.js',
+    publicPath: './',
+    filename: './bundle.min.js',
   },
   module: {
     rules: [

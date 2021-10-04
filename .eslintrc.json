@@ -32,7 +32,6 @@
         "linebreak-style": 0
     },
     "overrides": [{
-        "files": ["bin/*.js", "lib/*.js"],
-        "excludedFiles": "./src/serviceWorker.ts"
+        "files": ["bin/*.js", "lib/*.js"]
     }]
 }
