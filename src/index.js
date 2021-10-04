@@ -9,6 +9,7 @@ const prisma = new PrismaClient();
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const express = require('express');
+require('dotenv').config();
 // const port = process.env.PORT || 9090;
 
 const startApolloServer = async () => {
