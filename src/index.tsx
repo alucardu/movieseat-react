@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 
 const init = () => {
   const httpLink = createHttpLink({
-    uri: 'https://www.moviese.at/:9090/graphql',
+    uri: 'https://www.moviese.at:9090/graphql',
     credentials: 'include',
   });
 
