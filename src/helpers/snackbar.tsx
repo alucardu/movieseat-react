@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import Snackbar from '@material-ui/core/Snackbar';
-import {Alert} from '@material-ui/core';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 import {snackbarVar} from '../cache';
 import {useReactiveVar} from '@apollo/client';
 import {ISnackbar} from 'src/movieseat';

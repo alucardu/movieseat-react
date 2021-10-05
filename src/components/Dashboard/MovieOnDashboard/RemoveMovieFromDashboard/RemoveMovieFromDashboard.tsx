@@ -4,7 +4,7 @@ import {IMovie} from '../../../../movieseat';
 import {useMutation} from '@apollo/client';
 import resolvers from '../../../..//resolvers';
 import {snackbarVar} from '../../../../cache';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 
 const useStyles = makeStyles({
   deleteButton: {

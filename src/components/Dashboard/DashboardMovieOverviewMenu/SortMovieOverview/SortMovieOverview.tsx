@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {FormGroup, Checkbox, MenuItem, FormControlLabel} from '@mui/material';
-import {Button, FormControl, InputLabel, Select} from '@material-ui/core';
-import {makeStyles} from '@material-ui/styles';
+import {Button, FormControl, InputLabel, Select} from '@mui/material/';
+import {makeStyles} from '@mui/styles';
 import localforage from 'localforage';
 import {ISelectedSortType} from 'src/movieseat';
 import {snackbarVar} from '../../../../cache';

@@ -1,4 +1,4 @@
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import React, {useState} from 'react';
 import MovieSearch from './MovieSearch/MovieSearch';
 import MovieSearchResultList from './MovieSearchResultList/MovieSearchResultList';

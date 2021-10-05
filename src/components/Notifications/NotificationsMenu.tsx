@@ -1,7 +1,7 @@
 import React, {useState, forwardRef} from 'react';
 import {useMutation, useQuery, useReactiveVar} from '@apollo/client';
 import resolvers from '../../resolvers';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import CircleIcon from '@mui/icons-material/Circle';
 import IconButton from '@mui/material/IconButton';
 import {Link} from 'react-router-dom';

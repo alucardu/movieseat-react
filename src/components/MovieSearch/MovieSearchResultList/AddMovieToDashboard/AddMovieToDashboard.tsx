@@ -3,7 +3,7 @@ import {IMovie} from '../../../../movieseat';
 import {useApolloClient, useMutation} from '@apollo/client';
 import resolvers from '../../../../../src/resolvers';
 import {currentUserVar, snackbarVar} from '../../../../cache';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import {useCreateNotification} from '../../../../helpers/createNotification';
 import {EAction} from '../../../../movieseat';
 

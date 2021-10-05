@@ -7,7 +7,7 @@ import resolvers from '../../resolvers';
 import {currentUserVar, snackbarVar} from '../../cache';
 
 import {styled} from '@mui/material/styles';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import Box from '@mui/material/Box';
 
 type Props = {

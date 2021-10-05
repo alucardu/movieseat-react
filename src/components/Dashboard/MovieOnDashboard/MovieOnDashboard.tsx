@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import RemoveMovieFromDashboard from './RemoveMovieFromDashboard/RemoveMovieFromDashboard';
 import {IMovie} from '../../../movieseat';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 
 const useStyles = makeStyles({
   overlay: {
