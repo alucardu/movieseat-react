@@ -1,6 +1,6 @@
-const path = require('path');
+const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const WorkboxPlugin = require('workbox-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
   devtool: 'eval-cheap-source-map',
@@ -9,27 +9,14 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js'],
   },
   output: {
-    path: path.join(__dirname, '/dist'),
-    publicPath: './',
-    filename: './bundle.min.js',
+    path: __dirname + '/dist',
+    filename: 'bundle.js',
   },
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)$/,
-        enforce: 'pre',
-        use: [
-          {
-            loader: 'ts-loader',
-          },
-          {
-            options: {
-              eslintPath: require.resolve('eslint'),
-            },
-            loader: require.resolve('eslint-loader'),
-          },
-        ],
-        exclude: /node_modules/,
+        test: /\.tsx?$/,
+        loader: 'ts-loader',
       },
       {
         test: /\.(png|jpe?g|gif|svg)$/i,
@@ -50,6 +37,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html',
     }),
-    new WorkboxPlugin.GenerateSW(),
+    new Dotenv(),
+    new ESLintPlugin(),
   ],
 };
