@@ -24,6 +24,8 @@ const startApolloServer = async () => {
   const environment = process.env.NODE_ENV || 'production';
   const config = configurations[environment];
 
+  console.log(config);
+
   const server = new ApolloServer({
     resolvers,
     typeDefs,
