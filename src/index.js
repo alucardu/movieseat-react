@@ -38,7 +38,7 @@ const startApolloServer = async () => {
   await server.start();
 
   const corsOptions = {
-    origin: ['http://localhost:8080', 'https://studio.apollographql.com', 'https://www.moviese.at'],
+    origin: ['http://localhost:8080', 'https://studio.apollographql.com', 'https://104.248.82.123:9090/graphql', 'https://www.moviese.at'],
     credentials: true,
   };
 
