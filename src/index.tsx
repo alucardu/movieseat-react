@@ -22,8 +22,8 @@ const useStyles = makeStyles({
 });
 
 const configurations = {
-  development: {hostname: 'localhost'},
-  production: {hostname: '104.248.82.123'},
+  development: {hostname: 'http://localhost'},
+  production: {hostname: 'https://104.248.82.123'},
 };
 
 const environment = process.env.NODE_ENV || 'production';
@@ -31,7 +31,7 @@ const config = configurations[environment];
 
 const init = () => {
   const httpLink = createHttpLink({
-    uri: `http://${config.hostname}:9090/graphql`,
+    uri: `${config.hostname}:9090/graphql`,
     credentials: 'include',
   });
 
