@@ -50,7 +50,7 @@ const startApolloServer = async () => {
 
   const app = express();
   app.use(cors(corsOptions));
-  server.applyMiddleware({app, cors: corsOptions});
+  server.applyMiddleware({app, cors: false});
   app.use(
       '/graphql',
       cookieParser(),
