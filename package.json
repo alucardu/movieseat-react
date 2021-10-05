@@ -51,7 +51,7 @@
   },
   "scripts": {
     "startGraphQL": "nodemon src/",
-    "start": "webpack-dev-server --mode none --open --hot",
+    "start": "webpack-dev-server --mode development --open --hot",
     "build": "webpack --mode none",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

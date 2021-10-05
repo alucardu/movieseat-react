@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {styled} from '@material-ui/styles';
+import {styled} from '@mui/material/styles';
 import {Box} from '@mui/system';
 import {makeStyles} from '@mui/styles';
 import {IMovie} from '../../../movieseat';
