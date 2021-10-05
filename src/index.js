@@ -38,19 +38,13 @@ const startApolloServer = async () => {
   await server.start();
 
   const corsOptions = {
-    origin: [
-      'http://localhost:8080',
-      'https://studio.apollographql.com',
-      'https://104.248.82.123:9090/graphql',
-      'https://www.moviese.at',
-      'https://www.moviese.at:9090/graphql',
-    ],
+    origin: true,
+    optionsSuccessStatus: 200,
     credentials: true,
   };
 
   const app = express();
-  server.applyMiddleware({app, cors: false});
-  app.use(cors(corsOptions));
+  server.applyMiddleware({app, cors: corsOptions});
   app.use(
       '/graphql',
       cookieParser(),
