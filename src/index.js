@@ -63,7 +63,7 @@ const startApolloServer = async () => {
     extended: true,
   }));
 
-  server.applyMiddleware({app, cors: corsOptions});
+  server.applyMiddleware({app, cors: false});
 
   // Create the HTTPS or HTTP server, per configuration
   let httpServer;
