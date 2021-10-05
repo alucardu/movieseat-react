@@ -10,6 +10,7 @@ module.exports = {
   },
   output: {
     path: __dirname + '/dist',
+    publicPath: '/',
     filename: 'bundle.js',
   },
   module: {
@@ -41,3 +42,4 @@ module.exports = {
     new ESLintPlugin(),
   ],
 };
+
