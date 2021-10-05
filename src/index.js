@@ -38,7 +38,7 @@ const startApolloServer = async () => {
   await server.start();
 
   const corsOptions = {
-    origin: ['http://localhost:8080', 'https://studio.apollographql.com', 'https://104.248.82.123:9090/graphql', 'https://www.moviese.at'],
+    origin: ['http://localhost:8080', 'https://studio.apollographql.com', 'https://104.248.82.123:9090/graphql', 'https://www.moviese.at', 'https://www.moviese.at:9090/graphql'],
     credentials: true,
   };
 
@@ -63,7 +63,7 @@ const startApolloServer = async () => {
     extended: true,
   }));
 
-  server.applyMiddleware({app, cors: false});
+  server.applyMiddleware({app, cors: corsOptions});
 
   // Create the HTTPS or HTTP server, per configuration
   let httpServer;

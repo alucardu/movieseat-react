@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 
 const configurations = {
   development: {hostname: 'http://localhost'},
-  production: {hostname: 'https://104.248.82.123'},
+  production: {hostname: 'https://moviese.at'},
 };
 
 const environment = process.env.NODE_ENV || 'production';
