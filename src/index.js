@@ -4,7 +4,6 @@ const {PrismaClient} = require('@prisma/client');
 const {ApolloServer} = require('apollo-server-express');
 const {typeDefs} = require('./schema');
 const {resolvers} = require('./resolvers');
-const cors = require('cors');
 const prisma = new PrismaClient();
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
@@ -24,8 +23,6 @@ const startApolloServer = async () => {
   const environment = process.env.NODE_ENV || 'production';
   const config = configurations[environment];
 
-  console.log(config);
-
   const server = new ApolloServer({
     resolvers,
     typeDefs,
@@ -44,12 +41,12 @@ const startApolloServer = async () => {
   };
 
   const app = express();
-  server.applyMiddleware({app, cors: corsOptions});
   app.use(
       '/graphql',
       cookieParser(),
       (req, res, next) => {
         try {
+          console.log('cookie: ', req.cookies.id);
           if (req.cookies.id) {
             const currentUser = jwt.verify(req.cookies.id, 'supersecret');
             req.userId = currentUser.id;
@@ -60,6 +57,8 @@ const startApolloServer = async () => {
         }
       },
   );
+  server.applyMiddleware({app, cors: corsOptions});
+
   app.use(express.urlencoded({
     extended: true,
   }));
