@@ -10,6 +10,7 @@ module.exports = {
   },
   output: {
     path: __dirname + '/dist',
+    publicPath: process.env.NODE_ENV === 'development' ? '/' : '',
     filename: 'bundle.js',
   },
   module: {
