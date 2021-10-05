@@ -1,6 +1,6 @@
 import React, {useRef} from 'react';
 import {debounce} from 'lodash';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 
 
 const useStyles = makeStyles({

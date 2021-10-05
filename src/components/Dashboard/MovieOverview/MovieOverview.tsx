@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {chunk} from 'lodash';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 
 import {IMovie} from '../../../movieseat';
 import MovieOnDashboard from '../MovieOnDashboard/MovieOnDashboard';

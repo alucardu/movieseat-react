@@ -12,7 +12,7 @@ import ListItemText from '@mui/material/ListItemText';
 import {ListItemButton} from '@mui/material';
 
 import Popover from '@mui/material/Popover';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 
 import {LoginForm} from './LoginForm';
 

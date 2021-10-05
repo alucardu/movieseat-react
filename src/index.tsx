@@ -4,7 +4,7 @@ import React from 'react';
 import {render} from 'react-dom';
 import App from './App';
 import {ApolloClient, InMemoryCache, ApolloProvider, createHttpLink} from '@apollo/client';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 import {StyledEngineProvider} from '@mui/material/styles';
 
 const useStyles = makeStyles({

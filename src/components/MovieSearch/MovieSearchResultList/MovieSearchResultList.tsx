@@ -3,7 +3,7 @@ import posterNotFound from '../../../assets/images/poster_not_found.svg';
 import AddMovieToWatchList from './AddMovieToDashboard/AddMovieToDashboard';
 import {orderBy} from 'lodash';
 import {IMovie, IMovieList} from '../../../movieseat';
-import {makeStyles} from '@material-ui/styles';
+import {makeStyles} from '@mui/styles';
 
 const useStyles = makeStyles({
   resultList: {
