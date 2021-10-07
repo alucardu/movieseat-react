@@ -8,6 +8,7 @@
     "@emotion/styled": "^11.3.0",
     "@graphql-codegen/cli": "^2.1.1",
     "@graphql-codegen/typescript": "^2.1.2",
+    "@hookform/resolvers": "^2.8.2",
     "@mui/icons-material": "^5.0.0",
     "@mui/material": "^5.0.0-rc.1",
     "@mui/styles": "^5.0.1",
@@ -39,12 +40,14 @@
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-hook-form": "^7.17.1",
     "react-router-dom": "^5.2.1",
     "react-scripts": "^4.0.3",
     "react-to-typescript-definitions": "^2.0.0",
     "webpack": "^5.56.1",
     "webpack-cli": "^4.8.0",
-    "webpack-dev-server": "^4.3.1"
+    "webpack-dev-server": "^4.3.1",
+    "yup": "^0.32.9"
   },
   "scripts": {
     "startGraphQL": "nodemon src/",

@@ -3,15 +3,19 @@ import React from 'react';
 import {useParams} from 'react-router';
 import resolvers from '../../resolvers';
 import ManageFriends from './ManageFriends/ManageFriends';
-import {currentUserVar} from '../../cache';
+import {currentUserVar, snackbarVar} from '../../cache';
 import FollowUser from './ManageFriends/FollowStatus';
 import {useMutation, useApolloClient} from '@apollo/client';
+import {useHistory} from 'react-router-dom';
 
 const profile = () => {
+  const history = useHistory();
   const client = useApolloClient();
-  const [logoutUser] = useMutation(resolvers.mutations.LogoutUser);
   const currentUser = useReactiveVar(currentUserVar);
   const {id: paramId} = useParams<{id: string}>();
+
+  const [logoutUser] = useMutation(resolvers.mutations.LogoutUser);
+  const [removeUserAccount] = useMutation(resolvers.mutations.removeUserAccount);
 
   const {error, loading, data: {returnUser: user} = {}} =
     useQuery(resolvers.queries.ReturnUser, {
@@ -28,6 +32,18 @@ const profile = () => {
     client.cache.reset();
   };
 
+  const removeAccount = () => {
+    removeUserAccount({variables: {userId: currentUserVar().id}}).then((res) => {
+      if (res.data.removeUserAccount) {
+        currentUserVar({id: 0, email: '', user_name: '', isLoggedIn: false});
+        history.push('/');
+        snackbarVar({message: 'Your account has been removed', severity: 'success'});
+      } else {
+        snackbarVar({message: 'Your account has not been removed', severity: 'error'});
+      }
+    });
+  };
+
   if (!user) return (<div>User not found</div>);
 
   const ProfileDashboad = () => {
@@ -35,6 +51,7 @@ const profile = () => {
       <>
         <ManageFriends />
         <p onClick={logout}>Logout</p>
+        <p onClick={removeAccount}>Remove account</p>
       </>
     );
   };

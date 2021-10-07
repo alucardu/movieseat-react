@@ -198,6 +198,32 @@ const FollowUser = gql`
   }
 `;
 
+const removeUserAccount = gql`
+  mutation removeUserAccount (
+    $userId: Int ) {
+      removeUserAccount(
+        userId: $userId
+      )
+    }
+`;
+
+const signupUser = gql`
+  mutation signupUser(
+    $email: String!
+    $user_name: String!
+    $password: String!) {
+      signupUser(
+        email: $email
+        user_name: $user_name
+        password: $password
+      ) {
+        email,
+        id,
+        user_name
+      }
+    }
+`;
+
 const LoginUser = gql`
   mutation loginUser(
     $email: String!
@@ -220,6 +246,6 @@ const LogoutUser = gql`
 `;
 
 const queries = {ReturnAllMovies, ReturnMoviesFromUser, ReturnUser, returnUsers, ReturnFollowedUsers, ReturnNotifications};
-const mutations = {RemoveMovie, LoginUser, LogoutUser, AddUserToMovie, FollowUser, UnfollowUser, CreateNotification, WatchNotification};
+const mutations = {removeUserAccount, RemoveMovie, LoginUser, LogoutUser, AddUserToMovie, FollowUser, UnfollowUser, CreateNotification, WatchNotification, signupUser};
 
 export default {queries, mutations};
