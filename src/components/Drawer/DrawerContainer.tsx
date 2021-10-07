@@ -9,15 +9,39 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import {ListItemButton} from '@mui/material';
+import {ListItemButton, Box} from '@mui/material';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Divider from '@mui/material/Divider';
 import {useReactiveVar} from '@apollo/client';
+import {makeStyles} from '@mui/styles';
+import {Link} from 'react-router-dom';
 
 const drawerWidth = 240;
+
+const useStyles = makeStyles({
+  logo: {
+    'fontSize': '2em',
+    'fontFamily': 'Oleo Script Swash Caps',
+    'background': 'transparent',
+    'border': 'none',
+    'padding': 0,
+    'width': '33px',
+    'overflow': 'hidden',
+    'textAlign': 'left',
+    'transition': 'all 0.1s ease-out',
+    'cursor': 'pointer',
+    '&:hover': {
+      color: 'coral',
+    },
+  },
+  slide: {
+    paddingLeft: '8px',
+    width: '100%',
+  },
+});
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -58,6 +82,7 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
 );
 
 export const DrawerContainer = () => {
+  const classes = useStyles();
   const elRef = useRef(null);
   const currentUser = useReactiveVar(currentUserVar);
   const [open, setOpen] = useState(false);
@@ -96,6 +121,9 @@ export const DrawerContainer = () => {
   return (
     <Drawer variant="permanent" open={open} ref={elRef}>
       <List>
+        <ListItem>
+          <Link to='/'><Box className={`${classes.logo} ${open ? classes.slide : null}`} component='button'>Movieseat</Box></Link>
+        </ListItem>
         {drawerItems.map((drawerItem, i) => {
           return (
             drawerItem.component ? <div key={i}>{drawerItem.component}</div> :
