@@ -152,17 +152,36 @@ const Mutation = {
     return followedUsers(args, req);
   },
 
-  signupUser: async (root, args) => {
+  signupUser: async (root, args, {req, res}) => {
+    const theUser = await prisma.user.findUnique({
+      where: {email: String(args.email)},
+    });
+
+    if (theUser) throw new Error('Email already in use');
+
+    const theUserName = await prisma.user.findUnique({
+      where: {user_name: String(args.user_name)},
+    });
+
+    if (theUserName) throw new Error('Username already in use');
+
     const newUser = await prisma.user.create({
       data: {
-        id: args.id,
         email: args.email,
         password: bcrypt.hashSync(args.password, 3),
-        name: args.name,
         user_name: args.user_name,
       },
     });
-    return {token: jwt.sign(newUser, 'supersecret')};
+
+    const token = jwt.sign(newUser, 'supersecret');
+
+    res.cookie('id', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    });
+
+    return newUser;
   },
 
   loginUser: async (_, args, {req, res}) => {
@@ -259,6 +278,14 @@ const Mutation = {
 
   removeAllMovies: () => {
     return prisma.movie.deleteMany({});
+  },
+
+  removeUserAccount: async (parent, args, {req, res}) => {
+    await prisma.user.delete({
+      where: {id: args.userId},
+    });
+
+    return true;
   },
 
   removeAllUsers: () => {

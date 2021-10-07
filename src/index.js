@@ -46,7 +46,6 @@ const startApolloServer = async () => {
       cookieParser(),
       (req, res, next) => {
         try {
-          console.log('cookie: ', req.cookies.id);
           if (req.cookies.id) {
             const currentUser = jwt.verify(req.cookies.id, 'supersecret');
             req.userId = currentUser.id;

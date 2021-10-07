@@ -108,6 +108,10 @@ const typeDefs = gql`
   }
 
   type Mutation {
+    removeUserAccount (
+      userId: Int
+    ) : Boolean
+
     createNotification (
       action: String
       followedUserId: Int
@@ -119,11 +123,9 @@ const typeDefs = gql`
     ) : [User]
 
     signupUser(
-      id: Int!
       email: String!
       password: String!
-      name: String!
-      user_name: String!) : AuthPayLoadToken
+      user_name: String!) : User!
 
     loginUser(
       email: String!
