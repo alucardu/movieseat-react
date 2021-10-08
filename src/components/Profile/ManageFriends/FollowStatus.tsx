@@ -3,6 +3,8 @@ import {useMutation, useQuery} from '@apollo/client';
 import resolvers from '../../../resolvers';
 import {IUser} from '../../../movieseat';
 import {currentUserVar, snackbarVar} from '../../../cache';
+import {Box} from '@mui/system';
+import {Button} from '@mui/material';
 
 const FollowStatus = ({user}: {user: IUser}) => {
   const [userIsFollowed, setUserIsFollowed] = useState(false);
@@ -62,11 +64,11 @@ const FollowStatus = ({user}: {user: IUser}) => {
   };
 
   return (
-    <div>
+    <Box className='profileBox'>
       {userIsFollowed ?
-      <button onClick={unfollowUser}>Unfollow user</button> :
-      <button onClick={followUser}>Follow user</button>}
-    </div>
+      <Button onClick={unfollowUser}>Unfollow {user.user_name}</Button> :
+      <Button onClick={followUser}>Follow {user.user_name}</Button>}
+    </Box>
   );
 };
 

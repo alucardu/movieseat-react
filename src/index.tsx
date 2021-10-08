@@ -18,6 +18,15 @@ const useStyles = makeStyles({
     '#root': {
       display: 'flex',
     },
+    '.profileBox': {
+      display: 'flex',
+      flexDirection: 'column',
+      margin: '16px',
+      padding: '16px',
+      color: 'black',
+      backgroundColor: '#f2f2f2',
+      borderRadius: '4px',
+    },
   },
 });
 
