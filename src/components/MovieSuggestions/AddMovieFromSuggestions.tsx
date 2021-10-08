@@ -58,6 +58,7 @@ export const AddMovieFromSuggestions = (movie) => {
           });
         },
       }).then( async (res) => {
+        console.log('q');
         createNotification.createNotification({
           movie: res.data.addUserToMovie.addedMovie,
           user: currentUserVar(),

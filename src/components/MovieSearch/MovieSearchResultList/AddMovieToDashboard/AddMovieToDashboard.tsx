@@ -46,8 +46,6 @@ const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
   const props = {backdropPath: movie.backdrop_path};
   const classes = useStyles(props);
 
-  console.log(movies);
-
   const [addUserToMovie] = useMutation(resolvers.mutations.AddUserToMovie);
 
   const checkIsMovieDuplicate = (movies: IMovie[], movie: IMovie) => {

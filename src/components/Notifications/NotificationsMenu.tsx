@@ -140,21 +140,24 @@ const NotificationsMenu = (props, ref) => {
     );
   };
 
+  if (error) return (<p>error</p>);
+  if (loading) return (<p>loading</p>);
+
   const MovieNotification = (notification) => {
     return (
       <ListItem
-        className={notification.watched ? classes.watched : classes.unwatched}
+        className={notification.notification.watched ? classes.watched : classes.unwatched}
         classes={{root: classes.ListItemRoot}}
       >
         <Typography variant='body2'>
-          <Link to={`/profile/${notification.followedUser.id}`} onClick={handleClose}>{notification.followedUser.user_name}</Link>{' '}
-          {notification.action}{' '}
-          {notification.movie.original_title}{' '}
+          <Link to={`/profile/${notification.notification.followedUser.id}`} onClick={handleClose}>{notification.notification.followedUser.user_name}</Link>{' '}
+          {notification.notification.action}{' '}
+          {notification.notification.movie.original_title}{' '}
           to their watchlist.
         </Typography>
-        { !notification.watched ?
+        { !notification.notification.watched ?
           <IconButton onClick={() => {
-            watchNotification(notification);
+            watchNotification(notification.notification);
           }}>
             <CircleIcon color="primary"/>
           </IconButton> :
