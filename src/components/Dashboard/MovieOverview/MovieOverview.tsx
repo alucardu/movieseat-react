@@ -12,7 +12,6 @@ import {currentUserVar} from '../../../cache';
 import sortMovies from '../../../helpers/sortMovies';
 import {Box} from '@mui/system';
 import {Typography} from '@mui/material';
-import MovieFilterIcon from '@mui/icons-material/MovieFilter';
 import {Link} from 'react-router-dom';
 
 const useStyles = makeStyles({

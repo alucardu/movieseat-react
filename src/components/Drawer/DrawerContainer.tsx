@@ -4,6 +4,7 @@ import MuiDrawer from '@mui/material/Drawer';
 import NotificationsMenu from '../Notifications/NotificationsMenu';
 import Login from '../Login/Login';
 import {currentUserVar} from '../../cache';
+import MovieFilterIcon from '@mui/icons-material/MovieFilter';
 
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -115,6 +116,11 @@ export const DrawerContainer = () => {
       text: 'Watchlist',
       icon: <LocalMoviesIcon fontSize='large'/>,
       link: '/',
+    },
+    {
+      text: 'Suggestions',
+      icon: <MovieFilterIcon fontSize='large'/>,
+      link: '/suggestions',
     },
   ];
 

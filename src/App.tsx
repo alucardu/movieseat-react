@@ -10,6 +10,7 @@ import SnackbarStack from './helpers/snackbar';
 import Profile from './components/Profile/Profile';
 
 import {DrawerContainer} from './components/Drawer/DrawerContainer';
+import {MovieSuggestions} from './components/MovieSuggestions/MovieSuggestions';
 
 const App = () => {
   const checkIfUserIsLoggedIn = () => {
@@ -34,6 +35,9 @@ const App = () => {
         <Switch>
           <Route exact path='/'>
             <DashboardComponent />
+          </Route>
+          <Route exact path='/suggestions'>
+            <MovieSuggestions />
           </Route>
           <Route path='/profile/:id'>
             <Profile />

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import RemoveMovieFromDashboard from './RemoveMovieFromDashboard/RemoveMovieFromDashboard';
-import {IMovie} from '../../../movieseat';
 import {makeStyles} from '@mui/styles';
+import {AddMovieFromSuggestions} from '../..//MovieSuggestions/AddMovieFromSuggestions';
 
 const useStyles = makeStyles({
   overlay: {
@@ -24,26 +24,29 @@ const useStyles = makeStyles({
   },
 });
 
-const OverlayEl = ({movie}: { movie: IMovie}) => {
+const OverlayEl = (movie) => {
   const classes = useStyles();
   return (
     <div className={classes.overlay}>
-      <RemoveMovieFromDashboard movie={movie}/>
+      {movie.movie.type === 'suggestion' ?
+        <AddMovieFromSuggestions movie={movie.movie.movie} /> :
+        <RemoveMovieFromDashboard movie={movie.movie.movie}/>}
+
     </div>
   );
 };
 
-const MovieOnDashboard = ({movie}: {movie: IMovie}) => {
+const MovieOnDashboard = (movie) => {
   const classes = useStyles();
   const imagePath = 'https://image.tmdb.org/t/p/w185/';
   const [isHover, setHover] = useState(false);
 
   return (
     <li className={classes.movieContainer}
-      key={movie.id}
+      key={movie.movie.id}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}>
-      <img src={imagePath + movie.poster_path} alt='poster' />
+      <img src={imagePath + movie.movie.poster_path} alt='poster' />
       { isHover && <OverlayEl movie={movie} />}
     </li>
   );
