@@ -15,6 +15,7 @@ import {Box} from '@mui/system';
 
 import ListItemIcon from '@mui/material/ListItemIcon';
 import {} from 'react-router/node_modules/@types/react';
+import {EAction} from '../../movieseat';
 
 const useStyles = makeStyles({
   paperRoot: {
@@ -105,33 +106,71 @@ const NotificationsMenu = (props, ref) => {
     });
   };
 
+  const returnNotification = (notification) => {
+    switch (notification.action) {
+      case EAction.Added_Movie:
+        return <MovieNotification key={notification.id} notification={notification}/>;
+      case EAction.Onboard:
+        return <OnboardNotification key={notification.id} notification={notification} />;
+      default:
+        break;
+    }
+  };
+
+  const OnboardNotification = ({notification}: any) => {
+    return (
+      <ListItem
+        className={notification.watched ? classes.watched : classes.unwatched}
+        classes={{root: classes.ListItemRoot}}
+      >
+        <Link to={`/profile/${notification.userId}`} onClick={handleClose}>
+          <Typography variant='body2'>
+            {notification.action}{' '}
+          </Typography>
+        </Link>
+        { !notification.watched ?
+          <IconButton onClick={() => {
+            watchNotification(notification);
+          }}>
+            <CircleIcon color="primary"/>
+          </IconButton> :
+          null
+        }
+      </ListItem>
+    );
+  };
+
+  const MovieNotification = (notification) => {
+    return (
+      <ListItem
+        className={notification.watched ? classes.watched : classes.unwatched}
+        classes={{root: classes.ListItemRoot}}
+      >
+        <Typography variant='body2'>
+          <Link to={`/profile/${notification.followedUser.id}`} onClick={handleClose}>{notification.followedUser.user_name}</Link>{' '}
+          {notification.action}{' '}
+          {notification.movie.original_title}{' '}
+          to their watchlist.
+        </Typography>
+        { !notification.watched ?
+          <IconButton onClick={() => {
+            watchNotification(notification);
+          }}>
+            <CircleIcon color="primary"/>
+          </IconButton> :
+          null
+        }
+      </ListItem>
+    );
+  };
+
   const ShowNotifications = () => {
     return (
       <Box>
         {notifications.returnNotifications.length > 0 ?
           <List sx={{maxWidth: '474px'}}>
-            {notifications?.returnNotifications.map((notification) => {
-              return (
-                <ListItem key={notification.id}
-                  className={notification.watched ? classes.watched : classes.unwatched}
-                  classes={{root: classes.ListItemRoot}}
-                >
-                  <Typography variant='body2'>
-                    <Link to={`/profile/${notification.followedUser.id}`} onClick={handleClose}>{notification.followedUser.user_name}</Link>{' '}
-                    {notification.action}{' '}
-                    {notification.movie.original_title}{' '}
-                    to their watchlist.
-                  </Typography>
-                  { !notification.watched ?
-                    <IconButton onClick={() => {
-                      watchNotification(notification);
-                    }}>
-                      <CircleIcon color="primary"/>
-                    </IconButton> :
-                    null
-                  }
-                </ListItem>
-              );
+            {notifications.returnNotifications.map((notification) => {
+              return returnNotification(notification);
             })}
           </List> :
           <List>

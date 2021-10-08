@@ -49,6 +49,8 @@ const returnUserNotifications = async (args, req) => {
     },
   });
 
+  console.log(user.notifications);
+
   return {returnNotifications: user.notifications, unwatchedNotificationsCount};
 };
 
@@ -215,26 +217,39 @@ const Mutation = {
 
 
   createNotification: async (_, args, {req, res}) => {
-    await followedUsers(args, req).then((followedBy) => {
-      followedBy.map(async (user) => {
-        await prisma.user.update({
-          where: {id: user.id},
-          data: {
-            notifications: {
-              create: {
-                action: args.action,
-                movie: {
-                  connect: {id: args.movieId},
-                },
-                followedUser: {
-                  connect: {id: args.followedUserId},
+    if (args.action === 'has added') {
+      await followedUsers(args, req).then((followedBy) => {
+        followedBy.map(async (user) => {
+          await prisma.user.update({
+            where: {id: user.id},
+            data: {
+              notifications: {
+                create: {
+                  action: args.action,
+                  movie: {
+                    connect: {id: args.movieId},
+                  },
+                  followedUser: {
+                    connect: {id: args.followedUserId},
+                  },
                 },
               },
             },
-          },
+          });
         });
       });
-    });
+    }
+
+    if (args.action === 'Start following some users!') {
+      await prisma.notification.create({
+        data: {
+          action: args.action,
+          user: {
+            connect: {id: args.userId},
+          },
+        },
+      });
+    }
 
     return returnUserNotifications(args, req);
   },

@@ -8,6 +8,7 @@ const ReturnNotifications = gql`
       returnNotifications {
         action
         id
+        userId
         watched
         movie {
           original_title
@@ -140,14 +141,17 @@ const CreateNotification = gql`
     $action: String
     $followedUserId: Int
     $movieId: Int
+    $userId: Int
   ) {
     createNotification (
       followedUserId: $followedUserId
+      userId: $userId
       movieId: $movieId
       action: $action
     ) {
       action
       followedUserId
+      userId
       movieId
       watched
     }
