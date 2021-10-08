@@ -15,6 +15,10 @@ import Popover from '@mui/material/Popover';
 import {makeStyles} from '@mui/styles';
 
 import {LoginForm} from './LoginForm';
+import {useHistory} from 'react-router-dom';
+
+import {snackbarVar} from '../../cache';
+
 
 const useStyles = makeStyles(() => ({
   popoverRoot: {
@@ -28,6 +32,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Login = () => {
+  const history = useHistory();
   const currentUser = useReactiveVar(currentUserVar);
   const client = useApolloClient();
   const classes = useStyles();
@@ -49,6 +54,8 @@ const Login = () => {
     event.preventDefault();
     logoutUser();
     currentUserVar({id: 0, email: '', user_name: '', isLoggedIn: false});
+    history.push('/');
+    snackbarVar({message: 'You have been logged out', severity: 'success'});
     client.cache.reset();
   };
 
