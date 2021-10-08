@@ -20,7 +20,7 @@ import {EAction} from '../../movieseat';
 const useStyles = makeStyles({
   paperRoot: {
     left: '8px',
-    top: '50px',
+    top: '104px',
   },
   ListItemRoot: {
     'display': 'flex',

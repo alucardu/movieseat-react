@@ -119,7 +119,7 @@ const typeDefs = gql`
       userId: Int
       followedUserId: Int
       movieId: Int
-    ): notificationPayload 
+    ): [notificationPayload] 
 
     followUser(
       userId: Int

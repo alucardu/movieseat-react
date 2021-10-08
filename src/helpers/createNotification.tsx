@@ -18,7 +18,6 @@ export const useCreateNotification = () => {
     }
 
     if (notification.action === EAction.Onboard) {
-      console.log(notification);
       await createNotification({
         variables: {
           userId: notification.user.id,

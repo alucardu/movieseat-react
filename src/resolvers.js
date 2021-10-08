@@ -49,8 +49,6 @@ const returnUserNotifications = async (args, req) => {
     },
   });
 
-  console.log(user.notifications);
-
   return {returnNotifications: user.notifications, unwatchedNotificationsCount};
 };
 
@@ -251,7 +249,7 @@ const Mutation = {
       });
     }
 
-    return returnUserNotifications(args, req);
+    return await returnUserNotifications(args, req);
   },
 
   addUserToMovie: async (_, args, {req, res}) => {
