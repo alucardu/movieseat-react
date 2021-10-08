@@ -10,6 +10,10 @@ import resolvers from '../../../resolvers';
 
 import {currentUserVar} from '../../../cache';
 import sortMovies from '../../../helpers/sortMovies';
+import {Box} from '@mui/system';
+import {Typography} from '@mui/material';
+import MovieFilterIcon from '@mui/icons-material/MovieFilter';
+import {Link} from 'react-router-dom';
 
 const useStyles = makeStyles({
   movieList: {
@@ -17,6 +21,16 @@ const useStyles = makeStyles({
     display: 'flex',
     padding: '0',
     margin: '0 12px',
+  },
+  container: {
+    padding: '16px',
+  },
+  onboard: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '40vh',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
@@ -38,8 +52,19 @@ const MovieOverview = () => {
   if (error) return (<div>error</div>);
   if (loading) return (<div>loading...</div>);
 
+  const Onboard = () => {
+    return (
+      <Box className={classes.onboard}>
+        <Typography variant='h4'>Start adding some movies!</Typography>
+        <Typography variant='body1'>Use the search field to start adding movies.</Typography>
+        <Typography variant='body1'>Or maybe you want some <Link to='/suggestions'>suggestions</Link>?</Typography>
+      </Box>
+    );
+  };
+
   return (
-    <div>
+    <Box className={classes.container}>
+      {movies.length <= 0 ? <Onboard/> : null}
       { movieRows?.map((movieRow, index) => (
         <ul className={classes.movieList} key={index}>
           { movieRow.map((movie: IMovie) => (
@@ -47,7 +72,7 @@ const MovieOverview = () => {
           ))}
         </ul>
       ))}
-    </div>
+    </Box>
   );
 };
 

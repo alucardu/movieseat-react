@@ -15,6 +15,9 @@ import {useForm, SubmitHandler, Controller} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
+import {useCreateNotification} from '../../helpers/createNotification';
+import {EAction} from '../../movieseat';
+
 type Props = {
   onRequestClose: any
 };
@@ -119,6 +122,7 @@ const schemaSignUp = yup.object().shape({
 });
 
 export const LoginForm = ({onRequestClose} : Props) => {
+  const createNotification = useCreateNotification();
   const {
     control: controlLogin,
     handleSubmit: handleSubmitLogin,
@@ -167,6 +171,11 @@ export const LoginForm = ({onRequestClose} : Props) => {
       currentUserVar({
         ...data.signupUser,
         isLoggedIn: true,
+      });
+
+      createNotification.createNotification({
+        user: currentUserVar(),
+        action: EAction.Onboard,
       });
 
       history.push('/');

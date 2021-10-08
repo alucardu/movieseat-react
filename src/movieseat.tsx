@@ -46,5 +46,6 @@ export interface ISnackbar {
 }
 
 export enum EAction {
+  Onboard = 'Start following some users!',
   Added_Movie = 'has added'
 }

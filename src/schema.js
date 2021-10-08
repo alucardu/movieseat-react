@@ -19,6 +19,7 @@ const typeDefs = gql`
   type notification {
     id: ID!
     followedUserId: Int
+    userId: Int
     movieId: Int
     action: String
     watched: Boolean
@@ -55,6 +56,7 @@ const typeDefs = gql`
     action:         String
     followedUser:   User
     followedUserId: Int
+    userId:         Int
     movie:          Movie
     movieId:        Int
     watched:        Boolean
@@ -114,6 +116,7 @@ const typeDefs = gql`
 
     createNotification (
       action: String
+      userId: Int
       followedUserId: Int
       movieId: Int
     ): notificationPayload 
