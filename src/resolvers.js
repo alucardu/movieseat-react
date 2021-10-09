@@ -55,7 +55,7 @@ const returnUserNotifications = async (args, req) => {
 const returnMoviesFromUser = async (args, req) => {
   if (req.userId) {
     const user = await prisma.user.findUnique({
-      where: {id: req.userId},
+      where: {id: args.userId || req.userId},
       select: {
         movies: true,
       },

@@ -38,7 +38,7 @@ export const AddMovieFromSuggestions = (movie) => {
 
   const checkIsMovieDuplicate = (movies: IMovie[], movie: IMovie) => {
     for (const item of movies) {
-      if (item.tmdb_id === movie.id) return true;
+      if (item.tmdb_id === movie.tmdb_id) return true;
     }
   };
 
@@ -46,8 +46,9 @@ export const AddMovieFromSuggestions = (movie) => {
     let message = 'is already added to your watchlist.';
     let severity = 'warning';
     if (!checkIsMovieDuplicate(movies, movie.movie)) {
+      const movieId = movie.movie.tmdb_id ? movie.movie.tmdb_id : movie.movie.id;
       await addUserToMovie({
-        variables: {...movie.movie, tmdb_id: movie.movie.id},
+        variables: {...movie.movie, tmdb_id: movieId},
         update: (cache, {data}) => {
           cache.modify({
             fields: {
@@ -58,7 +59,6 @@ export const AddMovieFromSuggestions = (movie) => {
           });
         },
       }).then( async (res) => {
-        console.log('q');
         createNotification.createNotification({
           movie: res.data.addUserToMovie.addedMovie,
           user: currentUserVar(),

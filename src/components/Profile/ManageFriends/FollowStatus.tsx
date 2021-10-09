@@ -64,7 +64,7 @@ const FollowStatus = ({user}: {user: IUser}) => {
   };
 
   return (
-    <Box className='profileBox'>
+    <Box className='profileBox' sx={{maxWidth: 'fit-content'}}>
       {userIsFollowed ?
       <Button onClick={unfollowUser}>Unfollow {user.user_name}</Button> :
       <Button onClick={followUser}>Follow {user.user_name}</Button>}
