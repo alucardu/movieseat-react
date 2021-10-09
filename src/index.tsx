@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     '.profileBox': {
       display: 'flex',
       flexDirection: 'column',
-      margin: '16px',
+      margin: '0 16px 16px 0',
       padding: '16px',
       color: 'black',
       backgroundColor: '#f2f2f2',
