@@ -23,6 +23,15 @@ export const useCreateNotification = () => {
           userId: notification.user.id,
           action: notification.action,
         },
+        update: (cache, {data}) => {
+          cache.modify({
+            fields: {
+              returnNotifications: () => {
+                return [...data.createNotification.returnNotifications];
+              },
+            },
+          });
+        },
       });
     }
   };

@@ -30,7 +30,6 @@ const useStyles = makeStyles({
 export const SearchUser = () => {
   const classes = useStyles();
   const [results, setResults] = useState<IUser[]>([]);
-  const searchInput = useRef<HTMLInputElement | null>(null);
   const [query, setQuery] = useState('');
   const {loading, error, data: {returnUsers: users} = {}} = useQuery(resolvers.queries.returnUsers);
 
@@ -58,6 +57,8 @@ export const SearchUser = () => {
     return debounce(changeHandler, 300);
   }, []);
 
+  if (loading) return (<div>Loading</div>);
+  if (error) return (<div>Error</div>);
 
   return (
     <Box className='profileBox'>
@@ -67,10 +68,10 @@ export const SearchUser = () => {
       <form autoComplete='off'>
         <FormControl>
           <InputLabel htmlFor="userQuery">User name</InputLabel>
-          <Input inputRef={searchInput} id="userQuery" aria-describedby="my-helper-text" type="text" name="userQuery" onChange={handleChange} />
+          <Input data-cy='input_search_user' id="userQuery" aria-describedby="my-helper-text" type="text" name="userQuery" onChange={handleChange} />
         </FormControl>
       </form>
-      <List>
+      <List data-cy='list_returned_users'>
         { results.length === 0 && query.length > 0 && <li>No results found</li>}
         { results.map((user) => {
           return (

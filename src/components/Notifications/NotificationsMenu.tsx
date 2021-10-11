@@ -170,8 +170,8 @@ const NotificationsMenu = (props, ref) => {
   const ShowNotifications = () => {
     return (
       <Box>
-        {notifications.returnNotifications.length > 0 ?
-          <List sx={{maxWidth: '474px'}}>
+        {notifications?.returnNotifications.length > 0 ?
+          <List sx={{maxWidth: '474px'}} data-cy='list_notifications'>
             {notifications.returnNotifications.map((notification) => {
               return returnNotification(notification);
             })}
@@ -191,12 +191,12 @@ const NotificationsMenu = (props, ref) => {
   return (
     <>
       <ListItem disablePadding>
-        <ListItemButton disabled={!currentUser.isLoggedIn} onClick={handleClick} >
+        <ListItemButton disabled={!currentUser.isLoggedIn} onClick={handleClick} data-cy='btn_open_notifications'>
           <ListItemIcon>
             <CircleNotificationsIcon fontSize='large'/>
           </ListItemIcon>
           {notifications?.unwatchedNotificationsCount ?
-        <span className={classes.notificationCount}>
+        <span data-cy='notification_count' className={classes.notificationCount}>
           {notifications?.unwatchedNotificationsCount}
         </span> :
         null

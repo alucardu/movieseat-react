@@ -294,9 +294,17 @@ const Mutation = {
   },
 
   removeUserAccount: async (parent, args, {req, res}) => {
-    await prisma.user.delete({
-      where: {id: args.userId},
-    });
+    if (args.email) {
+      await prisma.user.delete({
+        where: {email: args.email},
+      });
+    }
+
+    if (args.userId) {
+      await prisma.user.delete({
+        where: {id: args.userId},
+      });
+    }
 
     return true;
   },

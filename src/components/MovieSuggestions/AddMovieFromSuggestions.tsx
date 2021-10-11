@@ -73,7 +73,7 @@ export const AddMovieFromSuggestions = (movie) => {
 
 
   return (
-    <IconButton className={classes.deleteButton} onClick={() => {
+    <IconButton data-cy='btn_add_movie' className={classes.deleteButton} onClick={() => {
       addMovie(movie);
     }} >
       <AddBoxIcon sx={{color: 'white'}}/>

@@ -66,14 +66,14 @@ const Login = () => {
           <ListItemIcon>
             <LogoutIcon fontSize='large'/>
           </ListItemIcon>
-          <ListItemText primary="Logout" />
+          <ListItemText data-cy="btn_logout" primary="Logout" />
         </ListItemButton> :
 
         <ListItemButton onClick={handleClick} >
           <ListItemIcon>
             <LoginIcon fontSize='large'/>
           </ListItemIcon>
-          <ListItemText primary="Login" />
+          <ListItemText data-cy="btn_login" primary="Login" />
         </ListItemButton>
       }
 

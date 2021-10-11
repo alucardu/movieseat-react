@@ -63,9 +63,9 @@ const MovieOverview = () => {
 
   return (
     <Box className={classes.container}>
-      {movies.length <= 0 ? <Onboard/> : null}
+      {movies?.length <= 0 ? <Onboard/> : null}
       { movieRows?.map((movieRow, index) => (
-        <ul className={classes.movieList} key={index}>
+        <ul data-cy='list_movie_overview_dashboard' className={classes.movieList} key={index}>
           { movieRow.map((movie: IMovie) => (
             <MovieOnDashboard key={movie.id} movie={movie}/>
           ))}

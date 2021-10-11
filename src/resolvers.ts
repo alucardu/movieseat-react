@@ -149,11 +149,14 @@ const CreateNotification = gql`
       movieId: $movieId
       action: $action
     ) {
-      action
-      followedUserId
-      userId
-      movieId
-      watched
+      returnNotifications {
+        action
+        followedUserId
+        userId
+        movieId
+        watched
+      }
+      unwatchedNotificationsCount
     }
   }
 `;

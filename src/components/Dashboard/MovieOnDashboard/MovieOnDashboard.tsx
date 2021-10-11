@@ -43,10 +43,11 @@ const MovieOnDashboard = (movie) => {
 
   return (
     <li className={classes.movieContainer}
+      title={movie.movie.original_title}
       key={movie.movie.id}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}>
-      <img src={imagePath + movie.movie.poster_path} alt='poster' />
+      <img src={imagePath + movie.movie.poster_path} />
       { isHover && <OverlayEl movie={movie} />}
     </li>
   );

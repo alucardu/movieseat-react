@@ -111,6 +111,7 @@ const typeDefs = gql`
 
   type Mutation {
     removeUserAccount (
+      email: String
       userId: Int
     ) : Boolean
 
@@ -119,7 +120,7 @@ const typeDefs = gql`
       userId: Int
       followedUserId: Int
       movieId: Int
-    ): [notificationPayload] 
+    ): returnNotificationsPayload
 
     followUser(
       userId: Int

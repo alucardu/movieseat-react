@@ -199,6 +199,7 @@ export const LoginForm = ({onRequestClose} : Props) => {
             render={({field}) => (
               <FormInput
                 {...field}
+                data-cy='input_login_email'
                 autoComplete='email'
                 label='Email'
                 variant={'standard' as any}
@@ -217,6 +218,7 @@ export const LoginForm = ({onRequestClose} : Props) => {
             render={({field}) => (
               <FormInput
                 {...field}
+                data-cy='input_login_password'
                 autoComplete='password'
                 required={true}
                 type="password"
@@ -229,11 +231,11 @@ export const LoginForm = ({onRequestClose} : Props) => {
           />
         </FormControlContainer>
 
-        <Button type="submit" variant="contained">Login</Button>
+        <Button type="submit" variant="contained" data-cy='btn_login_submit'>Login</Button>
 
         <Link onClick={(e) => {
           e.preventDefault(); setLoginForm(false);
-        }} component='button' sx={{marginTop: '16px', color: 'white', textAlign: 'left'}} href="" variant="body2">
+        }} component='button' sx={{marginTop: '16px', color: 'white', textAlign: 'left'}} href="" variant="body2" data-cy='btn_sign_up'>
       Need an account?
         </Link>
       </FormBody> :
@@ -247,6 +249,7 @@ export const LoginForm = ({onRequestClose} : Props) => {
             render={({field}) => (
               <FormInput
                 {...field}
+                data-cy='input_sign_up_email'
                 autoComplete='email'
                 required={true}
                 label='Email'
@@ -269,6 +272,7 @@ export const LoginForm = ({onRequestClose} : Props) => {
             render={({field}) => (
               <FormInput
                 {...field}
+                data-cy='input_sign_up_user_name'
                 autoComplete='user_name'
                 required={true}
                 label='User name'
@@ -288,6 +292,7 @@ export const LoginForm = ({onRequestClose} : Props) => {
             render={({field}) => (
               <FormInput
                 {...field}
+                data-cy='input_sign_up_password'
                 autoComplete='new-password'
                 required={true}
                 type="password"
@@ -308,6 +313,7 @@ export const LoginForm = ({onRequestClose} : Props) => {
             render={({field}) => (
               <FormInput
                 {...field}
+                data-cy='input_sign_up_confirm_password'
                 autoComplete='new-password'
                 required={true}
                 type="password"
@@ -320,7 +326,7 @@ export const LoginForm = ({onRequestClose} : Props) => {
           />
         </FormControlContainer>
 
-        <Button classes={{disabled: classes.btnDisabled}} type="submit" variant="contained">Sign up!</Button>
+        <Button classes={{disabled: classes.btnDisabled}} type="submit" variant="contained" data-cy='btn_sign_up_submit'>Sign up!</Button>
 
         <Link onClick={(e) => {
           e.preventDefault(); setLoginForm(true);

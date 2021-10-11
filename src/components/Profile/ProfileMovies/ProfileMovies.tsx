@@ -21,7 +21,7 @@ export const ProfileMovies = (profileId) => {
 
   return (
     <Box>
-      <List sx={{display: 'flex', flexWrap: 'wrap'}}>
+      <List data-cy='list_profile_movies' sx={{display: 'flex', flexWrap: 'wrap'}}>
         {movies.map((movie: IMovie) => {
           return (
             <MovieOnDashboard key={movie.id} movie={movie} type={type} />

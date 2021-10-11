@@ -79,7 +79,7 @@ export const FollowedUsers = () => {
         Followed users
       </Typography>
 
-      <List>
+      <List data-cy='list_followed_users'>
         {followedUsers.map((user) => {
           return (
             <ListItem key={user.id} classes={{root: classes.ListItemRoot}}>

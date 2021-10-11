@@ -24,7 +24,7 @@ export const MovieSuggestions = () => {
 
   return (
     <Box sx={{padding: '16px'}}>
-      <List sx={{display: 'flex', flexWrap: 'wrap'}}>
+      <List data-cy='list_movie_suggestions' sx={{display: 'flex', flexWrap: 'wrap'}}>
         {suggestions.map((movie: IMovie) => {
           return (
             <MovieOnDashboard key={movie.id} movie={movie} type={type} />
