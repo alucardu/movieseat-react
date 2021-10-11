@@ -82,7 +82,7 @@ const MovieSearchResultList = ({movieList}: {movieList: IMovieList}) => {
   };
 
   return (
-    <ul className={classes.resultList}>
+    <ul data-cy='list_movie_search_results' className={classes.resultList}>
       { orderedList.length === 0 ? (
         <li className={classes.noResults}>No results were found...</li>) : (null)
       }

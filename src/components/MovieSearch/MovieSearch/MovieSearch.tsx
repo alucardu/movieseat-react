@@ -50,6 +50,7 @@ const MovieSearch = ( {createSearchResults}: {createSearchResults: any} ) => {
   }, 500);
 
   return <input
+    data-cy='input_movie_search'
     className={classes.searchInput}
     ref={searchInpuit}
     placeholder="Search for a movie..."

@@ -105,6 +105,7 @@ export const DrawerContainer = () => {
       text: 'Profile',
       icon: <AccountCircleIcon fontSize='large'/>,
       link: `/profile/${currentUserVar().id}`,
+      dataCy: 'btn_account',
     },
     {
       component: <Login/>,
@@ -116,11 +117,13 @@ export const DrawerContainer = () => {
       text: 'Watchlist',
       icon: <LocalMoviesIcon fontSize='large'/>,
       link: '/',
+      dataCy: 'btn_watchlist',
     },
     {
       text: 'Suggestions',
       icon: <MovieFilterIcon fontSize='large'/>,
       link: '/suggestions',
+      dataCy: 'btn_suggestions',
     },
   ];
 
@@ -128,12 +131,12 @@ export const DrawerContainer = () => {
     <Drawer variant="permanent" open={open} ref={elRef}>
       <List>
         <ListItem>
-          <Link to='/'><Box className={`${classes.logo} ${open ? classes.slide : null}`} component='button'>Movieseat</Box></Link>
+          <Link data-cy='btn_home' to='/'><Box className={`${classes.logo} ${open ? classes.slide : null}`} component='button'>Movieseat</Box></Link>
         </ListItem>
         {drawerItems.map((drawerItem, i) => {
           return (
             drawerItem.component ? <div key={i}>{drawerItem.component}</div> :
-            <ListItem key={i} disablePadding>
+            <ListItem key={i} disablePadding data-cy={drawerItem.dataCy}>
               <ListItemButton disabled={!currentUser.isLoggedIn} component='a' href={drawerItem.link} onClick={drawerItem.callback}>
                 <ListItemIcon>{drawerItem.icon}</ListItemIcon>
                 <ListItemText primary={drawerItem.text} />

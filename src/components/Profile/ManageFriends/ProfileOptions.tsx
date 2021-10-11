@@ -53,7 +53,7 @@ export const ProfileOptions = () => {
   return (
     <Box className='profileBox'>
       <Button onClick={logout}>Logout</Button>
-      <Button onClick={handleClick}>Remove account</Button>
+      <Button onClick={handleClick} data-cy='btn_remove_account'>Remove account</Button>
       <Popover
         id={id}
         open={open}
@@ -66,7 +66,7 @@ export const ProfileOptions = () => {
       >
         <Box sx={{padding: '16px'}}>
           <Typography>Are you sure you want to remove your account?</Typography>
-          <IconButton onClick={removeAccount}>
+          <IconButton data-cy='btn_confirm_remove_account' onClick={removeAccount}>
             <CheckIcon />
           </IconButton>
           <IconButton onClick={handleClose}>

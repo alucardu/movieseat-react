@@ -41,7 +41,7 @@ const RemoveMovieFromDashboard = ({movie}: {movie: IMovie}) => {
   };
 
   return (
-    <div className={classes.deleteButton} onClick={() => removeMovieFromList(movie)}>
+    <div data-cy='btn_remove_movie_from_dashboard' className={classes.deleteButton} onClick={() => removeMovieFromList(movie)}>
       <DeleteForeverIcon/>
     </div>
   );
