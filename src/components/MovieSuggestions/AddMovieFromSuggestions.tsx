@@ -37,8 +37,9 @@ export const AddMovieFromSuggestions = (movie) => {
   if (error) return (<div>error</div>);
 
   const checkIsMovieDuplicate = (movies: IMovie[], movie: IMovie) => {
+    const movieId = movie.tmdb_id ? movie.tmdb_id : movie.id;
     for (const item of movies) {
-      if (item.tmdb_id === movie.tmdb_id) return true;
+      if (item.tmdb_id === movieId) return true;
     }
   };
 

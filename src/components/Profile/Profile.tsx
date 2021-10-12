@@ -37,7 +37,7 @@ const profile = () => {
   };
 
   return (
-    <Box sx={{padding: '16px'}}>
+    <Box sx={{width: '100vw', padding: '16px'}}>
       {currentUser.id !== parseInt(paramId) ?
       <>
         <FollowUser user={user} />

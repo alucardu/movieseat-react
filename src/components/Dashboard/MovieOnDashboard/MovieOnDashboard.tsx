@@ -41,13 +41,15 @@ const useStyles = makeStyles({
   },
 });
 
-const OverlayEl = (movie) => {
+const OverlayEl = (props) => {
+  const type = {...props}.type;
+  const movie = {...props}.movie;
   const classes = useStyles();
   return (
     <div className={classes.overlay}>
-      {movie.movie.type === 'suggestion' ?
-        <AddMovieFromSuggestions movie={movie.movie.movie} /> :
-        <RemoveMovieFromDashboard movie={movie.movie.movie}/>}
+      {type === 'suggestion' ?
+        <AddMovieFromSuggestions movie={movie} /> :
+        <RemoveMovieFromDashboard movie={movie}/>}
     </div>
   );
 };
@@ -101,7 +103,7 @@ const MovieOnDashboard = (props) => {
           image={imagePath + movie.poster_path}
         /> :
         null}
-      { isHover && <OverlayEl movie={movie} />}
+      { isHover && <OverlayEl type={{...props}.type} movie={movie} />}
     </ListItem>
   );
 };
