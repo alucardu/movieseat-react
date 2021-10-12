@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useLayoutEffect, useRef} from 'react';
 import {chunk} from 'lodash';
 import {makeStyles} from '@mui/styles';
+import {List} from '@mui/material';
 
 import {IMovie} from '../../../movieseat';
 import MovieOnDashboard from '../MovieOnDashboard/MovieOnDashboard';
@@ -34,6 +35,7 @@ const useStyles = makeStyles({
 });
 
 const MovieOverview = () => {
+  const movieOverviewContainerRef = useRef<any>(null);
   const [movieRows, setMovieRows] = useState<IMovie[][]>([]);
   const {error, loading, data: {moviesFromUser: movies} = {}} =
     useQuery(resolvers.queries.ReturnMoviesFromUser, {
@@ -42,11 +44,37 @@ const MovieOverview = () => {
 
   const classes = useStyles();
 
+  const [size, setSize] = useState(0);
+
+  useLayoutEffect(() => {
+    const updateSize = () => {
+      setSize(window.innerWidth);
+    };
+    window.addEventListener('resize', updateSize);
+    updateSize();
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+
   useEffect(() => {
     sortMovies(movies).then((res) => {
-      if (movies) setMovieRows(chunk(res, 8));
+      if (res.length > 0) {
+        const rowMaxLength = chunk(res, Math.floor(size / 200))[0].length;
+        const rows = chunk(res, Math.floor(size / 200));
+
+        rows.map((movieRow) => {
+          if (rowMaxLength !== movieRow.length) {
+            for (let i = movieRow.length; i < rowMaxLength; i++) {
+              movieRow.push({id: i, original_title: '', poster_path: '', release_date: '', tmdb_id: 1, backdrop_path: ''});
+            }
+
+            return movieRow;
+          }
+        });
+
+        if (movies) setMovieRows(rows);
+      }
     });
-  }, [movies]);
+  }, [movies, size]);
 
   if (error) return (<div>error</div>);
   if (loading) return (<div>loading...</div>);
@@ -62,14 +90,14 @@ const MovieOverview = () => {
   };
 
   return (
-    <Box className={classes.container}>
+    <Box className={classes.container} ref={movieOverviewContainerRef}>
       {movies?.length <= 0 ? <Onboard/> : null}
       { movieRows?.map((movieRow, index) => (
-        <ul data-cy='list_movie_overview_dashboard' className={classes.movieList} key={index}>
+        <List data-cy='list_movie_overview_dashboard' className={classes.movieList} key={index}>
           { movieRow.map((movie: IMovie) => (
-            <MovieOnDashboard key={movie.id} movie={movie}/>
+            <MovieOnDashboard key={movie.id} movie={movie} type={'asd'} ref={movieOverviewContainerRef}/>
           ))}
-        </ul>
+        </List>
       ))}
     </Box>
   );
