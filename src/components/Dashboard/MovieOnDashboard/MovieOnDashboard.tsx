@@ -1,26 +1,43 @@
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect, useLayoutEffect, forwardRef} from 'react';
 import RemoveMovieFromDashboard from './RemoveMovieFromDashboard/RemoveMovieFromDashboard';
 import {makeStyles} from '@mui/styles';
 import {AddMovieFromSuggestions} from '../..//MovieSuggestions/AddMovieFromSuggestions';
+import {CardMedia, ListItem} from '@mui/material';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import {IMovie} from '../../../movieseat';
 
 const useStyles = makeStyles({
   overlay: {
     position: 'absolute',
-    background: '#000000b5',
+    right: 0,
     top: '0',
-    width: '100%',
     height: '100%',
     display: 'flex',
+    width: '115px',
   },
 
   movieContainer: {
-    'maxHeight': '300px',
-    'maxWidth': '185px',
+    'borderRadius': '8px',
+    'width': 'auto',
+    'transition': 'all 0.3s ease',
+    'flexGrow': 1,
+    'flexBasis': 0,
     'position': 'relative',
+    'padding': 0,
+    'margin': '0 8px 8px 0',
     '& img': {
-      height: '100%',
-      width: '100%',
+      borderRadius: '8px',
     },
+  },
+
+  hover: {
+    'flexGrow': 2.5,
+    'backgroundColor': '#414141',
+  },
+
+  filler: {
+    background: 'transparent',
   },
 });
 
@@ -31,26 +48,67 @@ const OverlayEl = (movie) => {
       {movie.movie.type === 'suggestion' ?
         <AddMovieFromSuggestions movie={movie.movie.movie} /> :
         <RemoveMovieFromDashboard movie={movie.movie.movie}/>}
-
     </div>
   );
 };
 
-const MovieOnDashboard = (movie) => {
-  const classes = useStyles();
+const MovieOnDashboard = (props) => {
+  const movie: IMovie = {...props}.movie;
+  const [listItemSize, setListItemSize] = useState([0, 0]);
+  const [size, setSize] = useState(0);
+  const listRef = useRef<any>(null);
   const imagePath = 'https://image.tmdb.org/t/p/w185/';
   const [isHover, setHover] = useState(false);
+  const classes = useStyles();
+  const MovieOnDashboardClasses = classNames({
+    [`${classes.hover}`]: isHover,
+    [`${classes.movieContainer}`]: true,
+    [`${classes.filler}`]: movie.original_title.length === 0,
+  });
+
+  const handleHover = (value, event, movie) => {
+    if (movie.original_title.length == 0) return;
+    setHover(value);
+  };
+
+  useLayoutEffect(() => {
+    const updateSize = () => {
+      setSize(window.innerWidth);
+    };
+    window.addEventListener('resize', updateSize);
+    updateSize();
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+
+  useEffect(() => {
+    if (listRef.current) {
+      setListItemSize([listRef.current.offsetWidth * 1.5, listRef.current.offsetWidth]);
+    }
+  }, [size]);
 
   return (
-    <li className={classes.movieContainer}
-      title={movie.movie.original_title}
-      key={movie.movie.id}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}>
-      <img src={imagePath + movie.movie.poster_path} />
+    <ListItem
+      ref={listRef}
+      className={MovieOnDashboardClasses}
+      title={movie.original_title}
+      key={movie.id}
+      onMouseEnter={(event) => handleHover(true, event, movie)}
+      onMouseLeave={(event) => handleHover(false, event, movie)}>
+      {movie.original_title.length > 0 ?
+        <CardMedia
+          component="img"
+          sx={{height: listItemSize[0], maxWidth: listItemSize[1]}}
+          image={imagePath + movie.poster_path}
+        /> :
+        null}
       { isHover && <OverlayEl movie={movie} />}
-    </li>
+    </ListItem>
   );
 };
 
-export default MovieOnDashboard;
+export default forwardRef(MovieOnDashboard);
+
+MovieOnDashboard.PropTypes = {
+  props: PropTypes.object,
+  type: PropTypes.string,
+};
