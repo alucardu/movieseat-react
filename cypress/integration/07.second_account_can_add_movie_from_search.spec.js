@@ -16,8 +16,7 @@ describe('07 Second user can add movie from search', () => {
 
   it('Validate movie has been added to watchlist', () => {
     cy.get('[data-cy=list_movie_overview_dashboard]').first().within(() => {
-      cy.get('li').invoke('attr', 'title').should('eq', 'Kill Bill: Vol. 2');
-      cy.get('li').click();
+      cy.get('[title="Kill Bill: Vol. 2"]').should('exist');
     });
   });
 

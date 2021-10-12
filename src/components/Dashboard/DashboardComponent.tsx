@@ -7,9 +7,21 @@ import MovieSearchComponent from '../../components/MovieSearch/MovieSearchCompon
 import {RandomBackground} from './RandomBackground/RandomBackground';
 import {Box} from '@mui/system';
 
+import {useQuery} from '@apollo/client';
+
+import resolvers from '../../resolvers';
+
 
 const DashboardComponent = () => {
   const currentUser = useReactiveVar(currentUserVar);
+
+  const {error, loading, data: {moviesFromUser: movies} = {}} =
+    useQuery(resolvers.queries.ReturnMoviesFromUser, {
+      variables: {userId: currentUserVar().id},
+    });
+
+  if (error) return (<div>error</div>);
+  if (loading) return (<div>loading...</div>);
 
   return (
     <React.Fragment>
@@ -17,7 +29,7 @@ const DashboardComponent = () => {
         <Box sx={{width: '100vw'}}>
           <MovieSearchComponent />
           <DashboardMovieOverviewMenu />
-          <MovieOverview/>
+          <MovieOverview type='dashboard' movies={movies}/>
         </Box> :
         <RandomBackground />
       }

@@ -38,7 +38,7 @@ describe('10 Check movie notification from second user', () => {
   });
 
   it('Closes notifications popover', () => {
-    cy.get('body').click();
-    cy.get('[data-cy=btn_open_notifications]').should('not.be.visible');
+    cy.get('.MuiBackdrop-root').click({force: true});
+    cy.get('[data-cy=list_notifications]').should('not.exist');
   });
 });

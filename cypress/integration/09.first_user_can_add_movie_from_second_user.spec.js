@@ -14,18 +14,16 @@ describe('09 First user can add movie from second user profile', () => {
   });
 
   it('Can add movie from profile page', () => {
-    cy.get('[data-cy=list_profile_movies]').first().within(() => {
-      cy.get('li').invoke('attr', 'title').should('eq', 'Kill Bill: Vol. 2');
-      cy.get('li').click();
+    cy.get('[data-cy=list_movie_overview_dashboard]').first().within(() => {
+      cy.get('[title="Kill Bill: Vol. 2"]').click();
       cy.get('[data-cy=btn_add_movie]').click();
     });
   });
 
   it('Validate movie was added', () => {
     cy.get('[data-cy=btn_watchlist]').click();
-    cy.get('[data-cy=list_movie_overview_dashboard]').first().within(() => {
-      cy.get('li').invoke('attr', 'title').should('eq', 'Kill Bill: Vol. 2');
-      cy.get('li').click();
+    cy.get('[data-cy=list_movie_overview_dashboard]').within(() => {
+      cy.get('[title="Kill Bill: Vol. 2"]').should('exist');
     });
   });
 

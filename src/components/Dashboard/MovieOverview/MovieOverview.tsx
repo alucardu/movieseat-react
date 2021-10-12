@@ -34,13 +34,13 @@ const useStyles = makeStyles({
   },
 });
 
-const MovieOverview = () => {
+const MovieOverview = (props) => {
+  const type = {...props}.type;
+  const movies = {...props}.movies;
+  if (movies.length === 0) return (<div>loading</div>);
+
   const movieOverviewContainerRef = useRef<any>(null);
   const [movieRows, setMovieRows] = useState<IMovie[][]>([]);
-  const {error, loading, data: {moviesFromUser: movies} = {}} =
-    useQuery(resolvers.queries.ReturnMoviesFromUser, {
-      variables: {userId: currentUserVar().id},
-    });
 
   const classes = useStyles();
 
@@ -57,8 +57,8 @@ const MovieOverview = () => {
 
   useEffect(() => {
     sortMovies(movies).then((res) => {
-      if (res.length > 0) {
-        const rowMaxLength = chunk(res, Math.floor(size / 200))[0].length;
+      if (res.length > 0 && size > 0) {
+        const rowMaxLength = Math.floor(size / 200);
         const rows = chunk(res, Math.floor(size / 200));
 
         rows.map((movieRow) => {
@@ -76,9 +76,6 @@ const MovieOverview = () => {
     });
   }, [movies, size]);
 
-  if (error) return (<div>error</div>);
-  if (loading) return (<div>loading...</div>);
-
   const Onboard = () => {
     return (
       <Box className={classes.onboard}>
@@ -95,7 +92,7 @@ const MovieOverview = () => {
       { movieRows?.map((movieRow, index) => (
         <List data-cy='list_movie_overview_dashboard' className={classes.movieList} key={index}>
           { movieRow.map((movie: IMovie) => (
-            <MovieOnDashboard key={movie.id} movie={movie} type={'asd'} ref={movieOverviewContainerRef}/>
+            <MovieOnDashboard key={movie.id} movie={movie} type={type} ref={movieOverviewContainerRef}/>
           ))}
         </List>
       ))}
