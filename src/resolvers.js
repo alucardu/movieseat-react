@@ -355,6 +355,10 @@ const Mutation = {
         tmdb_id: args.tmdb_id,
         poster_path: args.poster_path,
         release_date: args.release_date,
+        runtime: args.runtime,
+        backdrop_path: args.backdrop_path,
+        tagline: args.tagline,
+        overview: args.overview,
         users: {
           connect: [{id: req.userId}],
         },
