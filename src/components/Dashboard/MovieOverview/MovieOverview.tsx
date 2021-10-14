@@ -72,6 +72,9 @@ const MovieOverview = (props) => {
 
         if (movies) setMovieRows(rows);
       }
+      if (res.length === 0 && size > 0) {
+        setMovieRows(res);
+      }
     });
   }, [movies, size]);
 
