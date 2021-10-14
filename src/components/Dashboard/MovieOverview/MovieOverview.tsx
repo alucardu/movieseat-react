@@ -37,7 +37,6 @@ const useStyles = makeStyles({
 const MovieOverview = (props) => {
   const type = {...props}.type;
   const movies = {...props}.movies;
-  if (movies.length === 0) return (<div>loading</div>);
 
   const movieOverviewContainerRef = useRef<any>(null);
   const [movieRows, setMovieRows] = useState<IMovie[][]>([]);
@@ -72,6 +71,9 @@ const MovieOverview = (props) => {
         });
 
         if (movies) setMovieRows(rows);
+      }
+      if (res.length === 0 && size > 0) {
+        setMovieRows(res);
       }
     });
   }, [movies, size]);
