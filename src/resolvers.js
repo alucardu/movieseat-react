@@ -190,17 +190,28 @@ const Mutation = {
   },
 
   signupUser: async (root, args, {req, res}) => {
-    const theUser = await prisma.user.findUnique({
-      where: {email: String(args.email)},
+    const theUser = await prisma.user.findMany({
+      where: {
+        email: {
+          contains: String(args.email),
+          mode: 'insensitive',
+        },
+      },
     });
 
-    if (theUser) throw new Error('Email already in use');
 
-    const theUserName = await prisma.user.findUnique({
-      where: {user_name: String(args.user_name)},
+    if (theUser.length > 0) throw new Error('Email already in use');
+
+    const theUserName = await prisma.user.findMany({
+      where: {
+        user_name: {
+          contains: String(args.user_name),
+          mode: 'insensitive',
+        },
+      },
     });
 
-    if (theUserName) throw new Error('Username already in use');
+    if (theUserName.length > 0) throw new Error('Username already in use');
 
     const newUser = await prisma.user.create({
       data: {
