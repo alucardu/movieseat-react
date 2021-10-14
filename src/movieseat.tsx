@@ -8,6 +8,10 @@ export interface IMovie {
   tmdb_id: number
 }
 
+export interface IMovieRating {
+  id: number
+}
+
 export interface ICurrentUser {
   id: number
   email: string
@@ -19,6 +23,7 @@ export interface INotification {
   action: string
   user: IUser
   movie?: IMovie
+  movieRating?: IMovieRating
 }
 
 export interface IUser {
@@ -47,5 +52,6 @@ export interface ISnackbar {
 
 export enum EAction {
   Onboard = 'Start following some users!',
-  Added_Movie = 'has added'
+  Added_Movie = 'has added',
+  Added_Rating = 'has rated',
 }

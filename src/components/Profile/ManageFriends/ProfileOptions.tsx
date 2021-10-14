@@ -44,6 +44,7 @@ export const ProfileOptions = () => {
         currentUserVar({id: 0, email: '', user_name: '', isLoggedIn: false});
         history.push('/');
         snackbarVar({message: 'Your account has been removed', severity: 'success'});
+        client.cache.reset();
       } else {
         snackbarVar({message: 'Your account has not been removed', severity: 'error'});
       }

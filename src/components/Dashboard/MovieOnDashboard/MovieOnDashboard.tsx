@@ -6,6 +6,7 @@ import {CardMedia, ListItem} from '@mui/material';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import {IMovie} from '../../../movieseat';
+import {RateMovie} from '../../RateMovie/RateMovie';
 
 const useStyles = makeStyles({
   overlay: {
@@ -49,7 +50,11 @@ const OverlayEl = (props) => {
     <div className={classes.overlay}>
       {type === 'suggestion' ?
         <AddMovieFromSuggestions movie={movie} /> :
-        <RemoveMovieFromDashboard movie={movie}/>}
+        <>
+          <RateMovie movie={movie} />
+          <RemoveMovieFromDashboard movie={movie}/>
+        </>
+      }
     </div>
   );
 };
@@ -69,6 +74,20 @@ const MovieOnDashboard = (props) => {
   });
 
   const handleHover = (value, event, movie) => {
+    if (event.target.parentElement.parentElement.nodeName =='UL') {
+      const listElements = event.target.parentElement.parentElement.children;
+      for (const item of listElements) {
+        const classes = item.classList;
+        for (const className of classes ) {
+          if (className.includes('hover')) {
+            if (item !== event.target.parentElement) {
+              item.classList.remove(className);
+              setHover(true);
+            }
+          }
+        }
+      }
+    }
     if (movie.original_title.length == 0) return;
     setHover(value);
   };
@@ -94,7 +113,7 @@ const MovieOnDashboard = (props) => {
       className={MovieOnDashboardClasses}
       title={movie.original_title}
       key={movie.id}
-      onMouseEnter={(event) => handleHover(true, event, movie)}
+      onMouseOver={(event) => handleHover(true, event, movie)}
       onMouseLeave={(event) => handleHover(false, event, movie)}>
       {movie.original_title.length > 0 ?
         <CardMedia
@@ -103,7 +122,7 @@ const MovieOnDashboard = (props) => {
           image={imagePath + movie.poster_path}
         /> :
         null}
-      { isHover && <OverlayEl type={{...props}.type} movie={movie} />}
+      { isHover ? <OverlayEl type={{...props}.type} movie={movie} /> : null}
     </ListItem>
   );
 };

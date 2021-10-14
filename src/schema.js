@@ -12,6 +12,10 @@ const typeDefs = gql`
     id: Int
   }
 
+  type MovieRating {
+    value: Int
+  }
+
   type Query {
     returnUsers: [User]
   }
@@ -56,10 +60,13 @@ const typeDefs = gql`
     action:         String
     followedUser:   User
     followedUserId: Int
+    user:           User
     userId:         Int
     movie:          Movie
     movieId:        Int
     watched:        Boolean
+    movieRating:    MovieRating
+    movieRatingId:  Int
   }
 
   type Query {
@@ -67,7 +74,15 @@ const typeDefs = gql`
   }
 
   type Query {
-    moviesFromUser (userId: Int!): [Movie]
+    moviesFromUser (
+      userId: Int!): [Movie]
+  }
+
+  type Query {
+    returnMovieRating (
+      id: Int
+      userId: Int!
+      movieId: Int!): movieRatingPayload
   }
 
   type Query {
@@ -109,17 +124,32 @@ const typeDefs = gql`
     ) : returnNotificationsPayload
   }
 
+  type movieRatingPayload {
+    userId:       Int
+    movieId:      Int
+    id:           Int
+    value:        Int
+  }
+
   type Mutation {
     removeUserAccount (
       email: String
       userId: Int
     ) : Boolean
 
+    addMovieRating (
+      userId: Int
+      movieId: Int
+      id: Int
+      value: Int
+    ) : movieRatingPayload
+
     createNotification (
       action: String
       userId: Int
       followedUserId: Int
       movieId: Int
+      movieRatingId: Int
     ): returnNotificationsPayload
 
     followUser(

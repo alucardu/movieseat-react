@@ -37,7 +37,6 @@ const useStyles = makeStyles({
 const MovieOverview = (props) => {
   const type = {...props}.type;
   const movies = {...props}.movies;
-  if (movies.length === 0) return (<div>loading</div>);
 
   const movieOverviewContainerRef = useRef<any>(null);
   const [movieRows, setMovieRows] = useState<IMovie[][]>([]);
@@ -57,7 +56,7 @@ const MovieOverview = (props) => {
 
   useEffect(() => {
     sortMovies(movies).then((res) => {
-      if (res.length > 0 && size > 0) {
+      if (size > 0) {
         const rowMaxLength = Math.floor(size / 200);
         const rows = chunk(res, Math.floor(size / 200));
 
@@ -90,9 +89,17 @@ const MovieOverview = (props) => {
     <Box className={classes.container} ref={movieOverviewContainerRef}>
       {movies?.length <= 0 ? <Onboard/> : null}
       { movieRows?.map((movieRow, index) => (
-        <List data-cy='list_movie_overview_dashboard' className={classes.movieList} key={index}>
+        <List
+          data-cy='list_movie_overview_dashboard'
+          className={classes.movieList}
+          key={index}
+        >
           { movieRow.map((movie: IMovie) => (
-            <MovieOnDashboard key={movie.id} movie={movie} type={type} ref={movieOverviewContainerRef}/>
+            <MovieOnDashboard
+              key={movie.id}
+              movie={movie}
+              type={type}
+              ref={movieOverviewContainerRef}/>
           ))}
         </List>
       ))}

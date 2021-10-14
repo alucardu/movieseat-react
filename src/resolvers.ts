@@ -17,8 +17,31 @@ const ReturnNotifications = gql`
           id
           user_name
         }
+        user {
+          id
+          email
+          user_name
+        }
+        movieRating {
+          value
+        }
       }
       unwatchedNotificationsCount
+    }
+  }
+`;
+
+const ReturnMovieRating = gql`
+  query returnMovieRating(
+    $movieId: Int!
+    $userId: Int!) {
+    returnMovieRating(
+      movieId: $movieId
+      userId: $userId) {
+        id
+        value
+        userId
+        movieId
     }
   }
 `;
@@ -139,24 +162,45 @@ const WatchNotification = gql`
 const CreateNotification = gql`
   mutation createNotification(
     $action: String
-    $followedUserId: Int
     $movieId: Int
+    $movieRatingId: Int
     $userId: Int
   ) {
     createNotification (
-      followedUserId: $followedUserId
       userId: $userId
       movieId: $movieId
+      movieRatingId: $movieRatingId
       action: $action
     ) {
       returnNotifications {
         action
-        followedUserId
         userId
         movieId
+        movieRatingId
         watched
       }
       unwatchedNotificationsCount
+    }
+  }
+`;
+
+const AddMovieRating = gql`
+  mutation addMovieRating (
+    $userId: Int
+    $movieId: Int
+    $id: Int
+    $value: Int
+  ) {
+    addMovieRating (
+      userId: $userId
+      movieId: $movieId
+      id: $id
+      value: $value
+    ) {
+      userId
+      movieId
+      id
+      value
     }
   }
 `;
@@ -252,7 +296,7 @@ const LogoutUser = gql`
     }
 `;
 
-const queries = {ReturnAllMovies, ReturnMoviesFromUser, ReturnUser, returnUsers, ReturnFollowedUsers, ReturnNotifications};
-const mutations = {removeUserAccount, RemoveMovie, LoginUser, LogoutUser, AddUserToMovie, FollowUser, UnfollowUser, CreateNotification, WatchNotification, signupUser};
+const queries = {ReturnMovieRating, ReturnAllMovies, ReturnMoviesFromUser, ReturnUser, returnUsers, ReturnFollowedUsers, ReturnNotifications};
+const mutations = {AddMovieRating, removeUserAccount, RemoveMovie, LoginUser, LogoutUser, AddUserToMovie, FollowUser, UnfollowUser, CreateNotification, WatchNotification, signupUser};
 
 export default {queries, mutations};

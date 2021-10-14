@@ -14,8 +14,6 @@ describe('11 Can add movie from suggestions', () => {
 
   it('Check if movie has been added to dashboard', () => {
     cy.get('[data-cy=btn_watchlist]').click();
-    cy.get('[data-cy=list_movie_overview_dashboard]').within(() => {
-      cy.get('[title="Black Water: Abyss"]');
-    });
+    cy.get('[data-cy=list_movie_overview_dashboard] li').eq(1).should('exist');
   });
 });

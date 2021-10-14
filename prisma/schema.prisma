@@ -17,29 +17,44 @@ model Movie {
   poster_path    String         @unique
   release_date   String
   users          User[]
-  Notification   Notification[]
+  notification   Notification[]
+  movieRating    MovieRating[]
+
 }
 
 model User {
-  id            Int             @id @default(autoincrement())
-  email         String          @unique
-  user_name     String          @unique
+  id            Int            @id @default(autoincrement())
+  email         String         @unique
+  user_name     String         @unique
   password      String
   movies        Movie[]
   notifications Notification[]
-  followedBy    User[]          @relation("UserFollows", references: [id])
-  following     User[]          @relation("UserFollows", references: [id])
-  Notification  Notification[]  @relation("FollowedUser")
+  followedBy    User[]         @relation("UserFollows", references: [id])
+  following     User[]         @relation("UserFollows", references: [id])
+  notification  Notification[] @relation("FollowedUser")
+  movieRating   MovieRating[]
 }
 
 model Notification {
-  id              Int           @id @default(autoincrement())
-  movie           Movie?        @relation(fields: [movieId], references: [id])
-  movieId         Int?
-  user            User?         @relation(fields: [userId], references: [id])
-  userId          Int?
-  followedUser    User?         @relation("FollowedUser", fields: [followedUserId], references: [id])
-  followedUserId  Int?
-  action          String
-  watched         Boolean       @default(false)
+  id             Int          @id @default(autoincrement())
+  movie          Movie?       @relation(fields: [movieId], references: [id])
+  movieId        Int?
+  movieRating    MovieRating? @relation(fields: [movieRatingId], references: [id])
+  movieRatingId  Int?
+  user           User?        @relation(fields: [userId], references: [id])
+  userId         Int?
+  followedUser   User?        @relation("FollowedUser", fields: [followedUserId], references: [id])
+  followedUserId Int?
+  action         String
+  watched        Boolean      @default(false)
+}
+
+model MovieRating {
+  id           Int            @id @default(autoincrement())
+  value        Int            @default(0)
+  user         User[]         @relation(fields: [userId], references: [id])
+  userId       Int?
+  movie        Movie[]        @relation(fields: [movieId], references: [id])
+  movieId      Int?
+  Notification Notification[]
 }

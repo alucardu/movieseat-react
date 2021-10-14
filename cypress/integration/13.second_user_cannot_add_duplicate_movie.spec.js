@@ -17,8 +17,4 @@ describe('13 User cannot add duplicate movie', () => {
   it('Validate duplicate movie cannot be added', () => {
     cy.get('div:contains(Kill Bill: Vol. 2 is already added to your watchlist.)');
   });
-
-  it('Users logs out', () => {
-    cy.get('[data-cy=btn_logout]').click({force: true});
-  });
 });
