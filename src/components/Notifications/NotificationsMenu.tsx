@@ -112,6 +112,8 @@ const NotificationsMenu = (props, ref) => {
         return <MovieNotification key={notification.id} notification={notification}/>;
       case EAction.Onboard:
         return <OnboardNotification key={notification.id} notification={notification} />;
+      case EAction.Added_Rating:
+        return <RatingNotification key={notification.id} notification={notification} />;
       default:
         break;
     }
@@ -143,6 +145,31 @@ const NotificationsMenu = (props, ref) => {
   if (error) return (<p>error</p>);
   if (loading) return (<p>loading</p>);
 
+  const RatingNotification = (notification) => {
+    return (
+      <ListItem
+        className={notification.notification.watched ? classes.watched : classes.unwatched}
+        classes={{root: classes.ListItemRoot}}
+      >
+        <Typography variant='body2'>
+          <Link to={`/profile/${notification.notification.user.id}`} onClick={handleClose}>{notification.notification.user.user_name}</Link>{' '}
+          {notification.notification.action}{' '}
+          {notification.notification.movie.original_title}{' with a '}
+          <b>{notification.notification.movieRating.value}</b>
+
+        </Typography>
+        { !notification.notification.watched ?
+          <IconButton onClick={() => {
+            watchNotification(notification.notification);
+          }}>
+            <CircleIcon color="primary"/>
+          </IconButton> :
+          null
+        }
+      </ListItem>
+    );
+  };
+
   const MovieNotification = (notification) => {
     return (
       <ListItem
@@ -150,7 +177,7 @@ const NotificationsMenu = (props, ref) => {
         classes={{root: classes.ListItemRoot}}
       >
         <Typography variant='body2'>
-          <Link to={`/profile/${notification.notification.followedUser.id}`} onClick={handleClose}>{notification.notification.followedUser.user_name}</Link>{' '}
+          <Link to={`/profile/${notification.notification.user.id}`} onClick={handleClose}>{notification.notification.user.user_name}</Link>{' '}
           {notification.notification.action}{' '}
           {notification.notification.movie.original_title}{' '}
           to their watchlist.

@@ -20,7 +20,7 @@ const DashboardComponent = () => {
       variables: {userId: currentUserVar().id},
     });
 
-  if (error) return (<div>error</div>);
+  if (error) return (<div>error {error.message}</div>);
   if (loading) return (<div>loading...</div>);
 
   return (

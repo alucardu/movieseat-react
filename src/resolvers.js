@@ -26,33 +26,36 @@ const followedBy = async (args, req) => {
   return followedBy.followedBy;
 };
 
+
 const returnUserNotifications = async (args, req) => {
-  const user = await prisma.user.findUnique({
-    where: {id: req.userId},
-    include: {
-      notifications: {
-        orderBy: {
-          id: 'desc',
-        },
-        include: {
-          movie: true,
-          followedUser: true,
-        },
+  const notifications = await prisma.notification.findMany({
+    orderBy: {
+      id: 'desc',
+    },
+    where: {
+      followedUserId: {
+        equals: req.userId,
       },
+    },
+    include: {
+      movie: true,
+      user: true,
+      movieRating: true,
+      followedUser: true,
     },
   });
 
   const unwatchedNotificationsCount = await prisma.notification.count({
     where: {
-      userId: req.userId,
+      followedUserId: req.userId,
       watched: false,
     },
   });
 
-  return {returnNotifications: user.notifications, unwatchedNotificationsCount};
+  return {returnNotifications: notifications, unwatchedNotificationsCount};
 };
 
-const returnMoviesFromUser = async (args, req) => {
+const returnMoviesFromUser = async (args, req, res) => {
   if (req.userId) {
     const user = await prisma.user.findUnique({
       where: {id: args.userId || req.userId},
@@ -60,7 +63,8 @@ const returnMoviesFromUser = async (args, req) => {
         movies: true,
       },
     });
-    return user.movies;
+
+    return user.movies || [];
   }
 };
 
@@ -99,9 +103,42 @@ const Query = {
     return prisma.movie.findMany();
   },
 
+  returnMovieRating: async (_, args, {req}) => {
+    return prisma.movieRating.findFirst({
+      where: {
+        userId: args.userId,
+        movieId: args.movieId,
+      },
+    });
+  },
+
 };
 
 const Mutation = {
+  addMovieRating: async (_, args, {req, res}) => {
+    const movieRating = await prisma.movieRating.upsert({
+      where: {
+        id: args.id || 0,
+      },
+      update: {
+        value: args.value,
+      },
+      create: {
+        value: args.value,
+        userId: args.userId,
+        movieId: args.movieId,
+        user: {
+          connect: {id: args.userId},
+        },
+        movie: {
+          connect: {id: args.movieId},
+        },
+      },
+    });
+
+    return movieRating;
+  },
+
   watchNotification: async (_, args, {req, res}) => {
     await prisma.notification.update({
       where: {id: args.notificationId},
@@ -217,9 +254,9 @@ const Mutation = {
   createNotification: async (_, args, {req, res}) => {
     if (args.action === 'has added') {
       await followedUsers(args, req).then((followedBy) => {
-        followedBy.map(async (user) => {
+        followedBy.map(async (followedUser) => {
           await prisma.user.update({
-            where: {id: user.id},
+            where: {id: args.userId},
             data: {
               notifications: {
                 create: {
@@ -228,7 +265,33 @@ const Mutation = {
                     connect: {id: args.movieId},
                   },
                   followedUser: {
-                    connect: {id: args.followedUserId},
+                    connect: {id: followedUser.id},
+                  },
+                },
+              },
+            },
+          });
+        });
+      });
+    }
+
+    if (args.action === 'has rated') {
+      await followedUsers(args, req).then((followedBy) => {
+        followedBy.map(async (followedUser) => {
+          await prisma.user.update({
+            where: {id: args.userId},
+            data: {
+              notifications: {
+                create: {
+                  action: args.action,
+                  movie: {
+                    connect: {id: args.movieId},
+                  },
+                  followedUser: {
+                    connect: {id: followedUser.id},
+                  },
+                  movieRating: {
+                    connect: {id: args.movieRatingId},
                   },
                 },
               },
@@ -239,14 +302,28 @@ const Mutation = {
     }
 
     if (args.action === 'Start following some users!') {
-      await prisma.notification.create({
+      await prisma.user.update({
+        where: {id: args.userId},
         data: {
-          action: args.action,
-          user: {
-            connect: {id: args.userId},
+          notifications: {
+            create: {
+              action: args.action,
+              followedUser: {
+                connect: {id: args.userId},
+              },
+            },
           },
         },
       });
+
+      // await prisma.notification.create({
+      //   data: {
+      //     action: args.action,
+      //     user: {
+      //       connect: {id: args.userId},
+      //     },
+      //   },
+      // });
     }
 
     return await returnUserNotifications(args, req);
@@ -301,10 +378,21 @@ const Mutation = {
     }
 
     if (args.userId) {
+      await prisma.notification.deleteMany({
+        where: {
+          userId: args.userId,
+        },
+      });
       await prisma.user.delete({
         where: {id: args.userId},
       });
     }
+
+    res.cookie('id', '', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    });
 
     return true;
   },

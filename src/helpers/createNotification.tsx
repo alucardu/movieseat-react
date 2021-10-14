@@ -10,9 +10,21 @@ export const useCreateNotification = () => {
     if (notification.action === EAction.Added_Movie) {
       await createNotification({
         variables: {
+          userId: notification.user.id,
+          movieId: notification.movie?.id,
+          action: notification.action,
+        },
+      });
+    }
+
+    if (notification.action === EAction.Added_Rating) {
+      await createNotification({
+        variables: {
+          userId: notification.user.id,
           movieId: notification.movie?.id,
           followedUserId: notification.user.id,
           action: notification.action,
+          movieRatingId: notification.movieRating?.id,
         },
       });
     }

@@ -5,6 +5,8 @@ import {useMutation} from '@apollo/client';
 import resolvers from '../../../..//resolvers';
 import {snackbarVar} from '../../../../cache';
 import {makeStyles} from '@mui/styles';
+import {Box} from '@mui/system';
+import {IconButton} from '@mui/material';
 
 const useStyles = makeStyles({
   deleteButton: {
@@ -41,9 +43,15 @@ const RemoveMovieFromDashboard = ({movie}: {movie: IMovie}) => {
   };
 
   return (
-    <div data-cy='btn_remove_movie_from_dashboard' className={classes.deleteButton} onClick={() => removeMovieFromList(movie)}>
-      <DeleteForeverIcon/>
-    </div>
+    <Box>
+      <IconButton
+        data-cy='btn_remove_movie_from_dashboard'
+        className={classes.deleteButton}
+        onClick={() => removeMovieFromList(movie)}
+      >
+        <DeleteForeverIcon/>
+      </IconButton>
+    </Box>
   );
 };
 
