@@ -16,6 +16,10 @@ model Movie {
   tmdb_id        Int            @unique
   poster_path    String         @unique
   release_date   String
+  backdrop_path  String         
+  runtime        Int
+  tagline        String         
+  overview       String         
   users          User[]
   notification   Notification[]
   movieRating    MovieRating[]

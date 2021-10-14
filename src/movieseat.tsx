@@ -5,7 +5,10 @@ export interface IMovie {
   poster_path: string
   release_date: string
   backdrop_path: string
+  overview: string
   tmdb_id: number
+  tagline: string
+  runtime: number
 }
 
 export interface IMovieRating {

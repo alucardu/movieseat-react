@@ -89,6 +89,10 @@ const ReturnMoviesFromUser = gql`
       poster_path
       tmdb_id
       release_date
+      tagline
+      backdrop_path
+      runtime
+      overview
     }
   }
 `;
@@ -110,12 +114,20 @@ const AddUserToMovie = gql`
     $tmdb_id: Int!,
     $poster_path: String!
     $release_date: String!
+    $runtime: Int!
+    $backdrop_path: String!
+    $tagline: String!
+    $overview: String!
   ) {
     addUserToMovie (
       original_title: $original_title,
       tmdb_id: $tmdb_id,
       poster_path: $poster_path
       release_date: $release_date
+      runtime: $runtime
+      backdrop_path: $backdrop_path
+      tagline: $tagline
+      overview: $overview
     ) {
         addUserToMovie {
           id
@@ -123,6 +135,10 @@ const AddUserToMovie = gql`
           poster_path
           tmdb_id
           release_date
+          runtime
+          backdrop_path
+          tagline
+          overview
         }
         addedMovie {
           id
@@ -130,6 +146,9 @@ const AddUserToMovie = gql`
           poster_path
           tmdb_id
           release_date
+          runtime
+          backdrop_path
+          tagline
         }
       }
     }

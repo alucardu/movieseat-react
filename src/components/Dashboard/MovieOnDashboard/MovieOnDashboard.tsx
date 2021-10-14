@@ -7,15 +7,28 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import {IMovie} from '../../../movieseat';
 import {RateMovie} from '../../RateMovie/RateMovie';
+import {MovieModal} from '../../MovieModal/MovieModal';
 
 const useStyles = makeStyles({
   overlay: {
-    position: 'absolute',
-    right: 0,
-    top: '0',
-    height: '100%',
-    display: 'flex',
-    width: '115px',
+    'position': 'absolute',
+    'right': 0,
+    'top': '0',
+    'height': '100%',
+    'paddingRight': '8px',
+    'display': 'flex',
+    'flexDirection': 'column',
+    'alignItems': 'flex-end',
+    'justifyContent': 'center',
+    '& svg': {
+      color: 'white',
+      fontSize: '1em',
+    },
+  },
+
+  overlay_btn: {
+    color: 'white',
+    fontSize: '1.5em',
   },
 
   movieContainer: {
@@ -33,7 +46,7 @@ const useStyles = makeStyles({
   },
 
   hover: {
-    'flexGrow': 2.5,
+    'flexGrow': 1.5,
     'backgroundColor': '#414141',
   },
 
@@ -51,6 +64,7 @@ const OverlayEl = (props) => {
       {type === 'suggestion' ?
         <AddMovieFromSuggestions movie={movie} /> :
         <>
+          <MovieModal movie={movie} />
           <RateMovie movie={movie} />
           <RemoveMovieFromDashboard movie={movie}/>
         </>

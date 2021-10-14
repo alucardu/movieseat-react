@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {IMovie} from '../../../../movieseat';
 import {useApolloClient, useMutation} from '@apollo/client';
 import resolvers from '../../../../../src/resolvers';
@@ -38,6 +38,16 @@ const useStyles = makeStyles({
 });
 
 const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
+  const baseUrl = 'https://api.themoviedb.org/3/movie/';
+  const movieId = movie.id;
+  const apiKey = '?api_key=a8f7039633f2065942cd8a28d7cadad4&language=en-US';
+  const [movieDetails, setMovieDetails] = useState<IMovie>();
+  fetch(baseUrl + movieId + apiKey)
+      .then((response) => response.json())
+      .then((data) => {
+        setMovieDetails(data);
+      });
+
   const createNotification = useCreateNotification();
   const client = useApolloClient();
   const movies = client.readQuery({
@@ -48,9 +58,9 @@ const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
 
   const [addUserToMovie] = useMutation(resolvers.mutations.AddUserToMovie);
 
-  const checkIsMovieDuplicate = (movies: IMovie[], movie: IMovie) => {
+  const checkIsMovieDuplicate = (movies: IMovie[], movieDetails: IMovie) => {
     for (const item of movies) {
-      if (item.tmdb_id === movie.id) return true;
+      if (item.tmdb_id === movieDetails.id) return true;
     }
   };
 
@@ -59,7 +69,7 @@ const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
     let severity = 'warning';
     if (!checkIsMovieDuplicate(movies.moviesFromUser, movie)) {
       await addUserToMovie({
-        variables: {...movie, tmdb_id: movie.id},
+        variables: {...movieDetails, tmdb_id: movieDetails?.id},
         update: (cache, {data}) => {
           cache.modify({
             fields: {
