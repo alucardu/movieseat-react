@@ -40,7 +40,7 @@ export const SearchUser = () => {
     }
 
     const filteredResults = users
-        .filter((user) => user.user_name.includes(query))
+        .filter((user) => user.user_name.toLowerCase().includes(query.toLowerCase()))
         .slice(0, 5)
         .map((filteredName) => {
           return filteredName;
