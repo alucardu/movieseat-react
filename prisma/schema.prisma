@@ -23,7 +23,6 @@ model Movie {
   users          User[]
   notification   Notification[]
   movieRating    MovieRating[]
-
 }
 
 model User {

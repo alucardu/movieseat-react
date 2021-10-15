@@ -127,7 +127,7 @@ const MovieOnDashboard = (props) => {
       className={MovieOnDashboardClasses}
       title={movie.original_title}
       key={movie.id}
-      onMouseOver={(event) => handleHover(true, event, movie)}
+      onMouseEnter={(event) => handleHover(true, event, movie)}
       onMouseLeave={(event) => handleHover(false, event, movie)}>
       {movie.original_title.length > 0 ?
         <CardMedia

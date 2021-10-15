@@ -23,7 +23,6 @@ const useStyles = makeStyles({
 export const MovieModal = (props) => {
   const movie = {...props}.movie;
   const classes = useStyles();
-  console.log(movie);
 
   const style = {
     'position': 'absolute' as 'absolute',

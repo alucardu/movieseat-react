@@ -64,6 +64,7 @@ psql -U db_user college_db
 
 TABLE "Notification";
 TABLE "MovieRating";
+TABLE "Movie";
 
 DELETE FROM "Notification";
 DELETE FROM "Movie";
