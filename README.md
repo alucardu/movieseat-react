@@ -92,3 +92,5 @@ alucardu has commented on your Dune review
 alucardu is following you
 
 [followedUser] [action] [movie]
+
+systemctl restart nginx

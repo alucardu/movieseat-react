@@ -13,20 +13,20 @@ import {DrawerContainer} from './components/Drawer/DrawerContainer';
 import {MovieSuggestions} from './components/MovieSuggestions/MovieSuggestions';
 
 const App = () => {
-  const checkIfUserIsLoggedIn = () => {
-    const {error, loading, data} = useQuery(
-        resolvers.queries.ReturnUser);
-    if (!error && !loading && data.returnUser) {
-      setTimeout(() => {
-        currentUserVar({
-          ...data.returnUser,
-          isLoggedIn: true,
-        });
-      }, 0);
-    }
-  };
+  const {error, loading, data} = useQuery(
+      resolvers.queries.ReturnUser);
 
-  checkIfUserIsLoggedIn();
+  if (!error && !loading && data.returnUser) {
+    setTimeout(() => {
+      currentUserVar({
+        ...data.returnUser,
+        isLoggedIn: true,
+      });
+    }, 0);
+  }
+
+  if (error) return (<div>Error</div>);
+  if (loading) return (<div>Loading</div>);
 
   return (
     <React.Fragment>
