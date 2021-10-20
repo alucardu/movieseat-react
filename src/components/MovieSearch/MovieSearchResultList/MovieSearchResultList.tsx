@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import posterNotFound from '../../../assets/images/poster_not_found.svg';
-import AddMovieToWatchList from './AddMovieToDashboard/AddMovieToDashboard';
+import {AddMovieToWatchList} from './AddMovieToDashboard/AddMovieToDashboard';
 import {orderBy} from 'lodash';
 import {IMovie, IMovieList} from '../../../movieseat';
 import {makeStyles} from '@mui/styles';
@@ -61,11 +61,16 @@ const MovieSearchResultList = ({movieList}: {movieList: IMovieList}) => {
 
   const ResultListItem = (movie: any) => {
     const [isHover, setHover] = useState(false);
+
+    const handleHover = (value) => {
+      setHover(value);
+    };
+
     return (
       <li
         key={movie.movie.id}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}>
+        onMouseEnter={() => handleHover(true)}
+        onMouseLeave={() => handleHover(false)}>
         <p>
           <span>{movie.movie.original_title}</span>
           <span>{movie.movie.release_date}</span>

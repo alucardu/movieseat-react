@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import {IconButton} from '@mui/material';
 import AddBoxIcon from '@mui/icons-material/AddBox';
@@ -28,11 +28,14 @@ export const AddMovieFromSuggestions = ({movie}: {movie: IMovie}) => {
   const baseUrl = 'https://api.themoviedb.org/3/movie/';
   const apiKey = '?api_key=a8f7039633f2065942cd8a28d7cadad4&language=en-US';
   const [movieDetails, setMovieDetails] = useState<IMovie>();
-  fetch(baseUrl + movieId + apiKey)
-      .then((response) => response.json())
-      .then((data) => {
-        setMovieDetails(data);
-      });
+
+  useEffect(() => {
+    fetch(baseUrl + movieId + apiKey)
+        .then((response) => response.json())
+        .then((data) => {
+          setMovieDetails(data);
+        });
+  }, []);
 
   const {error, loading, data: {moviesFromUser: movies} = {}} =
     useQuery(resolvers.queries.ReturnMoviesFromUser, {
