@@ -78,6 +78,8 @@ const MovieOverview = (props) => {
     });
   }, [movies, size]);
 
+  console.log(movieRows);
+
   const Onboard = () => {
     return (
       <Box className={classes.onboard}>
