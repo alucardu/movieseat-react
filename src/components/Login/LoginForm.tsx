@@ -16,7 +16,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import {useCreateNotification} from '../../helpers/createNotification';
-import {EAction} from '../../movieseat';
+import {EAction} from 'Src/movieseat';
 
 type Props = {
   onRequestClose: any

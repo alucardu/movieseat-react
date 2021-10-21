@@ -14,8 +14,7 @@ import {List, ListItemButton, Typography} from '@mui/material';
 import {Box} from '@mui/system';
 
 import ListItemIcon from '@mui/material/ListItemIcon';
-import {} from 'react-router/node_modules/@types/react';
-import {EAction} from '../../movieseat';
+import {EAction} from 'Src/movieseat';
 
 const useStyles = makeStyles({
   paperRoot: {

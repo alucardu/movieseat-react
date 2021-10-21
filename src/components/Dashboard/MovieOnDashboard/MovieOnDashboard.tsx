@@ -5,7 +5,7 @@ import {AddMovieFromSuggestions} from '../..//MovieSuggestions/AddMovieFromSugge
 import {CardMedia, ListItem} from '@mui/material';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import {IMovie} from '../../../movieseat';
+import {IMovie} from 'Src/movieseat';
 import {RateMovie} from '../../RateMovie/RateMovie';
 import {MovieModal} from '../../MovieModal/MovieModal';
 

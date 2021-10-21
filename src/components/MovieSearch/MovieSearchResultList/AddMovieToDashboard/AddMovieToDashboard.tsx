@@ -1,11 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {IMovie} from '../../../../movieseat';
+import {IMovie, EAction} from 'Src/movieseat';
 import {useApolloClient, useMutation} from '@apollo/client';
 import resolvers from '../../../../../src/resolvers';
 import {currentUserVar, snackbarVar} from '../../../../cache';
 import {makeStyles} from '@mui/styles';
 import {useCreateNotification} from '../../../../helpers/createNotification';
-import {EAction} from '../../../../movieseat';
 
 const backdropUrl = 'https://image.tmdb.org/t/p/w780/';
 interface OverlayData {

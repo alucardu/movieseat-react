@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import posterNotFound from '../../../assets/images/poster_not_found.svg';
 import {AddMovieToWatchList} from './AddMovieToDashboard/AddMovieToDashboard';
 import {orderBy} from 'lodash';
-import {IMovie, IMovieList} from '../../../movieseat';
+import {IMovie, IMovieList} from 'Src/movieseat';
 import {makeStyles} from '@mui/styles';
 
 const useStyles = makeStyles({

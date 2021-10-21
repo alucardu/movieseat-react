@@ -6,7 +6,7 @@ import {makeStyles} from '@mui/styles';
 import {useMutation, useQuery} from '@apollo/client';
 import resolvers from '../../resolvers';
 import {currentUserVar, snackbarVar} from '../../cache';
-import {EAction, IMovie} from '../../movieseat';
+import {EAction, IMovie} from 'Src/movieseat';
 
 import {useCreateNotification} from '../../helpers/createNotification';
 

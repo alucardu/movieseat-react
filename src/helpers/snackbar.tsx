@@ -3,7 +3,7 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import {snackbarVar} from '../cache';
 import {useReactiveVar} from '@apollo/client';
-import {ISnackbar} from 'src/movieseat';
+import {ISnackbar} from 'Src/movieseat';
 
 
 const AlertWrapper = (props) => {

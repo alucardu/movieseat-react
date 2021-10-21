@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 import {Box} from '@mui/system';
 import {makeStyles} from '@mui/styles';
 
-import {IUser} from '../../../movieseat';
+import {IUser} from 'Src/movieseat';
 
 const useStyles = makeStyles({
   ListItemRoot: {

@@ -1,6 +1,6 @@
 import React from 'react';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import {IMovie} from '../../../../movieseat';
+import {IMovie} from 'Src/movieseat';
 import {useMutation} from '@apollo/client';
 import resolvers from '../../../..//resolvers';
 import {snackbarVar} from '../../../../cache';

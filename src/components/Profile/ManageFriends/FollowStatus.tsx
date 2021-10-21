@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {useMutation, useQuery} from '@apollo/client';
 import resolvers from '../../../resolvers';
-import {IUser} from '../../../movieseat';
+import {IUser} from 'Src/movieseat';
 import {currentUserVar, snackbarVar} from '../../../cache';
 import {Box} from '@mui/system';
 import {Button} from '@mui/material';

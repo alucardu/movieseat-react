@@ -1,6 +1,6 @@
 import localforage from 'localforage';
 import {orderBy} from 'lodash';
-import {ISelectedSortType} from '../movieseat';
+import {ISelectedSortType} from 'Src/movieseat';
 
 const sortMovies = async (movies) => {
   const returnSortType = (movie, value) => {
