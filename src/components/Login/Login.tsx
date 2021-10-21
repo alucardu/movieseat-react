@@ -1,24 +1,19 @@
 import React, {useState} from 'react';
-import {useApolloClient, useMutation, useReactiveVar} from '@apollo/client';
-
-import resolvers from '../../resolvers';
-import {currentUserVar} from '../../cache';
-import LoginIcon from '@mui/icons-material/Login';
-import LogoutIcon from '@mui/icons-material/Logout';
-
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import {ListItemButton} from '@mui/material';
-
-import Popover from '@mui/material/Popover';
-import {makeStyles} from '@mui/styles';
-
-import {LoginForm} from './LoginForm';
 import {useHistory} from 'react-router-dom';
 
-import {snackbarVar} from '../../cache';
+import {useApolloClient, useMutation, useReactiveVar} from '@apollo/client';
 
+import {ListItemButton, Popover, ListItem} from '@mui/material';
+import {makeStyles} from '@mui/styles';
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+
+import resolvers from 'Src/resolvers';
+import {currentUserVar, snackbarVar} from 'Src/cache';
+
+import {LoginForm} from 'Components/Login/LoginForm';
 
 const useStyles = makeStyles(() => ({
   popoverRoot: {

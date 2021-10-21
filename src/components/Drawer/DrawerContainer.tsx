@@ -1,24 +1,23 @@
 import React, {useState, useRef} from 'react';
+import {Link} from 'react-router-dom';
+
+import {useReactiveVar} from '@apollo/client';
+
 import {styled, Theme, CSSObject} from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
-import NotificationsMenu from '../Notifications/NotificationsMenu';
-import Login from '../Login/Login';
-import {currentUserVar} from '../../cache';
 import MovieFilterIcon from '@mui/icons-material/MovieFilter';
 
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import {ListItemButton, Box} from '@mui/material';
-
+import {List, ListItem, ListItemIcon, ListItemText, ListItemButton, Box} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Divider from '@mui/material/Divider';
-import {useReactiveVar} from '@apollo/client';
 import {makeStyles} from '@mui/styles';
-import {Link} from 'react-router-dom';
+
+import {currentUserVar} from 'Src/cache';
+
+import NotificationsMenu from 'Components/Notifications/NotificationsMenu';
+import Login from 'Components/Login/Login';
 
 const drawerWidth = 240;
 

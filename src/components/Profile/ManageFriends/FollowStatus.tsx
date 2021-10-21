@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react';
+
 import {useMutation, useQuery} from '@apollo/client';
-import resolvers from '../../../resolvers';
-import {IUser} from '../../../movieseat';
-import {currentUserVar, snackbarVar} from '../../../cache';
-import {Box} from '@mui/system';
-import {Button} from '@mui/material';
+
+import {Box, Button} from '@mui/material';
+
+import resolvers from 'Src/resolvers';
+import {IUser} from 'Src/movieseat';
+import {currentUserVar, snackbarVar} from 'Src/cache';
 
 const FollowStatus = ({user}: {user: IUser}) => {
   const [userIsFollowed, setUserIsFollowed] = useState(false);

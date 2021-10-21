@@ -1,5 +1,5 @@
 import {ReactiveVar, makeVar} from '@apollo/client';
-import {IMovie, ICurrentUser, ISelectedSortType, ISnackbar} from './movieseat';
+import {IMovie, ICurrentUser, ISelectedSortType, ISnackbar} from 'Src/movieseat';
 
 export const moviesVar: ReactiveVar<IMovie[]> = makeVar<IMovie[]>([]);
 

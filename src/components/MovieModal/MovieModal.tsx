@@ -1,12 +1,9 @@
-import {IconButton, Typography} from '@mui/material';
-import {Box} from '@mui/system';
 import React from 'react';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
-import Backdrop from '@mui/material/Backdrop';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+
+import {IconButton, Typography, Box, Modal, Fade, Backdrop} from '@mui/material/';
 import {makeStyles} from '@mui/styles';
+import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 const useStyles = makeStyles({
   closeBtn: {

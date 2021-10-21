@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
+import {useHistory} from 'react-router-dom';
 
 import {useMutation, useApolloClient} from '@apollo/client';
-import {Box} from '@mui/system';
-import {currentUserVar, snackbarVar} from '../../../cache';
-import resolvers from '../../../resolvers';
-import {useHistory} from 'react-router-dom';
-import {Button, Typography} from '@mui/material';
-import {Popover, IconButton} from '@mui/material';
+
+import {Box, Button, Typography, Popover, IconButton} from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
+
+import {currentUserVar, snackbarVar} from 'Src/cache';
+import resolvers from 'Src/resolvers';
 
 export const ProfileOptions = () => {
   const [anchorEl, setAnchorEl] = useState(null);

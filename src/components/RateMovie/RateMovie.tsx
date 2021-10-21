@@ -1,16 +1,18 @@
 import React, {useState, useEffect} from 'react';
-import {IconButton, Popover, Typography} from '@mui/material';
-import {Box} from '@mui/system';
-import GradeIcon from '@mui/icons-material/Grade';
-import classNames from 'classnames';
-import {makeStyles} from '@mui/styles';
 
 import {useMutation, useQuery} from '@apollo/client';
 
-import resolvers from '../../resolvers';
-import {EAction} from '../../movieseat';
-import {currentUserVar, snackbarVar} from '../../cache';
-import {useCreateNotification} from '../../helpers/createNotification';
+import classNames from 'classnames';
+
+import {makeStyles} from '@mui/styles';
+import {IconButton, Popover, Typography, Box} from '@mui/material';
+import GradeIcon from '@mui/icons-material/Grade';
+
+
+import resolvers from 'Src/resolvers';
+import {EAction} from 'Src/movieseat';
+import {currentUserVar, snackbarVar} from 'Src/cache';
+import {useCreateNotification} from 'Helpers/createNotification';
 
 const useStyles = makeStyles({
 

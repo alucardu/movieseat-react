@@ -1,14 +1,16 @@
 import React, {useState, useEffect} from 'react';
 
+import {useMutation, useQuery} from '@apollo/client';
+
+import {makeStyles} from '@mui/styles';
 import {IconButton} from '@mui/material';
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import {makeStyles} from '@mui/styles';
-import {useMutation, useQuery} from '@apollo/client';
-import resolvers from '../../resolvers';
-import {currentUserVar, snackbarVar} from '../../cache';
-import {EAction, IMovie} from '../../movieseat';
 
-import {useCreateNotification} from '../../helpers/createNotification';
+import resolvers from 'Src/resolvers';
+import {currentUserVar, snackbarVar} from 'Src/cache';
+import {EAction, IMovie} from 'Src/movieseat';
+
+import {useCreateNotification} from 'Helpers/createNotification';
 
 const useStyles = makeStyles({
   deleteButton: {

@@ -1,21 +1,17 @@
 import React, {useState, forwardRef} from 'react';
-import {useMutation, useQuery, useReactiveVar} from '@apollo/client';
-import resolvers from '../../resolvers';
-import {makeStyles} from '@mui/styles';
-import CircleIcon from '@mui/icons-material/Circle';
-import IconButton from '@mui/material/IconButton';
 import {Link} from 'react-router-dom';
-import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
-import Popover from '@mui/material/Popover';
-import {currentUserVar} from '../../cache';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import {List, ListItemButton, Typography} from '@mui/material';
-import {Box} from '@mui/system';
 
+import {useMutation, useQuery, useReactiveVar} from '@apollo/client';
+
+import {makeStyles} from '@mui/styles';
+import {IconButton, Box, ListItemText, ListItem, List, ListItemButton, Typography, Popover} from '@mui/material';
+import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import {} from 'react-router/node_modules/@types/react';
-import {EAction} from '../../movieseat';
+import CircleIcon from '@mui/icons-material/Circle';
+
+import resolvers from 'Src/resolvers';
+import {currentUserVar} from 'Src/cache';
+import {EAction} from 'Src/movieseat';
 
 const useStyles = makeStyles({
   paperRoot: {

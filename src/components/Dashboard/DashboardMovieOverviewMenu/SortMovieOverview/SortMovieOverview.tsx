@@ -1,13 +1,16 @@
 import React, {useState, useEffect} from 'react';
+
+import {useApolloClient} from '@apollo/client';
+
 import {FormGroup, Checkbox, MenuItem, FormControlLabel} from '@mui/material';
 import {Button, FormControl, InputLabel, Select} from '@mui/material/';
 import {makeStyles} from '@mui/styles';
+
 import localforage from 'localforage';
-import {ISelectedSortType} from 'src/movieseat';
-import {snackbarVar} from '../../../../cache';
-import {useApolloClient} from '@apollo/client';
-import {currentUserVar} from '../../../../cache';
-import resolvers from '../../../../resolvers';
+
+import {ISelectedSortType} from 'Src/movieseat';
+import {snackbarVar, currentUserVar} from 'Src/cache';
+import resolvers from 'Src/resolvers';
 
 const useStyles = makeStyles({
   menuButton: {

@@ -1,19 +1,15 @@
 import React, {useState, useEffect, useLayoutEffect, useRef} from 'react';
+
 import {chunk} from 'lodash';
+
 import {makeStyles} from '@mui/styles';
-import {List} from '@mui/material';
-
-import {IMovie} from '../../../movieseat';
-import MovieOnDashboard from '../MovieOnDashboard/MovieOnDashboard';
-import {useQuery} from '@apollo/client';
-
-import resolvers from '../../../resolvers';
-
-import {currentUserVar} from '../../../cache';
-import sortMovies from '../../../helpers/sortMovies';
-import {Box} from '@mui/system';
-import {Typography} from '@mui/material';
+import {List, Typography, Box} from '@mui/material';
 import {Link} from 'react-router-dom';
+
+import {IMovie} from 'Src/movieseat';
+import sortMovies from 'Helpers/sortMovies';
+
+import MovieOnDashboard from 'Components/Dashboard/MovieOnDashboard/MovieOnDashboard';
 
 const useStyles = makeStyles({
   movieList: {

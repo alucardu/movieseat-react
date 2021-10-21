@@ -1,16 +1,16 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+
 import {useQuery} from '@apollo/client';
 
-import DashboardComponent from './components/Dashboard/DashboardComponent';
-import {currentUserVar} from './cache';
-import resolvers from './resolvers';
+import {currentUserVar} from 'Src/cache';
+import resolvers from 'Src/resolvers';
+import SnackbarStack from 'Helpers/snackbar';
 
-import SnackbarStack from './helpers/snackbar';
-import Profile from './components/Profile/Profile';
-
-import {DrawerContainer} from './components/Drawer/DrawerContainer';
-import {MovieSuggestions} from './components/MovieSuggestions/MovieSuggestions';
+import Profile from 'Components/Profile/Profile';
+import DashboardComponent from 'Components/Dashboard/DashboardComponent';
+import {DrawerContainer} from 'Components/Drawer/DrawerContainer';
+import {MovieSuggestions} from 'Components/MovieSuggestions/MovieSuggestions';
 
 const App = () => {
   const {error, loading, data} = useQuery(

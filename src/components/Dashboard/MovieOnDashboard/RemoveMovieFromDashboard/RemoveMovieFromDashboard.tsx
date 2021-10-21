@@ -1,12 +1,14 @@
 import React from 'react';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import {IMovie} from '../../../../movieseat';
+
 import {useMutation} from '@apollo/client';
-import resolvers from '../../../..//resolvers';
-import {snackbarVar} from '../../../../cache';
+
+import {IMovie} from 'Src/movieseat';
+import resolvers from 'Src/resolvers';
+import {snackbarVar} from 'Src/cache';
+
 import {makeStyles} from '@mui/styles';
-import {Box} from '@mui/system';
-import {IconButton} from '@mui/material';
+import {Box, IconButton} from '@mui/material';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const useStyles = makeStyles({
   deleteButton: {

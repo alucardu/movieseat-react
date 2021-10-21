@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
-import {snackbarVar} from '../cache';
+
 import {useReactiveVar} from '@apollo/client';
-import {ISnackbar} from 'src/movieseat';
+
+import {Snackbar, Alert} from '@mui/material/';
+
+import {snackbarVar} from 'Src/cache';
+import {ISnackbar} from 'Src/movieseat';
 
 
 const AlertWrapper = (props) => {

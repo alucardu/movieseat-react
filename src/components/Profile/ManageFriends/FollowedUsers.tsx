@@ -1,19 +1,20 @@
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import {useQuery, useMutation} from '@apollo/client';
-import {Box} from '@mui/system';
-import resolvers from '../../../resolvers';
-import {snackbarVar} from '../../../cache';
+
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+
+import {makeStyles} from '@mui/styles';
+import {Box, List, ListItem, Popover} from '@mui/material';
+
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import {makeStyles} from '@mui/styles';
 import CheckIcon from '@mui/icons-material/Check';
-import Popover from '@mui/material/Popover';
 import ClearIcon from '@mui/icons-material/Clear';
+
+import resolvers from 'Src/resolvers';
+import {snackbarVar} from 'Src/cache';
 
 const useStyles = makeStyles({
   ListItemRoot: {
