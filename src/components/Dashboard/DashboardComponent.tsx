@@ -1,16 +1,16 @@
 import React from 'react';
-import MovieOverview from './MovieOverview/MovieOverview';
-import DashboardMovieOverviewMenu from './DashboardMovieOverviewMenu/DashboardMovieOverviewMenu';
-import {currentUserVar} from '../../cache';
-import {useReactiveVar} from '@apollo/client';
-import MovieSearchComponent from '../../components/MovieSearch/MovieSearchComponent';
-import {RandomBackground} from './RandomBackground/RandomBackground';
-import {Box} from '@mui/system';
 
-import {useQuery} from '@apollo/client';
+import {Box} from '@mui/material';
 
-import resolvers from '../../resolvers';
+import {useQuery, useReactiveVar} from '@apollo/client';
 
+import {currentUserVar} from 'Src/cache';
+import resolvers from 'Src/resolvers';
+
+import MovieOverview from 'Components/Dashboard/MovieOverview/MovieOverview';
+import DashboardMovieOverviewMenu from 'Components/Dashboard/DashboardMovieOverviewMenu/DashboardMovieOverviewMenu';
+import MovieSearchComponent from 'Components/MovieSearch/MovieSearchComponent';
+import {RandomBackground} from 'Components/Dashboard/RandomBackground/RandomBackground';
 
 const DashboardComponent = () => {
   const currentUser = useReactiveVar(currentUserVar);

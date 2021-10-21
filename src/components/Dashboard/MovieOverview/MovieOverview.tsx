@@ -1,12 +1,15 @@
 import React, {useState, useEffect, useLayoutEffect, useRef} from 'react';
+
 import {chunk} from 'lodash';
+
 import {makeStyles} from '@mui/styles';
 import {List, Typography, Box} from '@mui/material';
 import {Link} from 'react-router-dom';
 
 import {IMovie} from 'Src/movieseat';
-import MovieOnDashboard from 'Components/Dashboard/MovieOnDashboard/MovieOnDashboard';
 import sortMovies from 'Helpers/sortMovies';
+
+import MovieOnDashboard from 'Components/Dashboard/MovieOnDashboard/MovieOnDashboard';
 
 const useStyles = makeStyles({
   movieList: {

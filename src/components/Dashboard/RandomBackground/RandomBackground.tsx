@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
+
 import {styled} from '@mui/material/styles';
-import {Box} from '@mui/system';
 import {makeStyles} from '@mui/styles';
+import {Box} from '@mui/material';
+
 import {IMovie} from 'Src/movieseat';
 
 const BackgroundContainer = styled(Box)(() => ({

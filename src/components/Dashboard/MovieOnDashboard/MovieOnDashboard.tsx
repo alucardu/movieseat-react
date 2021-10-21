@@ -1,13 +1,17 @@
 import React, {useState, useRef, useEffect, useLayoutEffect, forwardRef} from 'react';
-import RemoveMovieFromDashboard from './RemoveMovieFromDashboard/RemoveMovieFromDashboard';
-import {makeStyles} from '@mui/styles';
-import {AddMovieFromSuggestions} from '../..//MovieSuggestions/AddMovieFromSuggestions';
-import {CardMedia, ListItem} from '@mui/material';
-import classNames from 'classnames';
+
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
+
+import {makeStyles} from '@mui/styles';
+import {CardMedia, ListItem} from '@mui/material';
+
 import {IMovie} from 'Src/movieseat';
-import {RateMovie} from '../../RateMovie/RateMovie';
-import {MovieModal} from '../../MovieModal/MovieModal';
+
+import RemoveMovieFromDashboard from 'Components/Dashboard/MovieOnDashboard/RemoveMovieFromDashboard/RemoveMovieFromDashboard';
+import {AddMovieFromSuggestions} from 'Components/MovieSuggestions/AddMovieFromSuggestions';
+import {RateMovie} from 'Components/RateMovie/RateMovie';
+import {MovieModal} from 'Components/MovieModal/MovieModal';
 
 const useStyles = makeStyles({
   overlay: {

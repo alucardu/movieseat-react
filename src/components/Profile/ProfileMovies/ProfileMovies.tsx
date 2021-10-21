@@ -1,9 +1,11 @@
 import React from 'react';
+
 import {useQuery} from '@apollo/client';
 
-import {Box} from '@mui/system';
-import resolvers from '../../../resolvers';
-import MovieOverview from '../../Dashboard/MovieOverview/MovieOverview';
+import {Box} from '@mui/material';
+
+import resolvers from 'Src/resolvers';
+import MovieOverview from 'Components/Dashboard/MovieOverview/MovieOverview';
 
 export const ProfileMovies = (profileId) => {
   const {error, loading, data: {moviesFromUser: movies} = {}} =

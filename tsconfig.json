@@ -32,7 +32,11 @@
       ],
       "Src/*": [
         "src/*"
+      ],
+      "Assets/*": [
+        "src/assets/*"
       ]
+
     }
   },
   "include": [

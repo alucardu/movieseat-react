@@ -1,7 +1,9 @@
-import {makeStyles} from '@mui/styles';
 import React, {useState} from 'react';
-import MovieSearch from './MovieSearch/MovieSearch';
-import MovieSearchResultList from './MovieSearchResultList/MovieSearchResultList';
+
+import {makeStyles} from '@mui/styles';
+
+import MovieSearch from 'Components/MovieSearch/MovieSearch/MovieSearch';
+import MovieSearchResultList from 'Components/MovieSearch/MovieSearchResultList/MovieSearchResultList';
 
 const useStyles = makeStyles({
   movieSearchContainer: {

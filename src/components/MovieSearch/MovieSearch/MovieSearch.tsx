@@ -1,7 +1,8 @@
 import React, {useRef} from 'react';
-import {debounce} from 'lodash';
-import {makeStyles} from '@mui/styles';
 
+import {debounce} from 'lodash';
+
+import {makeStyles} from '@mui/styles';
 
 const useStyles = makeStyles({
   searchInput: {

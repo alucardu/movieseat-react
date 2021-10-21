@@ -1,8 +1,9 @@
-import {makeStyles} from '@mui/styles';
 import React, {useState} from 'react';
 
+import {makeStyles} from '@mui/styles';
 import ListIcon from '@mui/icons-material/List';
-import SortMovieOverview from './SortMovieOverview/SortMovieOverview';
+
+import SortMovieOverview from 'Components/Dashboard/DashboardMovieOverviewMenu/SortMovieOverview/SortMovieOverview';
 
 const useStyles = makeStyles({
   menuIcon: {

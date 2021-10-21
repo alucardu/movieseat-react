@@ -1,7 +1,7 @@
 import {useMutation} from '@apollo/client';
-import resolvers from '../resolvers';
-import {INotification, EAction} from 'Src/movieseat';
 
+import resolvers from 'Src/resolvers';
+import {INotification, EAction} from 'Src/movieseat';
 
 export const useCreateNotification = () => {
   const [createNotification,

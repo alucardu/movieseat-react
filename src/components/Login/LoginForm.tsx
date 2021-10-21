@@ -1,22 +1,22 @@
 import React, {useState} from 'react';
-import {FormControl, Button, TextField} from '@mui/material';
 import {useHistory} from 'react-router-dom';
-import Link from '@mui/material/Link';
+import {useForm, SubmitHandler, Controller} from 'react-hook-form';
+
 import {useMutation} from '@apollo/client';
 
-import resolvers from '../../resolvers';
-import {currentUserVar, snackbarVar} from '../../cache';
+import * as yup from 'yup';
+import {yupResolver} from '@hookform/resolvers/yup';
 
+import Link from '@mui/material/Link';
+import {Box, FormControl, Button, TextField} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import {makeStyles} from '@mui/styles';
-import Box from '@mui/material/Box';
 
-import {useForm, SubmitHandler, Controller} from 'react-hook-form';
-import {yupResolver} from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-
-import {useCreateNotification} from '../../helpers/createNotification';
+import resolvers from 'Src/resolvers';
+import {currentUserVar, snackbarVar} from 'Src/cache';
 import {EAction} from 'Src/movieseat';
+
+import {useCreateNotification} from 'Helpers/createNotification';
 
 type Props = {
   onRequestClose: any

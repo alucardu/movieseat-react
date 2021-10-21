@@ -1,12 +1,14 @@
-import React, {useEffect, useState, useMemo, useRef} from 'react';
-import {FormControl, Input, InputLabel, List, ListItem, Typography} from '@mui/material';
-import {useQuery} from '@apollo/client';
-import resolvers from '../../../resolvers';
-import {debounce} from 'lodash';
+import React, {useEffect, useState, useMemo} from 'react';
 import {Link} from 'react-router-dom';
-import {Box} from '@mui/system';
-import {makeStyles} from '@mui/styles';
 
+import {useQuery} from '@apollo/client';
+
+import {debounce} from 'lodash';
+
+import {makeStyles} from '@mui/styles';
+import {FormControl, Input, InputLabel, List, ListItem, Typography, Box} from '@mui/material';
+
+import resolvers from 'Src/resolvers';
 import {IUser} from 'Src/movieseat';
 
 const useStyles = makeStyles({

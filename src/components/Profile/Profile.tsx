@@ -1,15 +1,19 @@
-import {useQuery, useReactiveVar} from '@apollo/client';
 import React from 'react';
 import {useParams} from 'react-router';
-import resolvers from '../../resolvers';
-import {currentUserVar} from '../../cache';
-import FollowUser from './ManageFriends/FollowStatus';
-import {FollowedUsers} from './ManageFriends/FollowedUsers';
-import {FollowedByUSers} from './ManageFriends/FollowedByUsers';
-import {SearchUser} from './ManageFriends/SearchUsers';
-import {ProfileOptions} from './ManageFriends/ProfileOptions';
-import {Box} from '@mui/system';
-import {ProfileMovies} from './ProfileMovies/ProfileMovies';
+
+import {useQuery, useReactiveVar} from '@apollo/client';
+
+import {Box} from '@mui/material';
+
+import resolvers from 'Src/resolvers';
+import {currentUserVar} from 'Src/cache';
+
+import FollowUser from 'Components/Profile/ManageFriends/FollowStatus';
+import {FollowedUsers} from 'Components/Profile/ManageFriends/FollowedUsers';
+import {FollowedByUSers} from 'Components/Profile/ManageFriends/FollowedByUsers';
+import {SearchUser} from 'Components/Profile/ManageFriends/SearchUsers';
+import {ProfileOptions} from 'Components/Profile/ManageFriends/ProfileOptions';
+import {ProfileMovies} from 'Components/Profile/ProfileMovies/ProfileMovies';
 
 const profile = () => {
   const currentUser = useReactiveVar(currentUserVar);

@@ -11,6 +11,7 @@ module.exports = {
       Components: path.resolve(__dirname, 'src/components/'),
       Helpers: path.resolve(__dirname, 'src/helpers/'),
       Src: path.resolve(__dirname, 'src/'),
+      Assets: path.resolve(__dirname, 'src/assets/'),
     },
     extensions: ['.ts', '.tsx', '.js'],
   },

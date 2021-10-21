@@ -1,15 +1,11 @@
 import React from 'react';
-
 import {Link} from 'react-router-dom';
 
 import {useQuery} from '@apollo/client';
-import {Box} from '@mui/system';
-import resolvers from '../../../resolvers';
 
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import {Typography} from '@mui/material';
+import {Box, List, ListItem, Typography} from '@mui/material';
 
+import resolvers from 'Src/resolvers';
 
 export const FollowedByUSers = () => {
   const {loading, error, data: {returnFollowedBy: followedBy} = {}} = useQuery(resolvers.queries.ReturnFollowedUsers);
