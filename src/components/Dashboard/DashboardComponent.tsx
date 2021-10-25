@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Box} from '@mui/material';
 
-import {useQuery, useReactiveVar} from '@apollo/client';
+import {useQuery} from '@apollo/client';
 
 import {currentUserVar} from 'Src/cache';
 import resolvers from 'Src/resolvers';
@@ -10,11 +10,8 @@ import resolvers from 'Src/resolvers';
 import MovieOverview from 'Components/Dashboard/MovieOverview/MovieOverview';
 import DashboardMovieOverviewMenu from 'Components/Dashboard/DashboardMovieOverviewMenu/DashboardMovieOverviewMenu';
 import MovieSearchComponent from 'Components/MovieSearch/MovieSearchComponent';
-import {RandomBackground} from 'Components/Dashboard/RandomBackground/RandomBackground';
 
 const DashboardComponent = () => {
-  const currentUser = useReactiveVar(currentUserVar);
-
   const {error, loading, data: {moviesFromUser: movies} = {}} =
     useQuery(resolvers.queries.ReturnMoviesFromUser, {
       variables: {userId: currentUserVar().id},
@@ -25,14 +22,11 @@ const DashboardComponent = () => {
 
   return (
     <React.Fragment>
-      {currentUser.isLoggedIn ?
-        <Box sx={{width: '100vw'}}>
-          <MovieSearchComponent />
-          <DashboardMovieOverviewMenu />
-          <MovieOverview type='dashboard' movies={movies}/>
-        </Box> :
-        <RandomBackground />
-      }
+      <Box sx={{width: '100vw'}}>
+        <MovieSearchComponent />
+        <DashboardMovieOverviewMenu />
+        <MovieOverview type='dashboard' movies={movies}/>
+      </Box>
     </React.Fragment>
   );
 };

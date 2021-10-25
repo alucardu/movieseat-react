@@ -82,9 +82,11 @@ const Query = {
   },
 
   returnUser: async (_, args, {req}) => {
-    return prisma.user.findUnique({
-      where: {id: args.userId || req.userId},
-    });
+    if (args.userId || req.userId) {
+      return prisma.user.findUnique({
+        where: {id: args.userId || req.userId},
+      });
+    }
   },
 
   moviesFromUser: async (root, args, {res, req}) => {
