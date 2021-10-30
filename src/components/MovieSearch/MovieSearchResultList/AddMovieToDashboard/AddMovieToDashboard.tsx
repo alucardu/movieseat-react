@@ -2,43 +2,11 @@ import React, {useState, useEffect} from 'react';
 
 import {useApolloClient, useMutation} from '@apollo/client';
 
-import {makeStyles} from '@mui/styles';
-
+import {AddMovieFromSearchOverlay, AddMovieFromSearchButton} from 'Src/styles';
+import {useCreateNotification} from 'Helpers/createNotification';
 import {IMovie, EAction} from 'Src/movieseat';
 import resolvers from 'Src/resolvers';
 import {currentUserVar, snackbarVar} from 'Src/cache';
-
-import {useCreateNotification} from 'Helpers/createNotification';
-
-const backdropUrl = 'https://image.tmdb.org/t/p/w780/';
-interface OverlayData {
-  readonly backdropPath: string;
-}
-
-const useStyles = makeStyles({
-  overlay: (props: OverlayData) => ({
-    'position': 'absolute',
-    'width': '100%',
-    'height': '100%',
-    'left': 0,
-    'background': props.backdropPath ? `url(${backdropUrl + props.backdropPath}) no-repeat center center` : '#4d4d4d',
-    'backgroundSize': 'cover',
-    '& div': {
-      background: '#00000073',
-      height: '100%',
-      width: '100%',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  }),
-
-  addMovie: {
-    padding: '8px',
-    background: '#0fcece',
-    borderRadius: '12px',
-  },
-});
 
 export const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
   const baseUrl = 'https://api.themoviedb.org/3/movie/';
@@ -47,11 +15,13 @@ export const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
   const [movieDetails, setMovieDetails] = useState<IMovie>();
 
   useEffect(() => {
+    const controller = new AbortController();
     fetch(baseUrl + movieId + apiKey)
         .then((response) => response.json())
         .then((data) => {
           setMovieDetails(data);
         });
+    return () => controller?.abort();
   }, []);
 
   const createNotification = useCreateNotification();
@@ -59,8 +29,6 @@ export const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
   const movies = client.readQuery({
     query: resolvers.queries.ReturnMoviesFromUser,
     variables: {userId: currentUserVar().id}});
-  const props = {backdropPath: movie.backdrop_path};
-  const classes = useStyles(props);
 
   const [addUserToMovie] = useMutation(resolvers.mutations.AddUserToMovie);
 
@@ -100,12 +68,10 @@ export const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
 
 
   return (
-    <div className={classes.overlay}>
-      <div>
-        <a className={classes.addMovie} onClick={() => addMovie(movie)}>
+    <AddMovieFromSearchOverlay movie={movie}>
+      <AddMovieFromSearchButton onClick={() => addMovie(movie)}>
         Add movie to your watchlist
-        </a>
-      </div>
-    </div>
+      </AddMovieFromSearchButton>
+    </AddMovieFromSearchOverlay>
   );
 };

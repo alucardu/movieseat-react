@@ -2,8 +2,9 @@ import React, {useState, useEffect} from 'react';
 
 import {useMutation, useQuery} from '@apollo/client';
 
-import {Box, Button} from '@mui/material';
+import {Button} from '@mui/material';
 
+import {ProfileBox} from 'Src/styles';
 import resolvers from 'Src/resolvers';
 import {IUser} from 'Src/movieseat';
 import {currentUserVar, snackbarVar} from 'Src/cache';
@@ -66,11 +67,11 @@ const FollowStatus = ({user}: {user: IUser}) => {
   };
 
   return (
-    <Box className='profileBox' sx={{maxWidth: 'fit-content'}}>
+    <ProfileBox>
       {userIsFollowed ?
       <Button data-cy='btn_unfollow_user' onClick={unfollowUser}>Unfollow {user.user_name}</Button> :
       <Button data-cy='btn_follow_user' onClick={followUser}>Follow {user.user_name}</Button>}
-    </Box>
+    </ProfileBox>
   );
 };
 

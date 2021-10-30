@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 
 import {useMutation, useQuery} from '@apollo/client';
 
-import {makeStyles} from '@mui/styles';
 import {IconButton} from '@mui/material';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 
@@ -11,19 +10,6 @@ import {currentUserVar, snackbarVar} from 'Src/cache';
 import {EAction, IMovie} from 'Src/movieseat';
 
 import {useCreateNotification} from 'Helpers/createNotification';
-
-const useStyles = makeStyles({
-  deleteButton: {
-    'display': 'flex',
-    'alignSelf': 'flex-end',
-    'justifyContent': 'center',
-    'width': '100%',
-    'paddingBottom': '8px',
-    '& svg': {
-      cursor: 'pointer',
-    },
-  },
-});
 
 export const AddMovieFromSuggestions = ({movie}: {movie: IMovie}) => {
   const movieId = movie.tmdb_id ? movie.tmdb_id : movie.id;
@@ -45,8 +31,6 @@ export const AddMovieFromSuggestions = ({movie}: {movie: IMovie}) => {
     });
   const createNotification = useCreateNotification();
   const [addUserToMovie] = useMutation(resolvers.mutations.AddUserToMovie);
-  const classes = useStyles();
-
 
   if (loading) return (<div>loading</div>);
   if (error) return (<div>error</div>);
@@ -87,10 +71,10 @@ export const AddMovieFromSuggestions = ({movie}: {movie: IMovie}) => {
 
 
   return (
-    <IconButton data-cy='btn_add_movie' className={classes.deleteButton} onClick={() => {
+    <IconButton data-cy='btn_add_movie' onClick={() => {
       addMovie(movie);
     }} >
-      <AddBoxIcon sx={{color: 'white'}}/>
+      <AddBoxIcon/>
     </IconButton>
   );
 };

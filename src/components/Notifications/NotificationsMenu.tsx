@@ -3,64 +3,17 @@ import {Link} from 'react-router-dom';
 
 import {useMutation, useQuery, useReactiveVar} from '@apollo/client';
 
-import {makeStyles} from '@mui/styles';
-import {IconButton, Box, ListItemText, ListItem, List, ListItemButton, Typography, Popover} from '@mui/material';
+import {IconButton, Box, ListItemText, ListItem, List, ListItemButton, Typography} from '@mui/material';
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import CircleIcon from '@mui/icons-material/Circle';
 
+import {NotificationMenu, NumberOfUnreadNotificationsStyle} from 'Src/styles';
 import resolvers from 'Src/resolvers';
 import {currentUserVar} from 'Src/cache';
 import {EAction} from 'Src/movieseat';
 
-const useStyles = makeStyles({
-  paperRoot: {
-    left: '8px',
-    top: '104px',
-  },
-  ListItemRoot: {
-    'display': 'flex',
-    'justifyContent': 'space-between',
-    'borderBottom': '1px solid #ebebeb',
-    'height': '64px',
-    '& p': {
-      transition: 'margin-left 0.1s ease-in',
-    },
-    '&:hover': {
-      'background': '#f6e0fa',
-      '&> p': {
-        marginLeft: '4px',
-      },
-    },
-  },
-  notificationCount: {
-    borderRadius: '50%',
-    background: 'purple',
-    color: 'white',
-    width: '1.5em',
-    height: '1.5em',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    left: '4em',
-    bottom: '3em',
-    fontWeight: 'bold',
-    fontSize: '0.6rem',
-  },
-  profileIcon: {
-    fontSize: '4rem',
-  },
-  unwatched: {
-    background: '#e0e0e0',
-  },
-  watched: {
-    background: '#ffffff',
-  },
-});
-
 const NotificationsMenu = (props, ref) => {
-  const classes = useStyles();
   const currentUser = useReactiveVar(currentUserVar);
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -118,8 +71,7 @@ const NotificationsMenu = (props, ref) => {
   const OnboardNotification = ({notification}: any) => {
     return (
       <ListItem
-        className={notification.watched ? classes.watched : classes.unwatched}
-        classes={{root: classes.ListItemRoot}}
+        className={notification.watched ? 'watched' : ''}
       >
         <Link to={`/profile/${notification.userId}`} onClick={handleClose}>
           <Typography variant='body2'>
@@ -144,8 +96,7 @@ const NotificationsMenu = (props, ref) => {
   const RatingNotification = (notification) => {
     return (
       <ListItem
-        className={notification.notification.watched ? classes.watched : classes.unwatched}
-        classes={{root: classes.ListItemRoot}}
+        className={notification.notification.watched ? 'watched' : ''}
       >
         <Typography variant='body2'>
           <Link to={`/profile/${notification.notification.user.id}`} onClick={handleClose}>{notification.notification.user.user_name}</Link>{' '}
@@ -169,8 +120,7 @@ const NotificationsMenu = (props, ref) => {
   const MovieNotification = (notification) => {
     return (
       <ListItem
-        className={notification.notification.watched ? classes.watched : classes.unwatched}
-        classes={{root: classes.ListItemRoot}}
+        className={notification.notification.watched ? 'watched' : ''}
       >
         <Typography variant='body2'>
           <Link to={`/profile/${notification.notification.user.id}`} onClick={handleClose}>{notification.notification.user.user_name}</Link>{' '}
@@ -211,6 +161,19 @@ const NotificationsMenu = (props, ref) => {
     );
   };
 
+  const NumberOfUnreadNotifications = () => {
+    return (
+      <NumberOfUnreadNotificationsStyle>
+        {notifications?.unwatchedNotificationsCount ?
+          <span data-cy='notification_count'>
+            {notifications?.unwatchedNotificationsCount}
+          </span> :
+          null
+        }
+      </NumberOfUnreadNotificationsStyle>
+    );
+  };
+
   return (
     <>
       <ListItem disablePadding>
@@ -218,17 +181,12 @@ const NotificationsMenu = (props, ref) => {
           <ListItemIcon>
             <CircleNotificationsIcon fontSize='large'/>
           </ListItemIcon>
-          {notifications?.unwatchedNotificationsCount ?
-        <span data-cy='notification_count' className={classes.notificationCount}>
-          {notifications?.unwatchedNotificationsCount}
-        </span> :
-        null
-          }
+          <NumberOfUnreadNotifications />
           <ListItemText primary="Notifications" />
         </ListItemButton>
       </ListItem >
 
-      <Popover
+      <NotificationMenu
         id={id}
         open={open}
         anchorEl={anchorEl}
@@ -237,12 +195,9 @@ const NotificationsMenu = (props, ref) => {
           vertical: 'top',
           horizontal: 'right',
         }}
-        classes={{
-          root: classes.paperRoot,
-        }}
       >
         <ShowNotifications />
-      </Popover>
+      </NotificationMenu>
     </>
   );
 };

@@ -1,70 +1,21 @@
-import React, {useState, useRef, useEffect, useLayoutEffect, forwardRef} from 'react';
+import React, {useState, useRef, useEffect, useLayoutEffect} from 'react';
 
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import {makeStyles} from '@mui/styles';
-import {CardMedia, ListItem} from '@mui/material';
+import {CardMedia} from '@mui/material';
 
+import {MovieContainer, MovieContainerOverlay} from 'Src/styles';
 import {IMovie} from 'Src/movieseat';
-
 import RemoveMovieFromDashboard from 'Components/Dashboard/MovieOnDashboard/RemoveMovieFromDashboard/RemoveMovieFromDashboard';
 import {AddMovieFromSuggestions} from 'Components/MovieSuggestions/AddMovieFromSuggestions';
 import {RateMovie} from 'Components/RateMovie/RateMovie';
 import {MovieModal} from 'Components/MovieModal/MovieModal';
 
-const useStyles = makeStyles({
-  overlay: {
-    'position': 'absolute',
-    'right': 0,
-    'top': '0',
-    'height': '100%',
-    'paddingRight': '8px',
-    'display': 'flex',
-    'flexDirection': 'column',
-    'alignItems': 'flex-end',
-    'justifyContent': 'center',
-    '& svg': {
-      color: 'white',
-      fontSize: '1em',
-    },
-  },
-
-  overlay_btn: {
-    color: 'white',
-    fontSize: '1.5em',
-  },
-
-  movieContainer: {
-    'borderRadius': '8px',
-    'width': 'auto',
-    'transition': 'all 0.3s ease',
-    'flexGrow': 1,
-    'flexBasis': 0,
-    'position': 'relative',
-    'padding': 0,
-    'margin': '0 8px 8px 0',
-    '& img': {
-      borderRadius: '8px',
-    },
-  },
-
-  hover: {
-    'flexGrow': 1.5,
-    'backgroundColor': '#414141',
-  },
-
-  filler: {
-    background: 'transparent',
-  },
-});
-
 const OverlayEl = (props) => {
   const type = {...props}.type;
   const movie = {...props}.movie;
-  const classes = useStyles();
   return (
-    <div className={classes.overlay}>
+    <MovieContainerOverlay>
       {type === 'suggestion' ?
         <AddMovieFromSuggestions movie={movie} /> :
         <>
@@ -73,7 +24,7 @@ const OverlayEl = (props) => {
           <RemoveMovieFromDashboard movie={movie}/>
         </>
       }
-    </div>
+    </MovieContainerOverlay>
   );
 };
 
@@ -84,11 +35,9 @@ const MovieOnDashboard = (props) => {
   const listRef = useRef<any>(null);
   const imagePath = 'https://image.tmdb.org/t/p/w185/';
   const [isHover, setHover] = useState(false);
-  const classes = useStyles();
   const MovieOnDashboardClasses = classNames({
-    [`${classes.hover}`]: isHover,
-    [`${classes.movieContainer}`]: true,
-    [`${classes.filler}`]: movie.original_title.length === 0,
+    ['hover']: isHover,
+    ['filler']: movie.original_title.length === 0,
   });
 
   const handleHover = (value, event, movie) => {
@@ -126,8 +75,9 @@ const MovieOnDashboard = (props) => {
   }, [size]);
 
   return (
-    <ListItem
+    <MovieContainer
       ref={listRef}
+      disablePadding={true}
       className={MovieOnDashboardClasses}
       title={movie.original_title}
       key={movie.id}
@@ -141,13 +91,8 @@ const MovieOnDashboard = (props) => {
         /> :
         null}
       { isHover ? <OverlayEl type={{...props}.type} movie={movie} /> : null}
-    </ListItem>
+    </MovieContainer>
   );
 };
 
-export default forwardRef(MovieOnDashboard);
-
-MovieOnDashboard.PropTypes = {
-  props: PropTypes.object,
-  type: PropTypes.string,
-};
+export default MovieOnDashboard;

@@ -1,63 +1,43 @@
-import React, {useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 
-import {debounce} from 'lodash';
-
-import {makeStyles} from '@mui/styles';
-
-const useStyles = makeStyles({
-  searchInput: {
-    'boxSizing': 'border-box',
-    'padding': '8px',
-    'margin': '12px 0 12px 0',
-    'width': '50%',
-    'border': 'none',
-    'fontSize': '16px',
-    '&:focus': {
-      'outline': 'none',
-      'color': '#fff',
-      'background': '#ff6a00',
-      '&::placeholder': {
-        color: '#fff',
-      },
-    },
-  },
-});
+import {MovieSearchInput} from 'Src/styles';
 
 const MovieSearch = ( {createSearchResults}: {createSearchResults: any} ) => {
-  const classes = useStyles();
-  const searchInpuit = useRef<HTMLInputElement | null>(null);
+  const [searchInput, setSearchInput] = useState('');
 
   const baseurl = 'https://api.themoviedb.org/3/search/movie?';
   const apikey = 'api_key=a8f7039633f2065942cd8a28d7cadad4';
 
-  const clearResults = () => {
-    if (searchInpuit && searchInpuit.current) {
-      searchInpuit.current.value = '';
-    }
-    setMovieSearchResults();
+  const handleChange = (e) => {
+    setSearchInput(e.target.value);
   };
 
-  const setMovieSearchResults = debounce(() => {
-    if (searchInpuit && searchInpuit.current) {
-      const query = searchInpuit.current.value;
-      if (query) {
-        fetch(baseurl + apikey + '&language=en-US&query=' + query + '&page=1&include_adult=false')
-            .then((response) => response.json())
-            .then((data) => createSearchResults(query, data.results));
-      } else {
-        createSearchResults(query, []);
-      }
-    }
-  }, 500);
+  const clearResults = () => {
+    setTimeout(() => {
+      setSearchInput('');
+      createSearchResults('', []);
+    }, 150);
+  };
 
-  return <input
-    data-cy='input_movie_search'
-    className={classes.searchInput}
-    ref={searchInpuit}
-    placeholder="Search for a movie..."
-    onChange={setMovieSearchResults}
-    onBlur={clearResults}
-  />;
+  useEffect(() => {
+    if (searchInput.length > 0) {
+      fetch(baseurl + apikey + '&language=en-US&query=' + searchInput + '&page=1&include_adult=false')
+          .then((response) => response.json())
+          .then((data) => createSearchResults(searchInput, data.results));
+    }
+  }, [searchInput]);
+
+  return (
+    <MovieSearchInput
+      variant='filled'
+      data-cy='input_movie_search'
+      placeholder="Search for a movie..."
+      onChange={handleChange}
+      value={searchInput}
+      onBlur={clearResults}
+    />
+  );
 };
 
 export default MovieSearch;
+

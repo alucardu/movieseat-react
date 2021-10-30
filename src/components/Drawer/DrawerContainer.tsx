@@ -3,86 +3,21 @@ import {Link} from 'react-router-dom';
 
 import {useReactiveVar} from '@apollo/client';
 
-import {styled, Theme, CSSObject} from '@mui/material/styles';
-import MuiDrawer from '@mui/material/Drawer';
-import MovieFilterIcon from '@mui/icons-material/MovieFilter';
-
-import {List, ListItem, ListItemIcon, ListItemText, ListItemButton, Box} from '@mui/material';
+import {List, ListItem, ListItemIcon, ListItemText, ListItemButton} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import MovieFilterIcon from '@mui/icons-material/MovieFilter';
 import Divider from '@mui/material/Divider';
-import {makeStyles} from '@mui/styles';
 
+import {Drawer} from 'Src/styles';
+import {Logo} from 'Src/styles';
 import {currentUserVar} from 'Src/cache';
 
 import NotificationsMenu from 'Components/Notifications/NotificationsMenu';
 import Login from 'Components/Login/Login';
 
-const drawerWidth = 240;
-
-const useStyles = makeStyles({
-  logo: {
-    'fontSize': '2em',
-    'fontFamily': 'Oleo Script Swash Caps',
-    'background': 'transparent',
-    'border': 'none',
-    'padding': 0,
-    'width': '33px',
-    'overflow': 'hidden',
-    'textAlign': 'left',
-    'transition': 'all 0.1s ease-out',
-    'cursor': 'pointer',
-    '&:hover': {
-      color: 'coral',
-    },
-  },
-  slide: {
-    paddingLeft: '8px',
-    width: '100%',
-  },
-});
-
-const openedMixin = (theme: Theme): CSSObject => ({
-  width: drawerWidth,
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
-  }),
-  overflowX: 'hidden',
-});
-
-const closedMixin = (theme: Theme): CSSObject => ({
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
-  },
-});
-
-const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})(
-    ({theme, open}) => ({
-      width: drawerWidth,
-      flexShrink: 0,
-      whiteSpace: 'nowrap',
-      boxSizing: 'border-box',
-      ...(open && {
-        ...openedMixin(theme),
-        '& .MuiDrawer-paper': openedMixin(theme),
-      }),
-      ...(!open && {
-        ...closedMixin(theme),
-        '& .MuiDrawer-paper': closedMixin(theme),
-      }),
-    }),
-);
-
 export const DrawerContainer = () => {
-  const classes = useStyles();
   const elRef = useRef(null);
   const currentUser = useReactiveVar(currentUserVar);
   const [open, setOpen] = useState(false);
@@ -129,8 +64,13 @@ export const DrawerContainer = () => {
   return (
     <Drawer variant="permanent" open={open} ref={elRef}>
       <List>
-        <ListItem>
-          <Link data-cy='btn_home' to='/'><Box className={`${classes.logo} ${open ? classes.slide : null}`} component='button'>Movieseat</Box></Link>
+        <ListItem disablePadding>
+          <Link data-cy='btn_home' to='/'>
+            <Logo
+              component='button'
+              className={`${open ? 'open' : null}`}
+            >Movieseat</Logo>
+          </Link>
         </ListItem>
         {drawerItems.map((drawerItem, i) => {
           return (

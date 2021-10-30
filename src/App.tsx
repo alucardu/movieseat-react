@@ -3,6 +3,8 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 import {useQuery, useReactiveVar} from '@apollo/client';
 
+import {Box} from '@mui/material';
+
 import {currentUserVar} from 'Src/cache';
 import resolvers from 'Src/resolvers';
 import SnackbarStack from 'Helpers/snackbar';
@@ -26,9 +28,12 @@ const App = () => {
 
   const currentUser = useReactiveVar(currentUserVar);
 
+  if (loading) return (<div>Loading</div>);
+  if (error) return (<div>Error</div>);
+
   return (
-    <React.Fragment>
-      <Router>
+    <Router>
+      <Box sx={{display: 'flex'}}>
         <DrawerContainer />
         <Switch>
           <Route exact path='/'>
@@ -42,8 +47,8 @@ const App = () => {
           </Route>
         </Switch>
         <SnackbarStack />
-      </Router>
-    </React.Fragment>
+      </Box>
+    </Router>
   );
 };
 

@@ -8,10 +8,9 @@ import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 
 import Link from '@mui/material/Link';
-import {Box, FormControl, Button, TextField} from '@mui/material';
-import {styled} from '@mui/material/styles';
-import {makeStyles} from '@mui/styles';
+import {FormControl, Button, TextField} from '@mui/material';
 
+import {LoginCheckBody, LoginFormContainer, LoginFormBody} from 'Src/styles';
 import resolvers from 'Src/resolvers';
 import {currentUserVar, snackbarVar} from 'Src/cache';
 import {EAction} from 'Src/movieseat';
@@ -21,86 +20,6 @@ import {useCreateNotification} from 'Helpers/createNotification';
 type Props = {
   onRequestClose: any
 };
-
-const useStyles = makeStyles({
-  '& MuiInput-underline': {
-    '&:before': {
-      borderBottom: '1px solid grey',
-    },
-    '&:hover:not(.Mui-disabled):before': {
-      borderBottom: '2px solid blue',
-    },
-    '&:after': {
-      borderBottom: '2px solid yellow',
-    },
-  },
-
-  'btnDisabled': {
-    '&:disabled': {
-      color: 'rgb(255 255 255 / 50%)',
-      background: 'rgb(103 130 255 / 50%)',
-    },
-  },
-});
-
-const FormControlContainer = styled(FormControl)(() => ({
-  'label': {
-    color: 'navajowhite',
-  },
-  '.MuiInput-underline': {
-    '&:before': {
-      borderBottom: '1px solid grey',
-    },
-    '&:hover:not(.Mui-disabled):before': {
-      borderBottom: '2px solid blue',
-    },
-    '&:after': {
-      borderBottom: '2px solid yellow',
-    },
-  },
-}));
-
-const FormInput = styled(TextField)(({theme}) => ({
-  'input': {
-    'color': theme.palette.grey[200],
-    '&:-webkit-autofill': {
-      transitionDelay: '99999s',
-      transitionProperty: 'background-color, color',
-    },
-  },
-}));
-
-const CheckBody = styled(Box)(() => ({
-  'background': '#fff',
-  'width': '14rem',
-  'height': '2.8rem',
-  'margin': '8rem 0 8rem 4rem',
-  'transform': 'rotate(-45deg)',
-  '&:before': {
-    content: '""',
-    position: 'absolute',
-    left: '0',
-    bottom: '100%',
-    width: '2.8rem',
-    height: '5.2rem',
-    background: '#fff',
-    boxShadow: 'inset -0.2rem -2rem 2rem rgb(0 0 0 / 20%)',
-  },
-}));
-
-const FormContainer = styled(Box)(({theme}) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  padding: theme.spacing(4),
-  borderRadius: theme.shape.borderRadius,
-  background: 'linear-gradient(to bottom, rgba(146, 135, 187, 0.8) 0%, rgba(0, 0, 0, 0.6) 100%)',
-}));
-
-const FormBody = styled(Box)(() => ({
-  display: 'flex',
-  flexDirection: 'column',
-}));
-
 interface IFormInputs {
   email: string;
   password: string;
@@ -137,7 +56,6 @@ export const LoginForm = ({onRequestClose} : Props) => {
     resolver: yupResolver(schemaSignUp),
   });
 
-  const classes = useStyles();
   const history = useHistory();
 
   const [loginForm, setLoginForm] = useState(true);
@@ -187,17 +105,17 @@ export const LoginForm = ({onRequestClose} : Props) => {
   };
 
   return (
-    <FormContainer>
-      <CheckBody />
+    <LoginFormContainer>
+      <LoginCheckBody />
       {loginForm ?
-      <FormBody onSubmit={handleSubmitLogin(onLoginSubmit)} component="form">
-        <FormControlContainer sx={{pb: 2}}>
+      <LoginFormBody onSubmit={handleSubmitLogin(onLoginSubmit)} component="form">
+        <FormControl>
           <Controller
             name='email'
             control={controlLogin}
             defaultValue=''
             render={({field}) => (
-              <FormInput
+              <TextField
                 {...field}
                 data-cy='input_login_email'
                 autoComplete='email'
@@ -208,15 +126,15 @@ export const LoginForm = ({onRequestClose} : Props) => {
               />
             )}
           />
-        </FormControlContainer>
+        </FormControl>
 
-        <FormControlContainer sx={{pb: 2}}>
+        <FormControl>
           <Controller
             name='password'
             control={controlLogin}
             defaultValue=''
             render={({field}) => (
-              <FormInput
+              <TextField
                 {...field}
                 data-cy='input_login_password'
                 autoComplete='password'
@@ -229,7 +147,7 @@ export const LoginForm = ({onRequestClose} : Props) => {
               />
             )}
           />
-        </FormControlContainer>
+        </FormControl>
 
         <Button type="submit" variant="contained" data-cy='btn_login_submit'>Login</Button>
 
@@ -238,16 +156,16 @@ export const LoginForm = ({onRequestClose} : Props) => {
         }} component='button' sx={{marginTop: '16px', color: 'white', textAlign: 'left'}} href="" variant="body2" data-cy='btn_sign_up'>
       Need an account?
         </Link>
-      </FormBody> :
-      <FormBody onSubmit={handleSubmitSignUp(onSignUpSubmit)} component="form">
+      </LoginFormBody> :
+      <LoginFormBody onSubmit={handleSubmitSignUp(onSignUpSubmit)} component="form">
 
-        <FormControlContainer sx={{pb: 2}}>
+        <FormControl>
           <Controller
             name='email'
             control={controlSignUp}
             defaultValue=''
             render={({field}) => (
-              <FormInput
+              <TextField
                 {...field}
                 data-cy='input_sign_up_email'
                 autoComplete='email'
@@ -259,18 +177,18 @@ export const LoginForm = ({onRequestClose} : Props) => {
               />
             )}
           />
-        </FormControlContainer>
+        </FormControl>
 
         {/* filler  */}
         <TextField sx={{display: 'none'}} />
 
-        <FormControlContainer sx={{pb: 2}}>
+        <FormControl>
           <Controller
             name='user_name'
             control={controlSignUp}
             defaultValue=''
             render={({field}) => (
-              <FormInput
+              <TextField
                 {...field}
                 data-cy='input_sign_up_user_name'
                 autoComplete='user_name'
@@ -282,15 +200,15 @@ export const LoginForm = ({onRequestClose} : Props) => {
               />
             )}
           />
-        </FormControlContainer>
+        </FormControl>
 
-        <FormControlContainer sx={{pb: 2}}>
+        <FormControl>
           <Controller
             name='password'
             control={controlSignUp}
             defaultValue=''
             render={({field}) => (
-              <FormInput
+              <TextField
                 {...field}
                 data-cy='input_sign_up_password'
                 autoComplete='new-password'
@@ -303,15 +221,15 @@ export const LoginForm = ({onRequestClose} : Props) => {
               />
             )}
           />
-        </FormControlContainer>
+        </FormControl>
 
-        <FormControlContainer sx={{pb: 2}}>
+        <FormControl>
           <Controller
             name='confirmPassword'
             control={controlSignUp}
             defaultValue=''
             render={({field}) => (
-              <FormInput
+              <TextField
                 {...field}
                 data-cy='input_sign_up_confirm_password'
                 autoComplete='new-password'
@@ -324,17 +242,17 @@ export const LoginForm = ({onRequestClose} : Props) => {
               />
             )}
           />
-        </FormControlContainer>
+        </FormControl>
 
-        <Button classes={{disabled: classes.btnDisabled}} type="submit" variant="contained" data-cy='btn_sign_up_submit'>Sign up!</Button>
+        <Button type="submit" variant="contained" data-cy='btn_sign_up_submit'>Sign up!</Button>
 
         <Link onClick={(e) => {
           e.preventDefault(); setLoginForm(true);
         }} component='button' sx={{marginTop: '16px', color: 'white', textAlign: 'left'}} href="" variant="body2">
         Sign in?
         </Link>
-      </FormBody>
+      </LoginFormBody>
       }
-    </FormContainer>
+    </LoginFormContainer>
   );
 };
