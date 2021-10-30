@@ -2,33 +2,19 @@ import React, {useState, useEffect} from 'react';
 
 import {useApolloClient} from '@apollo/client';
 
-import {FormGroup, Checkbox, MenuItem, FormControlLabel} from '@mui/material';
-import {Button, FormControl, InputLabel, Select} from '@mui/material/';
-import {makeStyles} from '@mui/styles';
-
+import PropTypes from 'prop-types';
 import localforage from 'localforage';
 
+import {Checkbox, MenuItem, FormControlLabel, FormControl, InputLabel, Select} from '@mui/material';
+
+import {DashboardMovieOverMenuEl, FancyButton} from 'Src/styles';
 import {ISelectedSortType} from 'Src/movieseat';
 import {snackbarVar, currentUserVar} from 'Src/cache';
 import resolvers from 'Src/resolvers';
 
-const useStyles = makeStyles({
-  menuButton: {
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-    border: 0,
-    borderRadius: 3,
-    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    color: 'white',
-    height: 48,
-    padding: '0 30px',
-  },
-});
-
-const SortMovieOverview = ( {toggleMenu}: {toggleMenu:
-  React.Dispatch<React.SetStateAction<boolean>>}) => {
+const SortMovieOverview = ({handleClose})=> {
   const client = useApolloClient();
 
-  const classes = useStyles();
   const initalSortData: ISelectedSortType = {selectedSortType: 'release_date', orderType: true};
   const [sortData, setSortdata] = useState(initalSortData);
 
@@ -69,12 +55,13 @@ const SortMovieOverview = ( {toggleMenu}: {toggleMenu:
 
     localforage.setItem('movieSort', sortData).then( async () => {
       snackbarVar({message: 'Sorting has been updated', severity: 'success'});
-      toggleMenu(false);
     });
+
+    handleClose();
   };
 
   return (
-    <FormGroup>
+    <DashboardMovieOverMenuEl>
       <FormControl fullWidth>
         <InputLabel id='sort-type-label'>Sort Type</InputLabel>
         <Select labelId='sort-type-label' id='selectedSortType' value={sortData.selectedSortType} label='Sort type' name='selectedSortType' onChange={handleChange}>
@@ -83,9 +70,13 @@ const SortMovieOverview = ( {toggleMenu}: {toggleMenu:
         </Select>
       </FormControl>
       <FormControlLabel control={<Checkbox />} label='Ascending order' checked={sortData.orderType} name='orderType' onChange={handleChange}/>
-      <Button variant='contained' onClick={submitChange} className={classes.menuButton} >Apply sorting</Button>
-    </FormGroup>
+      <FancyButton variant='contained' onClick={submitChange} >Apply sorting</FancyButton>
+    </DashboardMovieOverMenuEl>
   );
 };
 
 export default SortMovieOverview;
+
+SortMovieOverview.propTypes = {
+  handleClose: PropTypes.func,
+};

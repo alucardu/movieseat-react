@@ -1,33 +1,7 @@
 import React, {useState, useEffect} from 'react';
 
-import {styled} from '@mui/material/styles';
-import {makeStyles} from '@mui/styles';
-import {Box} from '@mui/material';
-
 import {IMovie} from 'Src/movieseat';
-
-const BackgroundContainer = styled(Box)(() => ({
-  height: '100vh',
-  width: '200vw',
-  position: 'relative',
-  overflow: 'hidden',
-  marginLeft: '-100vw',
-  transition: 'margin-left 1s ease-in',
-}));
-
-const SliderEl = styled(Box)(() => ({
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-  position: 'absolute',
-  height: '100vh',
-  width: '100vw',
-}));
-
-const useStyles = makeStyles({
-  slide: {
-    marginLeft: '0vw',
-  },
-});
+import {RandomBackgroundContainer, RandomBackgroundSlider} from 'Src/styles';
 
 const baseurl = 'https://api.themoviedb.org/3/discover/movie?';
 const apikey = 'api_key=a8f7039633f2065942cd8a28d7cadad4';
@@ -37,21 +11,37 @@ export const RandomBackground = () => {
   const [backgroundPath, setbackgroundPath] = useState<String []>([]);
   const [movieData, setMovieData] = useState<IMovie []>([]);
   const [slide, setSlide] = useState(false);
-  const classes = useStyles();
+  const [mountedState, setMountedState] = useState(true);
 
   let backdropPath1;
   let backdropPath2;
 
   useEffect(() => {
-    fetch(baseurl + apikey + rest)
-        .then((response) => response.json())
-        .then((data) => {
-          setMovieData(data.results);
-        });
+    let isRequestCancelled = false;
+    const fetchData = () => {
+      try {
+        fetch(baseurl + apikey + rest)
+            .then((response) => response.json())
+            .then((data) => {
+              if (!isRequestCancelled) setMovieData(data.results);
+            });
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchData();
+    return () => {
+      setMountedState(false);
+      isRequestCancelled = true;
+    };
   }, []);
 
   useEffect(() => {
-    setTransition(0);
+    let isRequestCancelled = false;
+    if (!isRequestCancelled) setTransition(0);
+    return () => {
+      isRequestCancelled = true;
+    };
   }, [movieData]);
 
   const setTransition = (i) => {
@@ -62,7 +52,7 @@ export const RandomBackground = () => {
 
     setTimeout(() => {
       setTransition(i);
-    }, 7500);
+    }, 3500);
   };
 
   const setBackgroundPath = (i, movieData) => {
@@ -78,15 +68,15 @@ export const RandomBackground = () => {
   };
 
   return (
-    <BackgroundContainer className={slide ? classes.slide : ''}>
-      <SliderEl style={{
+    <RandomBackgroundContainer className={slide ? 'slide' : ''}>
+      <RandomBackgroundSlider sx={{
         left: '0vw',
         backgroundImage: `url(${backgroundPath[0]})`,
       }} />
-      <SliderEl style={{
+      <RandomBackgroundSlider sx={{
         left: '100vw',
         backgroundImage: `url(${backgroundPath[1]})`,
       }} />
-    </BackgroundContainer>
+    </RandomBackgroundContainer>
   );
 };

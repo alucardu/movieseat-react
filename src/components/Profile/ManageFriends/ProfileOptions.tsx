@@ -7,6 +7,7 @@ import {Box, Button, Typography, Popover, IconButton} from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 
+import {ProfileBox} from 'Src/styles';
 import {currentUserVar, snackbarVar} from 'Src/cache';
 import resolvers from 'Src/resolvers';
 
@@ -52,7 +53,7 @@ export const ProfileOptions = () => {
   };
 
   return (
-    <Box className='profileBox'>
+    <ProfileBox>
       <Button onClick={logout}>Logout</Button>
       <Button onClick={handleClick} data-cy='btn_remove_account'>Remove account</Button>
       <Popover
@@ -65,7 +66,7 @@ export const ProfileOptions = () => {
           horizontal: 'left',
         }}
       >
-        <Box sx={{padding: '16px'}}>
+        <Box>
           <Typography>Are you sure you want to remove your account?</Typography>
           <IconButton data-cy='btn_confirm_remove_account' onClick={removeAccount}>
             <CheckIcon />
@@ -75,6 +76,6 @@ export const ProfileOptions = () => {
           </IconButton>
         </Box>
       </Popover>
-    </Box>
+    </ProfileBox>
   );
 };

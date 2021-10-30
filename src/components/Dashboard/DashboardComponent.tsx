@@ -22,7 +22,7 @@ const DashboardComponent = () => {
 
   return (
     <React.Fragment>
-      <Box sx={{width: '100vw'}}>
+      <Box sx={{width: '100vw', padding: '8px'}}>
         <MovieSearchComponent />
         <DashboardMovieOverviewMenu />
         <MovieOverview type='dashboard' movies={movies}/>

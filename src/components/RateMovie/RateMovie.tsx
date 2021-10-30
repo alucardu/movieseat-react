@@ -2,27 +2,14 @@ import React, {useState, useEffect} from 'react';
 
 import {useMutation, useQuery} from '@apollo/client';
 
-import classNames from 'classnames';
-
-import {makeStyles} from '@mui/styles';
 import {IconButton, Popover, Typography, Box} from '@mui/material';
 import GradeIcon from '@mui/icons-material/Grade';
 
-
+import {Rating} from 'Src/styles';
 import resolvers from 'Src/resolvers';
 import {EAction} from 'Src/movieseat';
 import {currentUserVar, snackbarVar} from 'Src/cache';
 import {useCreateNotification} from 'Helpers/createNotification';
-
-const useStyles = makeStyles({
-
-  ratingHover: {
-    color: '#ff8d05',
-  },
-
-  ratings: {
-  },
-});
 
 export const RateMovie = (props) => {
   const createNotification = useCreateNotification();
@@ -36,7 +23,6 @@ export const RateMovie = (props) => {
 
   const [currentRating, setCurrentRating] = useState(0);
   const [addMovieRating] = useMutation(resolvers.mutations.AddMovieRating);
-  const classes = useStyles();
 
   const ratings = [
     {value: 1, filled: false},
@@ -47,11 +33,6 @@ export const RateMovie = (props) => {
   ];
 
   const [someRatings, setSomeRatings] = useState(ratings);
-
-  const RatingContainer = classNames({
-    [`${classes.ratings}`]: true,
-  });
-
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
@@ -128,7 +109,6 @@ export const RateMovie = (props) => {
           How would you rate the movie?
         </Typography>
         <Box
-          className={RatingContainer}
           data-cy='container_rating_options'
         >
           {
@@ -138,8 +118,8 @@ export const RateMovie = (props) => {
                   key={i}
                   onClick={submitRating}
                 >
-                  <GradeIcon
-                    className={rating.filled ? classes.ratingHover : ''}
+                  <Rating
+                    className={rating.filled ? 'ratingHover' : ''}
                     onMouseEnter={() => {
                       handleHover(rating.value);
                     }}

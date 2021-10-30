@@ -1,34 +1,13 @@
-// entry point for the apollo client
-
 import React from 'react';
 import {render} from 'react-dom';
-import App from './App';
-import {ApolloClient, InMemoryCache, ApolloProvider, createHttpLink} from '@apollo/client';
-import {makeStyles} from '@mui/styles';
-import {StyledEngineProvider} from '@mui/material/styles';
 
-const useStyles = makeStyles({
-  '@global': {
-    'body': {
-      background: '#252525',
-      margin: '0',
-      color: '#fff',
-      fontFamily: 'Arial, Helvetica, sans-serif',
-    },
-    '#root': {
-      display: 'flex',
-    },
-    '.profileBox': {
-      display: 'flex',
-      flexDirection: 'column',
-      margin: '0 16px 16px 0',
-      padding: '16px',
-      color: 'black',
-      backgroundColor: '#f2f2f2',
-      borderRadius: '4px',
-    },
-  },
-});
+import {ApolloClient, InMemoryCache, ApolloProvider, createHttpLink} from '@apollo/client';
+
+import {ThemeProvider, StyledEngineProvider} from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import theme from 'Src/theme';
+
+import App from 'Src/App';
 
 const configurations = {
   development: {hostname: 'http://localhost'},
@@ -51,14 +30,15 @@ const init = () => {
     cache,
   });
   const Root = () => {
-    useStyles();
     return (
       <ApolloProvider client={client}>
-        <React.Fragment>
-          <StyledEngineProvider injectFirst>
-            <App />
-          </StyledEngineProvider>
-        </React.Fragment>
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <CssBaseline>
+              <App />
+            </CssBaseline>
+          </ThemeProvider>
+        </StyledEngineProvider>
       </ApolloProvider>
     );
   };

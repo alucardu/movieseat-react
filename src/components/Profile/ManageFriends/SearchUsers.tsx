@@ -5,32 +5,13 @@ import {useQuery} from '@apollo/client';
 
 import {debounce} from 'lodash';
 
-import {makeStyles} from '@mui/styles';
-import {FormControl, Input, InputLabel, List, ListItem, Typography, Box} from '@mui/material';
+import {FormControl, Input, InputLabel, List, ListItem, Typography} from '@mui/material';
 
+import {ProfileBox} from 'Src/styles';
 import resolvers from 'Src/resolvers';
 import {IUser} from 'Src/movieseat';
 
-const useStyles = makeStyles({
-  ListItemRoot: {
-    'display': 'flex',
-    'justifyContent': 'space-between',
-    'borderBottom': '1px solid #ebebeb',
-    'borderRadius': '4px',
-    '& a': {
-      transition: 'margin-left 0.1s ease-in',
-    },
-    '&:hover': {
-      'background': '#f6e0fa',
-      '&> a': {
-        marginLeft: '4px',
-      },
-    },
-  },
-});
-
 export const SearchUser = () => {
-  const classes = useStyles();
   const [results, setResults] = useState<IUser[]>([]);
   const [query, setQuery] = useState('');
   const {loading, error, data: {returnUsers: users} = {}} = useQuery(resolvers.queries.returnUsers);
@@ -63,7 +44,7 @@ export const SearchUser = () => {
   if (error) return (<div>Error</div>);
 
   return (
-    <Box className='profileBox'>
+    <ProfileBox>
       <Typography variant='h6'>
         Add friends
       </Typography>
@@ -77,12 +58,12 @@ export const SearchUser = () => {
         { results.length === 0 && query.length > 0 && <li>No results found</li>}
         { results.map((user) => {
           return (
-            <ListItem key={user.id} classes={{root: classes.ListItemRoot}}>
+            <ListItem key={user.id}>
               <Link to={`/profile/${user.id}`}>{user.user_name}</Link>
             </ListItem>
           );
         })}
       </List>
-    </Box>
+    </ProfileBox>
   );
 };

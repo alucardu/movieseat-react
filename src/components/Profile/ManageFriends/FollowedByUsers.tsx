@@ -3,8 +3,9 @@ import {Link} from 'react-router-dom';
 
 import {useQuery} from '@apollo/client';
 
-import {Box, List, ListItem, Typography} from '@mui/material';
+import {List, ListItem, Typography} from '@mui/material';
 
+import {ProfileBox} from 'Src/styles';
 import resolvers from 'Src/resolvers';
 
 export const FollowedByUSers = () => {
@@ -14,7 +15,7 @@ export const FollowedByUSers = () => {
   if (error) return (<div>Error</div>);
 
   return (
-    <Box className='profileBox'>
+    <ProfileBox>
       <Typography variant='h6'>
         Followed by users
       </Typography>
@@ -27,6 +28,6 @@ export const FollowedByUSers = () => {
           );
         })}
       </List>
-    </Box>
+    </ProfileBox>
   );
 };
