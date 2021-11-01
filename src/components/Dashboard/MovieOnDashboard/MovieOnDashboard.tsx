@@ -69,9 +69,11 @@ const MovieOnDashboard = (props) => {
   }, []);
 
   useEffect(() => {
-    if (listRef.current) {
-      setListItemSize([listRef.current.offsetWidth * 1.5, listRef.current.offsetWidth]);
-    }
+    setTimeout(() => {
+      if (listRef.current) {
+        setListItemSize([listRef.current.offsetWidth * 1.5, listRef.current.offsetWidth]);
+      }
+    }, 75);
   }, [size]);
 
   return (
