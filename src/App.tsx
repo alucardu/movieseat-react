@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 import {useQuery, useReactiveVar} from '@apollo/client';
@@ -16,17 +16,17 @@ import {MovieSuggestions} from 'Components/MovieSuggestions/MovieSuggestions';
 import {RandomBackground} from 'Components/Dashboard/RandomBackground/RandomBackground';
 
 const App = () => {
-  const {error, loading, data} = useQuery(
-      resolvers.queries.ReturnUser);
-
-  if (!error && !loading && data.returnUser) {
-    currentUserVar({
-      ...data.returnUser,
-      isLoggedIn: true,
-    });
-  }
-
   const currentUser = useReactiveVar(currentUserVar);
+  const {error, loading, data: {returnUser: user} = {}} = useQuery(
+      resolvers.queries.ReturnUser, {
+        fetchPolicy: 'no-cache',
+      });
+
+  useEffect(() => {
+    if (user) {
+      currentUserVar({...user, isLoggedIn: true});
+    }
+  }, [user]);
 
   if (loading) return (<div>Loading</div>);
   if (error) return (<div>Error</div>);

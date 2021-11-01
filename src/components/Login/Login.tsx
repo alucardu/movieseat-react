@@ -36,10 +36,11 @@ const Login = () => {
   const logout = (event) => {
     event.preventDefault();
     logoutUser();
-    currentUserVar({id: 0, email: '', user_name: '', isLoggedIn: false});
-    history.push('/');
-    snackbarVar({message: 'You have been logged out', severity: 'success'});
     client.cache.reset();
+    client.resetStore();
+    history.push('/');
+    currentUserVar({id: 0, email: '', user_name: '', isLoggedIn: false});
+    snackbarVar({message: 'You have been logged out', severity: 'success'});
   };
 
   return (
