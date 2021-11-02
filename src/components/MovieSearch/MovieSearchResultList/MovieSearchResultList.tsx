@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, forwardRef} from 'react';
 
 import {useReactiveVar} from '@apollo/client';
 
@@ -11,7 +11,7 @@ import posterNotFound from 'Assets/images/poster_not_found.svg';
 import {movieSearchResultsVar, movieSearchActiveVar} from 'Src/cache';
 import {AddMovieToWatchList} from 'Components/MovieSearch/MovieSearchResultList/AddMovieToDashboard/AddMovieToDashboard';
 
-const MovieSearchResultList = () => {
+const MovieSearchResultList = (props, ref) => {
   const searching = useReactiveVar(movieSearchActiveVar);
   const movieList = useReactiveVar(movieSearchResultsVar);
   const orderedList = orderBy(
@@ -46,7 +46,7 @@ const MovieSearchResultList = () => {
   };
 
   return (
-    <ResultList
+    <ResultList searchEl={ref.current}
       data-cy='list_movie_search_results'>
       { orderedList.length === 0 && searching ? (
         <li className={'noResults'}>No results were found...</li>) : (null)
@@ -60,4 +60,4 @@ const MovieSearchResultList = () => {
   );
 };
 
-export default MovieSearchResultList;
+export default forwardRef(MovieSearchResultList);
