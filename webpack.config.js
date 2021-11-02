@@ -2,10 +2,12 @@ const Dotenv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const path = require('path');
+const {GenerateSW} = require('workbox-webpack-plugin');
+const {InjectManifest} = require('workbox-webpack-plugin');
 
 module.exports = {
   devtool: 'eval-cheap-source-map',
-  entry: ['./src/index.tsx', './src/service-worker.ts'],
+  entry: ['./src/index.tsx'],
   resolve: {
     alias: {
       Components: path.resolve(__dirname, 'src/components/'),
@@ -47,6 +49,7 @@ module.exports = {
     }),
     new Dotenv(),
     new ESLintPlugin(),
+    new GenerateSW(),
   ],
 };
 
