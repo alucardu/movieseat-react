@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 import {Box} from '@mui/material';
 
-import MovieSearch from 'Components/MovieSearch/MovieSearch/MovieSearch';
+import Header from 'Components/MovieSearch/Header/Header';
 import MovieSearchResultList from 'Components/MovieSearch/MovieSearchResultList/MovieSearchResultList';
 interface Movie {
   originalTitle: string;
@@ -19,8 +19,8 @@ const MovieSearchComponent = () => {
   });
 
   return (
-    <Box sx={{display: 'flex', justifyContent: 'center', position: 'relative'}}>
-      <MovieSearch createSearchResults={createSearchResults} />
+    <Box>
+      <Header createSearchResults={createSearchResults} />
       { showList ? <MovieSearchResultList movieList={movieList}/> : null}
     </Box>
   );

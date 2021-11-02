@@ -1,16 +1,22 @@
-import React from 'react';
+import React, {forwardRef} from 'react';
 
-import {IconButton} from '@mui/material';
+import {useReactiveVar} from '@apollo/client';
+
+import {ListItem, ListItemButton, ListItemIcon, ListItemText} from '@mui/material';
 import ListIcon from '@mui/icons-material/List';
 
+import {currentUserVar} from 'Src/cache';
 import {DashboardMovieOverviewMenuStyle} from 'Src/styles';
 import SortMovieOverview from 'Components/Dashboard/DashboardMovieOverviewMenu/SortMovieOverview/SortMovieOverview';
 
-const DashboardMovieOverviewMenu = () => {
+const DashboardMovieOverviewMenu = (props, ref) => {
+  const currentUser = useReactiveVar(currentUserVar);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+  const handleClick = () => {
+    if (ref && 'current' in ref && ref.current) {
+      setAnchorEl(ref.current);
+    }
   };
 
   const handleClose = () => {
@@ -22,14 +28,15 @@ const DashboardMovieOverviewMenu = () => {
 
   return (
     <>
-      <IconButton
-        sx={{
-          'margin': '-68px 0 0 -12px',
-          'position': 'absolute',
-        }}
-        onClick={handleClick}>
-        <ListIcon sx={{'fontSize': '1.5em', 'color': 'white'}}/>
-      </IconButton>
+      <ListItem disablePadding>
+        <ListItemButton disabled={!currentUser.isLoggedIn} onClick={handleClick}>
+          <ListItemIcon>
+            <ListIcon fontSize='large'/>
+          </ListItemIcon>
+          <ListItemText primary="Settings" />
+        </ListItemButton>
+      </ListItem >
+
       <DashboardMovieOverviewMenuStyle
         id={id}
         open={open}
@@ -46,4 +53,4 @@ const DashboardMovieOverviewMenu = () => {
   );
 };
 
-export default DashboardMovieOverviewMenu;
+export default forwardRef(DashboardMovieOverviewMenu);
