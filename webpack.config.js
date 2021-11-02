@@ -5,7 +5,10 @@ const path = require('path');
 
 module.exports = {
   devtool: 'eval-cheap-source-map',
-  entry: './src/index.tsx',
+  entry: {
+    'app': './src/index.tsx',
+    'service-worker': './src/service-worker.ts',
+  },
   resolve: {
     alias: {
       Components: path.resolve(__dirname, 'src/components/'),
@@ -18,7 +21,7 @@ module.exports = {
   output: {
     path: __dirname + '/dist',
     publicPath: '/',
-    filename: 'bundle.js',
+    filename: '[name].js',
   },
   module: {
     rules: [
