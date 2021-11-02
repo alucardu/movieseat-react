@@ -85,7 +85,10 @@ export const DrawerContainer = () => {
         variant={isMdUp ? 'permanent' : 'temporary'}
       >
         <List>
-          <ListItem disablePadding>
+          <ListItem
+            disablePadding
+            sx={{display: !isMdUp ? 'none' : null}}
+          >
             <Link data-cy='btn_home' to='/'>
               <Logo
                 component='button'

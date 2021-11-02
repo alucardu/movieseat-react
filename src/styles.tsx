@@ -48,6 +48,9 @@ export const Logo = styled(Box)(({theme}) => ({
     paddingLeft: '8px',
     width: '100%',
   },
+  [theme.breakpoints.down('md')]: {
+    color: 'white',
+  },
 }));
 
 export const MovieOverviewList = styled(List)(() => ({
@@ -260,7 +263,7 @@ export const AddMovieFromSearchOverlay = styled(Box)<MovieModalProps>(({theme, m
 
 export const MovieSearchInput = styled(TextField)(({theme}) => ({
   [theme.breakpoints.down('sm')]: {
-    width: '90%',
+    width: '100%',
   },
   'width': '50%',
   '& input': {
@@ -407,8 +410,15 @@ export const Drawer = styled(MuiDrawer)(
     }),
 );
 
-export const HeaderStyle = styled(Box)(() => ({
+export const HeaderStyle = styled(Box)(({theme}) => ({
+  [theme.breakpoints.up('sm')]: {
+    display: 'none',
+  },
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  position: 'sticky',
+  top: 0,
+  backgroundColor: theme.palette.background.default,
+  zIndex: 2,
 }));
