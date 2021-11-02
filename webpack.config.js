@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const path = require('path');
 const {GenerateSW} = require('workbox-webpack-plugin');
-const {InjectManifest} = require('workbox-webpack-plugin');
+const {WebpackManifestPlugin} = require('webpack-manifest-plugin');
 
 module.exports = {
   devtool: 'eval-cheap-source-map',
@@ -50,6 +50,7 @@ module.exports = {
     new Dotenv(),
     new ESLintPlugin(),
     new GenerateSW(),
+    new WebpackManifestPlugin(),
   ],
 };
 
