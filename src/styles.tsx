@@ -1,4 +1,4 @@
-import {ListItem, Box, styled, Modal, Popover, Button, TextField, List, FormGroup} from '@mui/material';
+import {ListItem, Box, styled, Modal, Popover, Button, Input, List, FormGroup} from '@mui/material';
 import {Theme, CSSObject} from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
 import {grey, orange, purple} from '@mui/material/colors';
@@ -261,7 +261,12 @@ export const AddMovieFromSearchOverlay = styled(Box)<MovieModalProps>(({theme, m
   'alignItems': 'center',
 }));
 
-export const MovieSearchInput = styled(TextField)(({theme}) => ({
+export const MovieSearchInput = styled(Input)(({theme}) => ({
+  'background': grey[100],
+  'color': grey[900],
+  'fontSize': '16px',
+  'borderRadius': theme.shape.borderRadius,
+  'padding': '0',
   [theme.breakpoints.down('sm')]: {
     width: '100%',
   },
@@ -270,11 +275,7 @@ export const MovieSearchInput = styled(TextField)(({theme}) => ({
     'height': '64px',
     'padding': 0,
     'paddingLeft': theme.spacing(1),
-    'borderRadius': theme.shape.borderRadius,
-    'background': grey[100],
-    'color': grey[900],
     'border': 'none',
-    'fontSize': '16px',
   },
 }));
 
@@ -288,13 +289,17 @@ export const AddMovieFromSearchButton = styled(Button)(({theme}) => ({
   },
 }));
 
-export const ResultList = styled(List)(() => ({
+type SearchEL = {
+  searchEl: HTMLElement
+};
+
+export const ResultList = styled(Box)<SearchEL>(({theme, searchEl}) => ({
   'background': '#3a3a3a',
   'position': 'absolute',
+  'top': searchEl?.offsetTop + searchEl?.offsetHeight + 'px',
+  'width': searchEl?.offsetWidth,
   'zIndex': 1,
   'listStyle': 'none',
-  'top': '64px',
-  'width': '50%',
   'boxSizing': 'border-box',
   'margin': '0',
   'padding': '0',

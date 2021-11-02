@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 
-import {Box} from '@mui/material';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import {Box, IconButton, InputAdornment} from '@mui/material';
 
 import {movieSearchResultsVar, movieSearchActiveVar} from 'Src/cache';
 import {MovieSearchInput} from 'Src/styles';
@@ -12,6 +13,7 @@ interface Movie {
 }
 
 const MovieSearchComponent = () => {
+  const elRef = useRef<HTMLElement>(null);
   const [searchInput, setSearchInput] = useState('');
 
   const baseurl = 'https://api.themoviedb.org/3/search/movie?';
@@ -19,6 +21,10 @@ const MovieSearchComponent = () => {
 
   const handleChange = (e) => {
     setSearchInput(e.target.value);
+  };
+
+  const handleFocus = () => {
+    elRef.current?.scrollIntoView(false);
   };
 
   const clearResults = () => {
@@ -41,16 +47,29 @@ const MovieSearchComponent = () => {
   }, [searchInput]);
 
   return (
-    <Box sx={{display: 'flex', justifyContent: 'center'}}>
+    <Box sx={{display: 'flex', justifyContent: 'center', paddingBottom: '8px'}}>
       <MovieSearchInput
-        variant='filled'
+        ref={elRef}
         data-cy='input_movie_search'
         placeholder="Search for a movie..."
         onChange={handleChange}
         value={searchInput}
         onBlur={clearResults}
+        onFocus={handleFocus}
+        endAdornment={
+          <InputAdornment
+            position="end"
+          >
+            <IconButton
+              aria-label="Clear search results"
+              onClick={clearResults}
+            >
+              <HighlightOffIcon fontSize='large'/>
+            </IconButton>
+          </InputAdornment>
+        }
       />
-      <MovieSearchResultList />
+      <MovieSearchResultList ref={elRef}/>
     </Box>
   );
 };
