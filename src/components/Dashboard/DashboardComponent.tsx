@@ -8,7 +8,6 @@ import {currentUserVar} from 'Src/cache';
 import resolvers from 'Src/resolvers';
 
 import MovieOverview from 'Components/Dashboard/MovieOverview/MovieOverview';
-import DashboardMovieOverviewMenu from 'Components/Dashboard/DashboardMovieOverviewMenu/DashboardMovieOverviewMenu';
 import MovieSearchComponent from 'Components/MovieSearch/MovieSearchComponent';
 
 const DashboardComponent = () => {
@@ -24,7 +23,6 @@ const DashboardComponent = () => {
     <React.Fragment>
       <Box sx={{width: '100vw', padding: '8px'}}>
         <MovieSearchComponent />
-        <DashboardMovieOverviewMenu />
         <MovieOverview type='dashboard' movies={movies}/>
       </Box>
     </React.Fragment>

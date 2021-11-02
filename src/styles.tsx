@@ -259,6 +259,9 @@ export const AddMovieFromSearchOverlay = styled(Box)<MovieModalProps>(({theme, m
 }));
 
 export const MovieSearchInput = styled(TextField)(({theme}) => ({
+  [theme.breakpoints.down('sm')]: {
+    width: '90%',
+  },
   'width': '50%',
   '& input': {
     'height': '64px',
@@ -332,6 +335,8 @@ export const ResultList = styled(List)(() => ({
 }));
 
 export const DashboardMovieOverviewMenuStyle = styled(Popover)(() => ({
+  'left': '8px',
+  'top': '244px',
   '.MuiPaper-root': {
     padding: 0,
     background: '#0fcece',
@@ -379,13 +384,13 @@ const closedMixin = (theme: Theme): CSSObject => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 1px)`,
+  width: drawerWidth,
   [theme.breakpoints.up('sm')]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
 });
 
-export const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})(
+export const Drawer = styled(MuiDrawer)(
     ({theme, open}) => ({
       width: drawerWidth,
       flexShrink: 0,
@@ -402,3 +407,8 @@ export const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== '
     }),
 );
 
+export const HeaderStyle = styled(Box)(() => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));

@@ -7,6 +7,8 @@ export const sortVar: ReactiveVar<ISelectedSortType> = makeVar<ISelectedSortType
 
 export const snackbarVar: ReactiveVar<ISnackbar> = makeVar<ISnackbar>({message: '', severity: 'warning'});
 
+export const drawerOpenVar: ReactiveVar<boolean> = makeVar<boolean>(false);
+
 export const currentUserVar: ReactiveVar<ICurrentUser> = makeVar<ICurrentUser>({
   id: 0,
   email: '',
