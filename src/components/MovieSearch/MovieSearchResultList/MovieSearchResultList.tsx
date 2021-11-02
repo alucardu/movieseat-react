@@ -1,15 +1,20 @@
 import React, {useState} from 'react';
 
+import {useReactiveVar} from '@apollo/client';
+
 import {orderBy} from 'lodash';
 
 import {ResultList} from 'Src/styles';
-import {IMovie, IMovieList} from 'Src/movieseat';
+import {IMovie} from 'Src/movieseat';
 import posterNotFound from 'Assets/images/poster_not_found.svg';
 
+import {movieSearchResultsVar, movieSearchActiveVar} from 'Src/cache';
 import {AddMovieToWatchList} from 'Components/MovieSearch/MovieSearchResultList/AddMovieToDashboard/AddMovieToDashboard';
 
-const MovieSearchResultList = ({movieList}: {movieList: IMovieList}) => {
-  const orderedList = orderBy<IMovieList>(
+const MovieSearchResultList = () => {
+  const searching = useReactiveVar(movieSearchActiveVar);
+  const movieList = useReactiveVar(movieSearchResultsVar);
+  const orderedList = orderBy(
       movieList, [(movie: IMovie) => movie.release_date], ['desc']);
   const imagePath = 'https://image.tmdb.org/t/p/w45/';
 
@@ -43,7 +48,7 @@ const MovieSearchResultList = ({movieList}: {movieList: IMovieList}) => {
   return (
     <ResultList
       data-cy='list_movie_search_results'>
-      { orderedList.length === 0 ? (
+      { orderedList.length === 0 && searching ? (
         <li className={'noResults'}>No results were found...</li>) : (null)
       }
       { orderedList.map((movie: IMovie) => {

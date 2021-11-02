@@ -2,6 +2,8 @@ import {ReactiveVar, makeVar} from '@apollo/client';
 import {IMovie, ICurrentUser, ISelectedSortType, ISnackbar} from 'Src/movieseat';
 
 export const moviesVar: ReactiveVar<IMovie[]> = makeVar<IMovie[]>([]);
+export const movieSearchResultsVar: ReactiveVar<IMovie[]> = makeVar<IMovie[]>([]);
+export const movieSearchActiveVar: ReactiveVar<boolean> = makeVar<boolean>(false);
 
 export const sortVar: ReactiveVar<ISelectedSortType> = makeVar<ISelectedSortType>({selectedSortType: 'title', orderType: true});
 
