@@ -18,6 +18,21 @@ import {DrawerContainer} from 'Components/Drawer/DrawerContainer';
 import {MovieSuggestions} from 'Components/MovieSuggestions/MovieSuggestions';
 import {RandomBackground} from 'Components/Dashboard/RandomBackground/RandomBackground';
 
+interface BeforeInstallPromptEvent extends Event {
+  readonly platforms: string[];
+  readonly userChoice: Promise<{
+    outcome: 'accepted' | 'dismissed';
+    platform: string;
+  }>;
+  prompt(): Promise<void>;
+}
+
+declare global {
+  interface WindowEventMap {
+    beforeinstallprompt: BeforeInstallPromptEvent;
+  }
+}
+
 const App = () => {
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
@@ -32,6 +47,17 @@ const App = () => {
       currentUserVar({...user, isLoggedIn: true});
     }
   }, [user]);
+
+
+  useEffect(() => {
+    window.addEventListener('beforeinstallprompt', function(e) {
+      // log the platforms provided as options in an install prompt
+      console.log(e.platforms); // e.g., ["web", "android", "windows"]
+      e.userChoice.then(function(choiceResult) {
+        console.log(choiceResult.outcome); // either "accepted" or "dismissed"
+      });
+    });
+  }, []);
 
   if (loading) return (<div>Loading</div>);
   if (error) return (<div>Error</div>);
