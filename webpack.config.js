@@ -5,10 +5,7 @@ const path = require('path');
 
 module.exports = {
   devtool: 'eval-cheap-source-map',
-  entry: {
-    'app': './src/index.tsx',
-    'service-worker': './src/service-worker.ts',
-  },
+  entry: ['./src/index.tsx', './src/service-worker.ts'],
   resolve: {
     alias: {
       Components: path.resolve(__dirname, 'src/components/'),
