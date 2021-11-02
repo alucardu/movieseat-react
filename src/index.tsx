@@ -3,7 +3,7 @@ import {render} from 'react-dom';
 
 import {ApolloClient, InMemoryCache, ApolloProvider, createHttpLink} from '@apollo/client';
 
-import registerServiceWorker from './registerServiceWorker';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 import {ThemeProvider, StyledEngineProvider} from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -48,6 +48,6 @@ const init = () => {
   render(<Root />, document.getElementById('root'));
 };
 
-registerServiceWorker();
+serviceWorkerRegistration.register();
 
 init();
