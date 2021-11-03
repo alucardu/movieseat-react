@@ -2,7 +2,7 @@ import React, {useState, forwardRef} from 'react';
 
 import {useReactiveVar} from '@apollo/client';
 
-import {orderBy} from 'lodash';
+import orderBy from 'lodash/orderBy';
 
 import {ResultList} from 'Src/styles';
 import {IMovie} from 'Src/movieseat';

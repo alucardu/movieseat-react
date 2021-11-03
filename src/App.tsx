@@ -3,10 +3,11 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 import {useQuery, useReactiveVar} from '@apollo/client';
 
-import {Box} from '@mui/material';
+import {Box, Button} from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {useTheme} from '@mui/material/styles';
 
+import {useAddToHomescreenPrompt} from 'Helpers/useAddToHomescreenPrompt';
 import {currentUserVar} from 'Src/cache';
 import resolvers from 'Src/resolvers';
 import SnackbarStack from 'Helpers/snackbar';
@@ -18,7 +19,23 @@ import {DrawerContainer} from 'Components/Drawer/DrawerContainer';
 import {MovieSuggestions} from 'Components/MovieSuggestions/MovieSuggestions';
 import {RandomBackground} from 'Components/Dashboard/RandomBackground/RandomBackground';
 
+interface BeforeInstallPromptEvent extends Event {
+  readonly platforms: string[];
+  readonly userChoice: Promise<{
+    outcome: 'accepted' | 'dismissed';
+    platform: string;
+  }>;
+  prompt(): Promise<void>;
+}
+
+declare global {
+  interface WindowEventMap {
+    beforeinstallprompt: BeforeInstallPromptEvent;
+  }
+}
+
 const App = () => {
+  const [promptable, promptToInstall, isInstalled] = useAddToHomescreenPrompt();
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
   const currentUser = useReactiveVar(currentUserVar);
@@ -41,6 +58,10 @@ const App = () => {
       <Box
         sx={{display: isMdUp ? 'flex' : null}}
       >
+        {promptable && !isInstalled ? (
+          <Button onClick={promptToInstall}>INSTALL!! APP</Button>
+        ) : null
+        }
         <DrawerContainer />
         <Header />
         <Switch>

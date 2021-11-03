@@ -1,5 +1,5 @@
 import localforage from 'localforage';
-import {orderBy} from 'lodash';
+import orderBy from 'lodash/orderBy';
 
 import {ISelectedSortType} from 'Src/movieseat';
 

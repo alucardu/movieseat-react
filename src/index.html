@@ -6,6 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge"> 
     <title>TypeScript + React</title> 
     <link href="https://fonts.googleapis.com/css2?family=Oleo+Script+Swash+Caps:wght@700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json" />
+    <script>
+      if ('serviceWorker' in navigator) {
+          window.addEventListener("load", () => {
+          navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log("Service worker registered"))
+          .catch(err => console.error(`Service Worker Error: ${err}`));
+          });
+      } else {
+          console.log("Service Worker is not supported by browser.");
+      }
+      </script>
   </head> 
   <body> 
     <div id="root"> 

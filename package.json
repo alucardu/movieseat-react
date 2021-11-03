@@ -49,12 +49,16 @@
     "webpack": "^5.56.1",
     "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^4.3.1",
+    "workbox-sw": "^6.3.0",
+    "workbox-webpack-plugin": "^6.3.0",
     "yup": "^0.32.9"
   },
   "scripts": {
     "startGraphQL": "nodemon src/",
     "start": "webpack-dev-server --mode development --open --hot",
+    "bundle-report": "yarn build && webpack-bundle-analyzer --port 4200 dist/stats.json",
     "build": "webpack --mode none",
+    "serve": "serve dist",
     "test": "cypress open",
     "eject": "react-scripts eject"
   },
@@ -81,6 +85,7 @@
     "@typescript-eslint/parser": "^3.7.1",
     "@webpack-cli/serve": "^1.5.2",
     "awesome-typescript-loader": "^5.2.1",
+    "copy-webpack-plugin": "^9.0.1",
     "css-modules-typescript-loader": "^4.0.0",
     "cypress": "^8.5.0",
     "eslint": "^7.32.0",
@@ -93,8 +98,10 @@
     "generate-react-cli": "^5.0.1",
     "html-webpack-plugin": "^5.3.2",
     "prisma": "^3.1.1",
+    "serve": "^12.0.1",
     "svg-loader": "^0.0.2",
     "ts-loader": "^9.2.6",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "webpack-bundle-analyzer": "^4.5.0"
   }
 }

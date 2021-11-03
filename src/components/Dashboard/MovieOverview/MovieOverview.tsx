@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useLayoutEffect} from 'react';
 
-import {chunk} from 'lodash';
+import chunk from 'lodash/chunk';
 
 import {Typography, Box} from '@mui/material';
 import {Link} from 'react-router-dom';

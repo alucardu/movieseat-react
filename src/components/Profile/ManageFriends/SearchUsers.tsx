@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 
 import {useQuery} from '@apollo/client';
 
-import {debounce} from 'lodash';
+import debounce from 'lodash/debounce';
 
 import {FormControl, Input, InputLabel, List, ListItem, Typography} from '@mui/material';
 
