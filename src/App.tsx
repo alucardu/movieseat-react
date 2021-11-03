@@ -3,10 +3,11 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 import {useQuery, useReactiveVar} from '@apollo/client';
 
-import {Box} from '@mui/material';
+import {Box, Button} from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {useTheme} from '@mui/material/styles';
 
+import {useAddToHomescreenPrompt} from 'Helpers/useAddToHomescreenPrompt';
 import {currentUserVar} from 'Src/cache';
 import resolvers from 'Src/resolvers';
 import SnackbarStack from 'Helpers/snackbar';
@@ -34,6 +35,7 @@ declare global {
 }
 
 const App = () => {
+  const [promptable, promptToInstall, isInstalled] = useAddToHomescreenPrompt();
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
   const currentUser = useReactiveVar(currentUserVar);
@@ -62,28 +64,32 @@ const App = () => {
   if (loading) return (<div>Loading</div>);
   if (error) return (<div>Error</div>);
 
-  return (
-    <Router>
-      <Box
-        sx={{display: isMdUp ? 'flex' : null}}
-      >
-        <DrawerContainer />
-        <Header />
-        <Switch>
-          <Route exact path='/'>
-            {currentUser.isLoggedIn ? <DashboardComponent /> : <RandomBackground />}
-          </Route>
-          <Route exact path='/suggestions'>
-            <MovieSuggestions />
-          </Route>
-          <Route path='/profile/:id'>
-            <Profile />
-          </Route>
-        </Switch>
-        <SnackbarStack />
-      </Box>
-    </Router>
-  );
+  return promptable && !isInstalled ? (
+    <Button onClick={promptToInstall}>INSTALL APP</Button>
+  ) : null;
+
+  // return (
+  //   <Router>
+  //     <Box
+  //       sx={{display: isMdUp ? 'flex' : null}}
+  //     >
+  //       <DrawerContainer />
+  //       <Header />
+  //       <Switch>
+  //         <Route exact path='/'>
+  //           {currentUser.isLoggedIn ? <DashboardComponent /> : <RandomBackground />}
+  //         </Route>
+  //         <Route exact path='/suggestions'>
+  //           <MovieSuggestions />
+  //         </Route>
+  //         <Route path='/profile/:id'>
+  //           <Profile />
+  //         </Route>
+  //       </Switch>
+  //       <SnackbarStack />
+  //     </Box>
+  //   </Router>
+  // );
 };
 
 export default App;
