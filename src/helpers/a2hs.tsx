@@ -8,7 +8,7 @@ export const A2hs = () => {
 
   return (
     <Box sx={{color: 'white'}}>
-      {promptable?.platforms[0]}
+      device: {promptable?.platforms}
       {promptable?.platforms[0] !== 'web' && promptable && !isInstalled ? (
         <Button onClick={promptToInstall}>INSTALL APP</Button>
       ) : null
