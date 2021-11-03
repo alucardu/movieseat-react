@@ -7,10 +7,10 @@ import {Box} from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {useTheme} from '@mui/material/styles';
 
+import {A2hs} from 'Helpers/a2hs';
 import {currentUserVar} from 'Src/cache';
 import resolvers from 'Src/resolvers';
 import SnackbarStack from 'Helpers/snackbar';
-import {A2hs} from 'Helpers/a2hs';
 
 import Header from 'Components/Header/Header';
 import Profile from 'Components/Profile/Profile';
