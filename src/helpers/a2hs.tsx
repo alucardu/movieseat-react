@@ -5,10 +5,10 @@ import {Box, Button} from '@mui/material';
 
 export const A2hs = () => {
   const [promptable, promptToInstall, isInstalled] = useAddToHomescreenPrompt();
-  console.log(promptable);
 
   return (
-    <Box>
+    <Box sx={{color: 'white'}}>
+      {promptable?.platforms[0]}
       {promptable?.platforms[0] !== 'web' && promptable && !isInstalled ? (
         <Button onClick={promptToInstall}>INSTALL APP</Button>
       ) : null
