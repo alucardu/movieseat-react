@@ -56,6 +56,7 @@
   "scripts": {
     "startGraphQL": "nodemon src/",
     "start": "webpack-dev-server --mode development --open --hot",
+    "bundle-report": "yarn build && webpack-bundle-analyzer --port 4200 dist/stats.json",
     "build": "webpack --mode none",
     "serve": "serve dist",
     "test": "cypress open",
@@ -100,6 +101,7 @@
     "serve": "^12.0.1",
     "svg-loader": "^0.0.2",
     "ts-loader": "^9.2.6",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "webpack-bundle-analyzer": "^4.5.0"
   }
 }

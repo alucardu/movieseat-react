@@ -4,6 +4,7 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const path = require('path');
 const {GenerateSW} = require('workbox-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   devtool: 'eval-cheap-source-map',
@@ -49,7 +50,14 @@ module.exports = {
     }),
     new Dotenv(),
     new ESLintPlugin(),
-    new GenerateSW(),
+    new GenerateSW({
+      maximumFileSizeToCacheInBytes: 5000000000000,
+    }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'disabled',
+      generateStatsFile: true,
+      statsOptions: {source: false},
+    }),
     new CopyPlugin({
       patterns: [
         {from: 'public', to: './'},
