@@ -6,6 +6,8 @@ const {GenerateSW} = require('workbox-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+const production = process.env.NODE_ENV === 'production';
+
 module.exports = {
   devtool: 'eval-cheap-source-map',
   entry: ['./src/index.tsx'],
@@ -50,13 +52,9 @@ module.exports = {
     }),
     new Dotenv(),
     new ESLintPlugin(),
-    new GenerateSW({
-      maximumFileSizeToCacheInBytes: 5000000000000,
-    }),
+
     new BundleAnalyzerPlugin({
       analyzerMode: 'disabled',
-      generateStatsFile: true,
-      statsOptions: {source: false},
     }),
     new CopyPlugin({
       patterns: [
@@ -66,3 +64,10 @@ module.exports = {
   ],
 };
 
+if (production) {
+  module.exports.plugins.push(
+      new GenerateSW({
+        maximumFileSizeToCacheInBytes: 5000000000000,
+      }),
+  );
+}

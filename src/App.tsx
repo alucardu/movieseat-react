@@ -59,7 +59,7 @@ const App = () => {
         sx={{display: isMdUp ? 'flex' : null}}
       >
         {promptable && !isInstalled ? (
-          <Button onClick={promptToInstall}>INSTALL APP</Button>
+          <Button onClick={promptToInstall}>INSTALL!! APP</Button>
         ) : null
         }
         <DrawerContainer />
