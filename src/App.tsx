@@ -41,13 +41,13 @@ const App = () => {
 
   return (
     <Router>
-      <A2hs />
-      {/* <Box sx={{color: 'white'}}>
+      {/* <A2hs /> */}
+      <Box sx={{color: 'white'}}>
         {!isMdUp && promptable && !isInstalled ? (
         <Button onClick={promptToInstall}>INSTALL APP</Button>
       ) : null
         }
-      </Box> */}
+      </Box>
       <Box
         sx={{display: isMdUp ? 'flex' : null}}
       >
