@@ -39,6 +39,7 @@ const App = () => {
 
   return (
     <Router>
+      <A2hs />
       <Box
         sx={{display: isMdUp ? 'flex' : null}}
       >
@@ -55,7 +56,6 @@ const App = () => {
             <Profile />
           </Route>
         </Switch>
-        <A2hs />
         <SnackbarStack />
       </Box>
     </Router>
