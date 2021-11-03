@@ -10,7 +10,7 @@ import {useTheme} from '@mui/material/styles';
 import {currentUserVar} from 'Src/cache';
 import resolvers from 'Src/resolvers';
 import SnackbarStack from 'Helpers/snackbar';
-// import {A2hs} from 'Helpers/a2hs';
+import {A2hs} from 'Helpers/a2hs';
 
 import {useAddToHomescreenPrompt} from 'Helpers/useAddToHomescreenPrompt';
 import Header from 'Components/Header/Header';
@@ -41,13 +41,13 @@ const App = () => {
 
   return (
     <Router>
-      {/* <A2hs /> */}
-      <Box sx={{color: 'white'}}>
+      <A2hs />
+      {/* <Box sx={{color: 'white'}}>
         {!isMdUp && promptable && !isInstalled ? (
         <Button onClick={promptToInstall}>INSTALL APP</Button>
       ) : null
         }
-      </Box>
+      </Box> */}
       <Box
         sx={{display: isMdUp ? 'flex' : null}}
       >
