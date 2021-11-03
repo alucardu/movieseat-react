@@ -1,4 +1,3 @@
-import {A2hs} from 'Helpers/a2hs';
 import React, {useEffect} from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
@@ -41,7 +40,6 @@ const App = () => {
 
   return (
     <Router>
-      <A2hs />
       {/* <Box sx={{color: 'white'}}>
         {!isMdUp && promptable && !isInstalled ? (
         <Button onClick={promptToInstall}>INSTALL APP</Button>

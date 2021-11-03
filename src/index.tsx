@@ -1,6 +1,8 @@
 import React from 'react';
 import {render} from 'react-dom';
 
+import {A2hs} from 'Helpers/a2hs';
+
 import {ApolloClient, InMemoryCache, ApolloProvider, createHttpLink} from '@apollo/client';
 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
@@ -37,6 +39,7 @@ const init = () => {
         <StyledEngineProvider injectFirst>
           <ThemeProvider theme={theme}>
             <CssBaseline>
+              <A2hs />
               <App />
             </CssBaseline>
           </ThemeProvider>
