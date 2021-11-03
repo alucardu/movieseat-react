@@ -64,32 +64,32 @@ const App = () => {
   if (loading) return (<div>Loading</div>);
   if (error) return (<div>Error</div>);
 
-  return promptable && !isInstalled ? (
-    <Button onClick={promptToInstall}>INSTALL APP</Button>
-  ) : null;
-
-  // return (
-  //   <Router>
-  //     <Box
-  //       sx={{display: isMdUp ? 'flex' : null}}
-  //     >
-  //       <DrawerContainer />
-  //       <Header />
-  //       <Switch>
-  //         <Route exact path='/'>
-  //           {currentUser.isLoggedIn ? <DashboardComponent /> : <RandomBackground />}
-  //         </Route>
-  //         <Route exact path='/suggestions'>
-  //           <MovieSuggestions />
-  //         </Route>
-  //         <Route path='/profile/:id'>
-  //           <Profile />
-  //         </Route>
-  //       </Switch>
-  //       <SnackbarStack />
-  //     </Box>
-  //   </Router>
-  // );
+  return (
+    <Router>
+      <Box
+        sx={{display: isMdUp ? 'flex' : null}}
+      >
+        {promptable && !isInstalled ? (
+          <Button onClick={promptToInstall}>INSTALL APP</Button>
+        ) : null
+        }
+        <DrawerContainer />
+        <Header />
+        <Switch>
+          <Route exact path='/'>
+            {currentUser.isLoggedIn ? <DashboardComponent /> : <RandomBackground />}
+          </Route>
+          <Route exact path='/suggestions'>
+            <MovieSuggestions />
+          </Route>
+          <Route path='/profile/:id'>
+            <Profile />
+          </Route>
+        </Switch>
+        <SnackbarStack />
+      </Box>
+    </Router>
+  );
 };
 
 export default App;
