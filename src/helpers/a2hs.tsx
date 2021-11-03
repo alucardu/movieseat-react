@@ -1,22 +1,36 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-import {useTheme} from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import {Button, IconButton} from '@mui/material';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
+import {A2hsStyles} from 'Src/styles';
 import {useAddToHomescreenPrompt} from 'Helpers/useAddToHomescreenPrompt';
-import {Box, Button} from '@mui/material';
 
 export const A2hs = () => {
-  const theme = useTheme();
+  const [visible, setvisible] = useState(true);
   const [promptable, promptToInstall, isInstalled] = useAddToHomescreenPrompt();
-  const isMdUp = useMediaQuery(theme.breakpoints.down('md'));
+
+  const handleClick = () => {
+    setvisible(false);
+  };
 
   return (
-    <Box sx={{color: 'white'}}>
-      {isMdUp && promptable && !isInstalled ? (
-        <Button onClick={promptToInstall}>INSTALL APP</Button>
-      ) : null
-      }
-    </Box>
+    <>
+      {visible?
+      <A2hsStyles>
+        {visible && promptable && !isInstalled ? (
+      <Button
+        variant='contained'
+        onClick={promptToInstall}>INSTALL APP</Button>
+    ) : null
+        }
+        <IconButton onClick={handleClick}>
+          <HighlightOffIcon
+            sx={{color: 'black'}}
+            fontSize='large'
+          />
+        </IconButton>
+      </A2hsStyles> : null}
+    </>
   );
 };

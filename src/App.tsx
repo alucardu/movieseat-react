@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 import {useQuery, useReactiveVar} from '@apollo/client';
 
-import {Box, Button} from '@mui/material';
+import {Box} from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {useTheme} from '@mui/material/styles';
 
@@ -11,7 +11,6 @@ import {currentUserVar} from 'Src/cache';
 import resolvers from 'Src/resolvers';
 import SnackbarStack from 'Helpers/snackbar';
 
-import {useAddToHomescreenPrompt} from 'Helpers/useAddToHomescreenPrompt';
 import Header from 'Components/Header/Header';
 import Profile from 'Components/Profile/Profile';
 import DashboardComponent from 'Components/Dashboard/DashboardComponent';
@@ -22,7 +21,6 @@ import {RandomBackground} from 'Components/Dashboard/RandomBackground/RandomBack
 const App = () => {
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
-  const [promptable, promptToInstall, isInstalled] = useAddToHomescreenPrompt();
   const currentUser = useReactiveVar(currentUserVar);
   const {error, loading, data: {returnUser: user} = {}} = useQuery(
       resolvers.queries.ReturnUser, {
@@ -40,12 +38,6 @@ const App = () => {
 
   return (
     <Router>
-      {/* <Box sx={{color: 'white'}}>
-        {!isMdUp && promptable && !isInstalled ? (
-        <Button onClick={promptToInstall}>INSTALL APP</Button>
-      ) : null
-        }
-      </Box> */}
       <Box
         sx={{display: isMdUp ? 'flex' : null}}
       >
