@@ -11,7 +11,7 @@ import {useAddToHomescreenPrompt} from 'Helpers/useAddToHomescreenPrompt';
 
 export const A2hs = () => {
   const [showAnimation, setShowAnimation] = useState(false);
-  const visible = useReactiveVar(a2hsVar);
+  const [visible, setVisible] = useState(true);
   const [promptable, promptToInstall, isInstalled] = useAddToHomescreenPrompt();
 
   const handleClick = () => {
@@ -23,17 +23,16 @@ export const A2hs = () => {
 
   useEffect(() => {
     setShowAnimation(true);
-    console.log(visible, promptable, !isInstalled);
   }, []);
 
   useEffect(() => {
-    console.log(promptable);
+    if (promptable) setVisible(false);
   }, [promptable]);
   return (
     <>
       {visible && !isInstalled ?
       <A2hsStyles className={showAnimation ? 'animation' : ''}>
-        {visible && promptable && !isInstalled ? (
+        {promptable && !isInstalled ? (
             <Button
               variant='contained'
               color='secondary'
