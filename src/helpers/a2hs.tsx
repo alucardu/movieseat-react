@@ -34,12 +34,10 @@ export const A2hs = () => {
     <>
       {visible && !isInstalled ?
       <A2hsStyles className={showAnimation ? 'animation' : ''}>
-        {promptable && !isInstalled ? (
-            <Button
-              variant='contained'
-              color='secondary'
-              onClick={promptToInstall}>INSTALL APP</Button>
-          ) : null}
+        <Button
+          variant='contained'
+          color='secondary'
+          onClick={promptToInstall}>INSTALL APP</Button>
         <IconButton onClick={handleClick}>
           <HighlightOffIcon
             sx={{color: 'white'}}
