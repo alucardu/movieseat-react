@@ -67,7 +67,7 @@ export const useAddToHomescreenPrompt = (): [
 
   React.useEffect(() => {
     console.log(window.matchMedia('(display-mode: standalone)'));
-    window.navigator.getInstalledRelatedApps();
+    console.log(window.navigator.getInstalledRelatedApps());
   }, []);
 
   return [promptable, promptToInstall, isInstalled];
