@@ -34,19 +34,12 @@ export const useAddToHomescreenPrompt = (): [
 
   React.useEffect(() => {
     const ready = (e: IBeforeInstallPromptEvent) => {
+      console.log(e);
       e.preventDefault();
       setPromptable(e);
     };
 
-    // window.addEventListener('beforeinstallprompt', ready as any);
-
-    window.addEventListener('beforeinstallprompt', function(e) {
-      console.log(e);
-      // Prevent Chrome 67 and earlier from automatically showing the prompt
-      e.preventDefault();
-      // Stash the event so it can be triggered later.
-      // deferredPrompt = e;
-    });
+    window.addEventListener('beforeinstallprompt', ready as any);
 
     return () => {
       window.removeEventListener('beforeinstallprompt', ready as any);
