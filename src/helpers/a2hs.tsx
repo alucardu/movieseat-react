@@ -28,18 +28,13 @@ export const A2hs = () => {
 
   return (
     <>
-      {visible && !isInstalled ?
+      {visible && promptable && !isInstalled ?
       <A2hsStyles className={showAnimation ? 'animation' : ''}>
         {visible && promptable && !isInstalled ? (
-          <>
-            {visible.toString()}
-            {promptable.toString()}
-            {isInstalled.toString()}
             <Button
               variant='contained'
               color='secondary'
               onClick={promptToInstall}>INSTALL APP</Button>
-          </>
           ) : null}
         <IconButton onClick={handleClick}>
           <HighlightOffIcon
