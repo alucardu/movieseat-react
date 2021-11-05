@@ -28,7 +28,7 @@ export const A2hs = () => {
 
   return (
     <>
-      {visible && promptable && !isInstalled ?
+      {visible && !isInstalled ?
       <A2hsStyles className={showAnimation ? 'animation' : ''}>
         <Button
           variant='contained'
