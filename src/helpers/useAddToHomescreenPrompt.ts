@@ -41,7 +41,9 @@ export const useAddToHomescreenPrompt = (): [
   React.useEffect(() => {
     const ready = (e: IBeforeInstallPromptEvent) => {
       window.deferredPrompt = e;
-      console.log(window.deferredPrompt);
+      window.deferredPrompt.then((q) => {
+        console.log(q);
+      });
       e.preventDefault();
       setPromptable(e);
     };
