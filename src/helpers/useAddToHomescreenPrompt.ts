@@ -27,6 +27,7 @@ export const useAddToHomescreenPrompt = (): [
   const [isInstalled, setIsInstalled] = React.useState(false);
 
   const promptToInstall = () => {
+    console.log(window.deferredPrompt.prompt());
     if (promptable) {
       console.log(promptable.prompt());
       return promptable.prompt();
@@ -41,9 +42,6 @@ export const useAddToHomescreenPrompt = (): [
   React.useEffect(() => {
     const ready = (e: IBeforeInstallPromptEvent) => {
       window.deferredPrompt = e;
-      window.deferredPrompt.then((q) => {
-        console.log(q);
-      });
       e.preventDefault();
       setPromptable(e);
     };
