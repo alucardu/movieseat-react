@@ -64,5 +64,9 @@ export const useAddToHomescreenPrompt = (): [
     };
   }, []);
 
+  React.useEffect(() => {
+    console.log(window.matchMedia);
+  }, []);
+
   return [promptable, promptToInstall, isInstalled];
 };
