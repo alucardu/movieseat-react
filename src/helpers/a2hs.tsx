@@ -22,7 +22,9 @@ export const A2hs = () => {
   };
 
   useEffect(() => {
-    setShowAnimation(true);
+    setTimeout(() => {
+      setShowAnimation(true);
+    }, 0);
   }, []);
 
   useEffect(() => {
@@ -30,7 +32,7 @@ export const A2hs = () => {
   }, [promptable]);
   return (
     <>
-      {visible && !isInstalled ?
+      {visible ?
       <A2hsStyles className={showAnimation ? 'animation' : ''}>
         {promptable && !isInstalled ? (
             <Button
