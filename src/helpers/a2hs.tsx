@@ -23,7 +23,7 @@ export const A2hs = () => {
 
   useEffect(() => {
     setShowAnimation(true);
-    console.log(visible && promptable && !isInstalled);
+    console.log(visible, promptable, !isInstalled);
   }, []);
 
   return (
