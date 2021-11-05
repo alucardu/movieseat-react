@@ -24,7 +24,7 @@ export const A2hs = () => {
   useEffect(() => {
     setTimeout(() => {
       setShowAnimation(true);
-    }, 0);
+    }, 1000);
   }, []);
 
   useEffect(() => {
