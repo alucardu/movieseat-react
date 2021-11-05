@@ -32,12 +32,13 @@ export const A2hs = () => {
         {visible && promptable && !isInstalled ? (
       <Button
         variant='contained'
+        color='secondary'
         onClick={promptToInstall}>INSTALL APP</Button>
     ) : null
         }
         <IconButton onClick={handleClick}>
           <HighlightOffIcon
-            sx={{color: 'black'}}
+            sx={{color: 'white'}}
             fontSize='large'
           />
         </IconButton>
