@@ -17,6 +17,7 @@ import DashboardComponent from 'Components/Dashboard/DashboardComponent';
 import {DrawerContainer} from 'Components/Drawer/DrawerContainer';
 import {MovieSuggestions} from 'Components/MovieSuggestions/MovieSuggestions';
 import {RandomBackground} from 'Components/Dashboard/RandomBackground/RandomBackground';
+import {A2hs} from 'Helpers/a2hs';
 
 const App = () => {
   const theme = useTheme();
@@ -55,6 +56,7 @@ const App = () => {
           </Route>
         </Switch>
         <SnackbarStack />
+        <A2hs />
       </Box>
     </Router>
   );
