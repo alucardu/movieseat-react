@@ -20,10 +20,7 @@ export const useAddToHomescreenPrompt = (): [
   () => void,
   boolean
   ] => {
-  const [
-    promptable,
-    setPromptable,
-  ] = React.useState<IBeforeInstallPromptEvent | null>(null);
+  const [promptable, setPromptable] = React.useState<IBeforeInstallPromptEvent | null>(null);
 
   const [isInstalled, setIsInstalled] = React.useState(false);
 

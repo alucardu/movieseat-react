@@ -26,9 +26,12 @@ export const A2hs = () => {
     console.log(visible, promptable, !isInstalled);
   }, []);
 
+  useEffect(() => {
+    console.log(promptable);
+  }, [promptable]);
   return (
     <>
-      {visible && promptable && !isInstalled ?
+      {visible && !isInstalled ?
       <A2hsStyles className={showAnimation ? 'animation' : ''}>
         {visible && promptable && !isInstalled ? (
             <Button
