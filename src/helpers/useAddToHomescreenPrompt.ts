@@ -68,6 +68,7 @@ export const useAddToHomescreenPrompt = (): [
   const returnPWA = async () => {
     const relatedApps = await navigator.getInstalledRelatedApps();
     console.log(relatedApps);
+    console.log(document.referrer);
   };
 
   React.useEffect(() => {
