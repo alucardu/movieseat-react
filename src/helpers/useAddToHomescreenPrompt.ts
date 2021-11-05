@@ -22,6 +22,7 @@ export const useAddToHomescreenPrompt = (): [
   const [isInstalled, setIsInstalled] = React.useState(false);
 
   const promptToInstall = () => {
+    console.log(promptable);
     if (promptable) {
       return promptable.prompt();
     }
