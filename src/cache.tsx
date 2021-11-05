@@ -1,4 +1,4 @@
-import {ReactiveVar, makeVar} from '@apollo/client';
+import {InMemoryCache, ReactiveVar, makeVar} from '@apollo/client';
 import {IMovie, ICurrentUser, ISelectedSortType, ISnackbar} from 'Src/movieseat';
 
 export const moviesVar: ReactiveVar<IMovie[]> = makeVar<IMovie[]>([]);
@@ -16,4 +16,20 @@ export const currentUserVar: ReactiveVar<ICurrentUser> = makeVar<ICurrentUser>({
   email: '',
   user_name: '',
   isLoggedIn: false,
+});
+
+export const a2hsVar = makeVar<boolean>(true);
+
+export const cache: InMemoryCache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        a2hs: {
+          read() {
+            return a2hsVar();
+          },
+        },
+      },
+    },
+  },
 });
