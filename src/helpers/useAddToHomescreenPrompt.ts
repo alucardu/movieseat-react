@@ -12,6 +12,7 @@ interface IBeforeInstallPromptEvent extends Event {
 
 declare global {
   interface Window { deferredPrompt: any; }
+  interface Navigator {getInstalledRelatedApps: any}
 }
 
 export const useAddToHomescreenPrompt = (): [
@@ -66,6 +67,7 @@ export const useAddToHomescreenPrompt = (): [
 
   React.useEffect(() => {
     console.log(window.matchMedia('(display-mode: standalone)'));
+    window.navigator.getInstalledRelatedApps();
   }, []);
 
   return [promptable, promptToInstall, isInstalled];
