@@ -36,12 +36,6 @@ export const useAddToHomescreenPrompt = (): [
             console.log('user dismissed A2HS prompt');
           }
         });
-
-    return Promise.reject(
-        new Error(
-            'Tried installing before browser sent "beforeinstallprompt" event',
-        ),
-    );
   };
 
   React.useEffect(() => {
