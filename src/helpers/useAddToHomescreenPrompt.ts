@@ -9,14 +9,11 @@ interface IBeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;
 }
 
-/**
- *
- */
-export function useAddToHomescreenPrompt(): [
+export const useAddToHomescreenPrompt = (): [
   IBeforeInstallPromptEvent | null,
   () => void,
   boolean
-  ] {
+  ] => {
   const [
     promptable,
     setPromptable,
@@ -63,4 +60,6 @@ export function useAddToHomescreenPrompt(): [
   }, []);
 
   return [promptable, promptToInstall, isInstalled];
-}
+};
+
+useAddToHomescreenPrompt();
