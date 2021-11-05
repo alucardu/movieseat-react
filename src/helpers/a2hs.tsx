@@ -26,8 +26,7 @@ export const A2hs = () => {
   }, []);
 
   useEffect(() => {
-    if (!promptable) setVisible(false);
-    console.log(promptable);
+    promptable ? setVisible(true) : setVisible(false);
   }, [promptable]);
   return (
     <>
