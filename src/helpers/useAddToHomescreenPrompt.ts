@@ -28,6 +28,7 @@ export const useAddToHomescreenPrompt = (): [
 
   const promptToInstall = () => {
     if (window.deferredPrompt.prompt()) {
+      window.deferredPrompt.prompt();
       window.deferredPrompt.userChoice
           .then((choiceResult) => {
             if (choiceResult.outcome === 'accepted') {
