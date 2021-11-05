@@ -23,19 +23,17 @@ export const A2hs = () => {
 
   useEffect(() => {
     setShowAnimation(true);
+    console.log(visible, promptable, !isInstalled );
   }, []);
 
   return (
     <>
-      {visible ?
+      {visible && promptable && !isInstalled ?
       <A2hsStyles className={showAnimation ? 'animation' : ''}>
-        {visible && promptable && !isInstalled ? (
-      <Button
-        variant='contained'
-        color='secondary'
-        onClick={promptToInstall}>INSTALL APP</Button>
-    ) : null
-        }
+        <Button
+          variant='contained'
+          color='secondary'
+          onClick={promptToInstall}>INSTALL APP</Button>
         <IconButton onClick={handleClick}>
           <HighlightOffIcon
             sx={{color: 'white'}}
