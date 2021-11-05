@@ -22,7 +22,6 @@ export const useAddToHomescreenPrompt = (): [
   const [isInstalled, setIsInstalled] = React.useState(false);
 
   const promptToInstall = () => {
-    console.log(promptable);
     if (promptable) {
       return promptable.prompt();
     }
@@ -34,6 +33,7 @@ export const useAddToHomescreenPrompt = (): [
   };
 
   React.useEffect(() => {
+    console.log(e);
     const ready = (e: IBeforeInstallPromptEvent) => {
       console.log(e);
       e.preventDefault();
