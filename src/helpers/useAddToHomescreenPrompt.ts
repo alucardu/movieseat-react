@@ -2,11 +2,16 @@ import * as React from 'react';
 
 interface IBeforeInstallPromptEvent extends Event {
   readonly platforms: string[];
+  readonly deferredPrompt: any;
   readonly userChoice: Promise<{
     outcome: 'accepted' | 'dismissed';
     platform: string;
   }>;
   prompt(): Promise<void>;
+}
+
+declare global {
+  interface Window { deferredPrompt: any; }
 }
 
 export const useAddToHomescreenPrompt = (): [
@@ -35,7 +40,8 @@ export const useAddToHomescreenPrompt = (): [
 
   React.useEffect(() => {
     const ready = (e: IBeforeInstallPromptEvent) => {
-      console.log(e);
+      window.deferredPrompt = e;
+      console.log(window.deferredPrompt);
       e.preventDefault();
       setPromptable(e);
     };
