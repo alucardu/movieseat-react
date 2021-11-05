@@ -28,15 +28,12 @@ export const useAddToHomescreenPrompt = (): [
 
   const promptToInstall = () => {
     if (window.deferredPrompt.prompt()) {
-      window.deferredPrompt.prompt();
       window.deferredPrompt.userChoice
           .then((choiceResult) => {
             if (choiceResult.outcome === 'accepted') {
               console.log('user accepted A2HS prompt');
-              return window.deferredPrompt.prompt();
             } else {
               console.log('user dismissed A2HS prompt');
-              return window.deferredPrompt.prompt();
             }
           });
     }
