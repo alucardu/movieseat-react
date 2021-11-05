@@ -65,16 +65,5 @@ export const useAddToHomescreenPrompt = (): [
     };
   }, []);
 
-  const returnPWA = async () => {
-    const relatedApps = await navigator.getInstalledRelatedApps();
-    console.log(relatedApps);
-    console.log(document.referrer);
-  };
-
-  React.useEffect(() => {
-    console.log(window.matchMedia('(display-mode: standalone)'));
-    returnPWA();
-  }, []);
-
   return [promptable, promptToInstall, isInstalled];
 };
