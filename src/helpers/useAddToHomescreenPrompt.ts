@@ -65,7 +65,7 @@ export const useAddToHomescreenPrompt = (): [
   }, []);
 
   React.useEffect(() => {
-    console.log(window.matchMedia);
+    console.log(window.matchMedia('(display-mode: standalone)'));
   }, []);
 
   return [promptable, promptToInstall, isInstalled];
