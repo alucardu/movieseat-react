@@ -51,6 +51,6 @@ const init = () => {
   render(<Root />, document.getElementById('root'));
 };
 
-serviceWorkerRegistration.register();
+serviceWorkerRegistration.unregister();
 
 init();
