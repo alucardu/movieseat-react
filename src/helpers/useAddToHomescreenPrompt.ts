@@ -27,17 +27,15 @@ export const useAddToHomescreenPrompt = (): [
   const [isInstalled, setIsInstalled] = React.useState(false);
 
   const promptToInstall = () => {
-    if (window.deferredPrompt.prompt()) {
-      window.deferredPrompt.prompt();
-      window.deferredPrompt.userChoice
-          .then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-              console.log('user accepted A2HS prompt');
-            } else {
-              console.log('user dismissed A2HS prompt');
-            }
-          });
-    }
+    window.deferredPrompt.prompt();
+    window.deferredPrompt.userChoice
+        .then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('user accepted A2HS prompt');
+          } else {
+            console.log('user dismissed A2HS prompt');
+          }
+        });
 
     return Promise.reject(
         new Error(
