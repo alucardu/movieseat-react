@@ -32,7 +32,7 @@ export const A2hs = () => {
   }, [promptable]);
   return (
     <>
-      {visible ?
+      {visible && !isInstalled ?
       <A2hsStyles className={showAnimation ? 'animation' : ''}>
         {promptable && !isInstalled ? (
             <Button
