@@ -33,7 +33,7 @@ export const useAddToHomescreenPrompt = (): [
   };
 
   React.useEffect(() => {
-    console.log(e);
+    console.log(event);
     const ready = (e: IBeforeInstallPromptEvent) => {
       console.log(e);
       e.preventDefault();
