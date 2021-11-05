@@ -1,7 +1,7 @@
 import React from 'react';
 import {render} from 'react-dom';
 
-// import {A2hs} from 'Helpers/a2hs';
+import {A2hs} from 'Helpers/a2hs';
 
 import {ApolloClient, InMemoryCache, ApolloProvider, createHttpLink} from '@apollo/client';
 
@@ -40,7 +40,7 @@ const init = () => {
           <ThemeProvider theme={theme}>
             <CssBaseline>
               <App />
-              {/* <A2hs /> */}
+              <A2hs />
             </CssBaseline>
           </ThemeProvider>
         </StyledEngineProvider>
