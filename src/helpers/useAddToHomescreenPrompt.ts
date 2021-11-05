@@ -61,5 +61,3 @@ export const useAddToHomescreenPrompt = (): [
 
   return [promptable, promptToInstall, isInstalled];
 };
-
-useAddToHomescreenPrompt();
