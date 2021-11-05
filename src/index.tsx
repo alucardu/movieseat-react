@@ -39,8 +39,8 @@ const init = () => {
         <StyledEngineProvider injectFirst>
           <ThemeProvider theme={theme}>
             <CssBaseline>
-              <A2hs />
               <App />
+              <A2hs />
             </CssBaseline>
           </ThemeProvider>
         </StyledEngineProvider>
