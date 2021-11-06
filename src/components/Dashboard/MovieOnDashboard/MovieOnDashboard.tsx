@@ -33,7 +33,7 @@ const MovieOnDashboard = (props) => {
   const [listItemSize, setListItemSize] = useState([0, 0]);
   const [size, setSize] = useState(0);
   const listRef = useRef<any>(null);
-  const imagePath = 'https://image.tmdb.org/t/p/w185/';
+  const imagePath = 'https://image.tmdb.org/t/p/w780/';
   const [isHover, setHover] = useState(false);
   const MovieOnDashboardClasses = classNames({
     ['hover']: isHover,
