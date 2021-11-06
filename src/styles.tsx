@@ -439,7 +439,7 @@ export const HeaderStyle = styled(Box)(({theme}) => ({
   position: 'sticky',
   top: 0,
   backgroundColor: theme.palette.background.default,
-  zIndex: 2,
+  zIndex: 999,
 }));
 
 export const A2hsStyles = styled(Box)(({theme}) => ({
