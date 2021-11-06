@@ -15,7 +15,12 @@ const MovieOverview = (props) => {
   const type = {...props}.type;
   const movies = {...props}.movies;
 
+  const [activeId, setActiveId] = useState(null);
   const [movieRows, setMovieRows] = useState<IMovie[][]>([]);
+
+  const handleClick = (id) => {
+    id === activeId ? setActiveId(null) : setActiveId(id);
+  };
 
   const [size, setSize] = useState(0);
 
@@ -73,9 +78,13 @@ const MovieOverview = (props) => {
         >
           { movieRow.map((movie: IMovie) => (
             <MovieOnDashboard
+              id={movie.id}
               key={movie.id}
               movie={movie}
-              type={type}/>
+              type={type}
+              isActive={movie.id === activeId}
+              toggle={handleClick}
+            />
           ))}
         </MovieOverviewList>
       ))}
