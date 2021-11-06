@@ -2,6 +2,7 @@ import * as React from 'react';
 
 interface IBeforeInstallPromptEvent extends Event {
   readonly platforms: string[];
+  readonly deferredPrompt: any;
   readonly userChoice: Promise<{
     outcome: 'accepted' | 'dismissed';
     platform: string;
@@ -9,34 +10,35 @@ interface IBeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;
 }
 
-/**
- *
- */
-export function useAddToHomescreenPrompt(): [
+declare global {
+  interface Window { deferredPrompt: any; }
+  interface Navigator {getInstalledRelatedApps: any}
+}
+
+export const useAddToHomescreenPrompt = (): [
   IBeforeInstallPromptEvent | null,
   () => void,
   boolean
-  ] {
-  const [
-    promptable,
-    setPromptable,
-  ] = React.useState<IBeforeInstallPromptEvent | null>(null);
+  ] => {
+  const [promptable, setPromptable] = React.useState<IBeforeInstallPromptEvent | null>(null);
 
   const [isInstalled, setIsInstalled] = React.useState(false);
 
   const promptToInstall = () => {
-    if (promptable) {
-      return promptable.prompt();
-    }
-    return Promise.reject(
-        new Error(
-            'Tried installing before browser sent "beforeinstallprompt" event',
-        ),
-    );
+    window.deferredPrompt.prompt();
+    window.deferredPrompt.userChoice
+        .then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('user accepted A2HS prompt');
+          } else {
+            console.log('user dismissed A2HS prompt');
+          }
+        });
   };
 
   React.useEffect(() => {
     const ready = (e: IBeforeInstallPromptEvent) => {
+      window.deferredPrompt = e;
       e.preventDefault();
       setPromptable(e);
     };
@@ -61,4 +63,4 @@ export function useAddToHomescreenPrompt(): [
   }, []);
 
   return [promptable, promptToInstall, isInstalled];
-}
+};

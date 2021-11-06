@@ -427,3 +427,26 @@ export const HeaderStyle = styled(Box)(({theme}) => ({
   backgroundColor: theme.palette.background.default,
   zIndex: 2,
 }));
+
+export const A2hsStyles = styled(Box)(({theme}) => ({
+  [theme.breakpoints.up('sm')]: {
+    display: 'none',
+  },
+  'position': 'fixed',
+  'bottom': 'calc(0px - 80px)',
+  'zIndex': 3,
+  'color': 'white',
+  'display': 'flex',
+  'alignItems': 'center',
+  'justifyContent': 'center',
+  'height': '64px',
+  'backgroundColor': theme.palette.primary.main,
+  'width': '94%',
+  'borderRadius': theme.spacing(1),
+  'marginLeft': '3%',
+  'marginBottom': '3%',
+  'transition': 'all 0.6s',
+  '&.animation': {
+    bottom: '0px',
+  },
+}));

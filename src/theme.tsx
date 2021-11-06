@@ -8,6 +8,9 @@ let theme = createTheme({
       main: purple[700],
       light: purple[50],
     },
+    secondary: {
+      main: grey[50],
+    },
     text: {
       primary: grey[900],
       secondary: grey[50],

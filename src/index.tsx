@@ -1,6 +1,8 @@
 import React from 'react';
 import {render} from 'react-dom';
 
+import {A2hs} from 'Helpers/a2hs';
+
 import {ApolloClient, InMemoryCache, ApolloProvider, createHttpLink} from '@apollo/client';
 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
@@ -38,6 +40,7 @@ const init = () => {
           <ThemeProvider theme={theme}>
             <CssBaseline>
               <App />
+              <A2hs />
             </CssBaseline>
           </ThemeProvider>
         </StyledEngineProvider>
@@ -48,6 +51,6 @@ const init = () => {
   render(<Root />, document.getElementById('root'));
 };
 
-serviceWorkerRegistration.register();
+serviceWorkerRegistration.unregister();
 
 init();
