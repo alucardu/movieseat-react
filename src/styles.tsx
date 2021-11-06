@@ -1,4 +1,4 @@
-import {ListItem, Box, styled, Modal, Popover, Button, Input, List, FormGroup} from '@mui/material';
+import {ListItem, Box, styled, Modal, Popover, Button, Input, List, FormGroup, alpha} from '@mui/material';
 import {Theme, CSSObject} from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
 import {grey, orange, purple} from '@mui/material/colors';
@@ -68,12 +68,21 @@ export const MovieContainer = styled(ListItem)(({theme}) => ({
   'flexBasis': 0,
   'position': 'relative',
   'margin': '0 8px 8px 0',
+  'overflow': 'hidden',
   '& img': {
     borderRadius: theme.shape.borderRadius,
+    [theme.breakpoints.up('sm')]: {
+      zIndex: 4,
+    },
   },
   '&.hover': {
-    'flexGrow': 1.5,
+    [theme.breakpoints.up('sm')]: {
+      'flexGrow': 1.3,
+    },
     'backgroundColor': '#414141',
+    '&>div': {
+      right: 0,
+    },
   },
   '&.filler': {
     background: 'transparent',
@@ -81,18 +90,23 @@ export const MovieContainer = styled(ListItem)(({theme}) => ({
 }));
 
 export const MovieContainerOverlay = styled(Box)(({theme}) => ({
+  'transition': 'all 0.2s ease',
   'position': 'absolute',
   'right': 0,
   'top': '0',
   'height': '100%',
-  'paddingRight': theme.spacing(1),
   'display': 'flex',
   'flexDirection': 'column',
   'alignItems': 'flex-end',
   'justifyContent': 'center',
+  'zIndex': 3,
   '& svg': {
     color: 'white',
     fontSize: '1em',
+  },
+  [theme.breakpoints.down('sm')]: {
+    backgroundColor: alpha(grey[900], 0.75),
+    right: '-48px',
   },
 }));
 
@@ -298,7 +312,7 @@ export const ResultList = styled(Box)<SearchEL>(({theme, searchEl}) => ({
   'position': 'absolute',
   'top': searchEl?.offsetTop + searchEl?.offsetHeight + 'px',
   'width': searchEl?.offsetWidth,
-  'zIndex': 1,
+  'zIndex': 5,
   'listStyle': 'none',
   'boxSizing': 'border-box',
   'margin': '0',
