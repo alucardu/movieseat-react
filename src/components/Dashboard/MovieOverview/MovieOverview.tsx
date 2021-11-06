@@ -31,8 +31,8 @@ const MovieOverview = (props) => {
   useEffect(() => {
     sortMovies(movies).then((res) => {
       if (size > 0) {
-        const rowMaxLength = Math.floor(size / 200);
-        const rows = chunk(res, Math.floor(size / 200));
+        const rowMaxLength = Math.floor(size / 180);
+        const rows = chunk(res, Math.floor(size / 180));
 
         rows.map((movieRow) => {
           if (rowMaxLength !== movieRow.length) {
