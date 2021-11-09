@@ -68,8 +68,8 @@ const MovieOnDashboard = ({toggle, isActive, id, type, movie}) => {
       title={movie.original_title}
       key={movie.id}
       onClick={!isMdUp ? () => (false) : () => toggle(id)}
-      onMouseEnter={isMdUp ? () => (false) : () => toggle(id)}
-      onMouseLeave={isMdUp ? () => (false) : () => toggle(id)}
+      onMouseEnter={isMdUp && movie.original_title.length > 0 ? () => (false) : () => toggle(id)}
+      onMouseLeave={isMdUp && movie.original_title.length > 0 ? () => (false) : () => toggle(id)}
     >
       {movie.original_title.length > 0 ?
         <>
