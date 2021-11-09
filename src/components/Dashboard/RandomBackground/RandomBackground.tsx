@@ -1,4 +1,8 @@
+import {LoginForm} from 'Components/Login/LoginForm';
 import React, {useState, useEffect} from 'react';
+
+import useMediaQuery from '@mui/material/useMediaQuery';
+import {useTheme} from '@mui/material/styles';
 
 import {IMovie} from 'Src/movieseat';
 import {RandomBackgroundContainer, RandomBackgroundSlider} from 'Src/styles';
@@ -8,6 +12,8 @@ const apikey = 'api_key=a8f7039633f2065942cd8a28d7cadad4';
 const rest = '&language=en-US&sort_by=release_date.desc&include_adult=false&include_video=false&page=1&vote_count.gte=1000&with_genres=80%2C18&with_watch_monetization_types=flatrate';
 
 export const RandomBackground = () => {
+  const theme = useTheme();
+  const isMdUp = useMediaQuery(theme.breakpoints.down('md'));
   const [backgroundPath, setbackgroundPath] = useState<String []>([]);
   const [movieData, setMovieData] = useState<IMovie []>([]);
   const [slide, setSlide] = useState(false);
@@ -68,15 +74,18 @@ export const RandomBackground = () => {
   };
 
   return (
-    <RandomBackgroundContainer className={slide ? 'slide' : ''}>
-      <RandomBackgroundSlider sx={{
-        left: '0vw',
-        backgroundImage: `url(${backgroundPath[0]})`,
-      }} />
-      <RandomBackgroundSlider sx={{
-        left: '100vw',
-        backgroundImage: `url(${backgroundPath[1]})`,
-      }} />
-    </RandomBackgroundContainer>
+    <>
+      {isMdUp && <LoginForm />}
+      <RandomBackgroundContainer className={slide ? 'slide' : ''}>
+        <RandomBackgroundSlider sx={{
+          left: '0vw',
+          backgroundImage: `url(${backgroundPath[0]})`,
+        }} />
+        <RandomBackgroundSlider sx={{
+          left: '100vw',
+          backgroundImage: `url(${backgroundPath[1]})`,
+        }} />
+      </RandomBackgroundContainer>
+    </>
   );
 };
