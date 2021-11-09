@@ -42,7 +42,7 @@ const MovieOverview = (props) => {
         rows.map((movieRow) => {
           if (rowMaxLength !== movieRow.length) {
             for (let i = movieRow.length; i < rowMaxLength; i++) {
-              movieRow.push({id: 0, original_title: '', poster_path: '', release_date: '', tmdb_id: 1, backdrop_path: ''});
+              movieRow.push({id: Math.floor(Math.random() * 100), original_title: '', poster_path: '', release_date: '', tmdb_id: 1, backdrop_path: ''});
             }
 
 
@@ -79,16 +79,15 @@ const MovieOverview = (props) => {
         >
           {movieRow.length}
           { movieRow.map((movie: IMovie) => (
-            <>
+            <React.Fragment key={movie.id}>
               <MovieOnDashboard
                 id={movie.id}
-                key={movie.id}
                 movie={movie}
                 type={type}
                 isActive={movie.id === activeId}
                 toggle={handleClick}
               />
-            </>
+            </React.Fragment>
           ))}
         </MovieOverviewList>
       ))}
