@@ -50,6 +50,8 @@ const MovieOverview = (props) => {
               movieRow.push({id: 0, original_title: '', poster_path: '', release_date: '', tmdb_id: 1, backdrop_path: ''});
             }
 
+            console.log(movieRow);
+
             return movieRow;
           }
         });
