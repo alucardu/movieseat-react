@@ -67,13 +67,15 @@ const MovieOnDashboard = ({toggle, isActive, id, type, movie}) => {
       className={MovieOnDashboardClasses}
       title={movie.original_title}
       key={movie.id}
-      onClick={!isMdUp ? () => (false) : () => toggle(id)}
-      onMouseEnter={isMdUp && movie.original_title.length > 0 ? () => (false) : () => toggle(id)}
-      onMouseLeave={isMdUp && movie.original_title.length > 0 ? () => (false) : () => toggle(id)}
+
     >
+      {movie.original_title}
       {movie.original_title.length > 0 ?
         <>
           <CardMedia
+            onClick={!isMdUp ? () => (false) : () => toggle(id)}
+            onMouseEnter={isMdUp && movie.original_title.length > 0 ? () => (false) : () => toggle(id)}
+            onMouseLeave={isMdUp && movie.original_title.length > 0 ? () => (false) : () => toggle(id)}
             component="img"
             sx={{height: listItemSize[0], maxWidth: listItemSize[1], zIndex: 2}}
             image={imagePath + movie.poster_path}
