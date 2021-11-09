@@ -85,6 +85,7 @@ const MovieOverview = (props) => {
           data-cy='list_movie_overview_dashboard'
           key={index}
         >
+          {movieRow.length}
           { movieRow.map((movie: IMovie) => (
             <MovieOnDashboard
               id={movie.id}
