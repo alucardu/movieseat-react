@@ -42,8 +42,9 @@ const MovieOverview = (props) => {
         rows.map((movieRow) => {
           if (rowMaxLength !== movieRow.length) {
             for (let i = movieRow.length; i < rowMaxLength; i++) {
-              movieRow.push({id: i, original_title: '', poster_path: '', release_date: '', tmdb_id: 1, backdrop_path: ''});
+              movieRow.push({id: 0, original_title: '', poster_path: '', release_date: '', tmdb_id: 1, backdrop_path: ''});
             }
+
 
             return movieRow;
           }
@@ -76,15 +77,18 @@ const MovieOverview = (props) => {
           data-cy='list_movie_overview_dashboard'
           key={index}
         >
+          {movieRow.length}
           { movieRow.map((movie: IMovie) => (
-            <MovieOnDashboard
-              id={movie.id}
-              key={movie.id}
-              movie={movie}
-              type={type}
-              isActive={movie.id === activeId}
-              toggle={handleClick}
-            />
+            <>
+              <MovieOnDashboard
+                id={movie.id}
+                key={movie.id}
+                movie={movie}
+                type={type}
+                isActive={movie.id === activeId}
+                toggle={handleClick}
+              />
+            </>
           ))}
         </MovieOverviewList>
       ))}
