@@ -9,6 +9,8 @@ export interface IMovie {
   tmdb_id: number
   tagline: string
   runtime: number
+  budget: number
+  vote_average: number
 }
 
 export interface IMovieRating {

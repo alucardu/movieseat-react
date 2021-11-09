@@ -10,7 +10,8 @@
       "es2015",
       "es2017",
       "ES6",
-      "dom"
+      "dom",
+      "dom.iterable"
     ],
     "allowJs": true,
     "skipLibCheck": true,
