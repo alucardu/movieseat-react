@@ -1,9 +1,10 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 import MenuIcon from '@mui/icons-material/Menu';
 
 import {drawerOpenVar} from 'Src/cache';
-import {IconButton} from '@mui/material';
+import {IconButton, Box} from '@mui/material';
 
 import {HeaderStyle, Logo} from 'Src/styles';
 
@@ -14,15 +15,20 @@ const Header = () => {
 
   return (
     <HeaderStyle>
-      <Logo
-        component='button'
-        className='open'
-      >Movieseat</Logo>
+      <Box sx={{width: '25%'}}></Box>
+      <Link to='/' style={{width: '50%'}}>
+        <Logo
+          component='button'
+          className='open'
+        >Movieseat
+        </Logo>
+      </Link>
       <IconButton
         onClick={handleClick}
-        sx={{color: 'white'}}
+        sx={{color: 'white', width: '25%'}}
       >
         <MenuIcon
+          sx={{marginLeft: 'auto'}}
           fontSize='large'
         />
       </IconButton>

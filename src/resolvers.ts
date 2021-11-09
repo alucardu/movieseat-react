@@ -31,6 +31,23 @@ const ReturnNotifications = gql`
   }
 `;
 
+const ReturnMovieDetails = gql`
+  query returnMovieDetails($movieId: Int!) {
+    returnMovieDetails(movieId: $movieId) {
+      id
+      original_title
+      poster_path
+      tmdb_id
+      release_date
+      tagline
+      backdrop_path
+      runtime
+      overview
+    }
+  }
+`;
+
+
 const ReturnMovieRating = gql`
   query returnMovieRating(
     $movieId: Int!
@@ -315,7 +332,7 @@ const LogoutUser = gql`
     }
 `;
 
-const queries = {ReturnMovieRating, ReturnAllMovies, ReturnMoviesFromUser, ReturnUser, returnUsers, ReturnFollowedUsers, ReturnNotifications};
+const queries = {ReturnMovieDetails, ReturnMovieRating, ReturnAllMovies, ReturnMoviesFromUser, ReturnUser, returnUsers, ReturnFollowedUsers, ReturnNotifications};
 const mutations = {AddMovieRating, removeUserAccount, RemoveMovie, LoginUser, LogoutUser, AddUserToMovie, FollowUser, UnfollowUser, CreateNotification, WatchNotification, signupUser};
 
 export default {queries, mutations};

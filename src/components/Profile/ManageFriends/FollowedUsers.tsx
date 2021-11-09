@@ -77,7 +77,7 @@ export const FollowedUsers = () => {
                   horizontal: 'left',
                 }}
               >
-                <Box sx={{padding: '16px'}}>
+                <Box sx={{padding: '8px'}}>
                   <Typography>Are you sure you want to stop following <b>{user.user_name}</b>?</Typography>
                   <IconButton onClick={() => {
                     unfollowUser(user);

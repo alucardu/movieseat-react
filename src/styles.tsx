@@ -44,6 +44,9 @@ export const Logo = styled(Box)(({theme}) => ({
   'cursor': 'pointer',
   '&:hover': {
     color: theme.palette.primary.main,
+    [theme.breakpoints.down('md')]: {
+      color: 'white',
+    },
   },
   '&.open': {
     paddingLeft: '8px',
@@ -451,7 +454,7 @@ export const DashboardMovieOverviewMenuStyle = styled(Popover)(() => ({
 
 export const DashboardMovieOverMenuEl = styled(FormGroup)(() => ({
   'width': '250px',
-  'padding': '16px',
+  'padding': '8px',
   '& ul': {
     'margin': 0,
     'listStyle': 'none',
@@ -546,5 +549,22 @@ export const A2hsStyles = styled(Box)(({theme}) => ({
   'transition': 'all 0.6s',
   '&.animation': {
     bottom: '0px',
+  },
+}));
+
+export const MovieDetailsStyle = styled(Box)<MovieModalProps>(({theme, movie}) => ({
+  'width': '100vw',
+  'color': theme.palette.text.secondary,
+  '.backdrop_container': {
+    'position': 'relative',
+    '&::after': {
+      content: `""`,
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      height: '100%',
+      width: '100%',
+      background: 'linear-gradient(0deg, #212121 0%, rgba(0,0,0,0) 80%)',
+    },
   },
 }));

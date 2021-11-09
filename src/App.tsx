@@ -17,6 +17,7 @@ import DashboardComponent from 'Components/Dashboard/DashboardComponent';
 import {DrawerContainer} from 'Components/Drawer/DrawerContainer';
 import {MovieSuggestions} from 'Components/MovieSuggestions/MovieSuggestions';
 import {RandomBackground} from 'Components/Dashboard/RandomBackground/RandomBackground';
+import {MovieDetails} from 'Components/MovieDetails/MovieDetails';
 
 const App = () => {
   const theme = useTheme();
@@ -52,6 +53,9 @@ const App = () => {
           </Route>
           <Route path='/profile/:id'>
             <Profile />
+          </Route>
+          <Route path='/movie/:id'>
+            <MovieDetails />
           </Route>
         </Switch>
         <SnackbarStack />
