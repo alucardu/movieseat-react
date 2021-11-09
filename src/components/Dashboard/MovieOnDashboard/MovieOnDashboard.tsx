@@ -67,9 +67,7 @@ const MovieOnDashboard = ({toggle, isActive, id, type, movie}) => {
       className={MovieOnDashboardClasses}
       title={movie.original_title}
       key={movie.id}
-
     >
-      {movie.original_title}
       {movie.original_title.length > 0 ?
         <>
           <CardMedia
