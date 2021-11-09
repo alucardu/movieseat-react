@@ -41,6 +41,7 @@ const MovieSearchComponent = () => {
     setTimeout(() => {
       setSearchInput('');
       movieSearchResultsVar([]);
+      movieSearchActiveVar(false);
     }, 150);
   };
 
