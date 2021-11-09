@@ -1,17 +1,18 @@
 import React, {useState, useRef, useEffect, useLayoutEffect} from 'react';
+import {Link} from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import {CardMedia} from '@mui/material';
+import {CardMedia, IconButton} from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {useTheme} from '@mui/material/styles';
+import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
 
 import {MovieContainer, MovieContainerOverlay} from 'Src/styles';
 import RemoveMovieFromDashboard from 'Components/Dashboard/MovieOnDashboard/RemoveMovieFromDashboard/RemoveMovieFromDashboard';
 import {AddMovieFromSuggestions} from 'Components/MovieSuggestions/AddMovieFromSuggestions';
 import {RateMovie} from 'Components/RateMovie/RateMovie';
-import {MovieModal} from 'Components/MovieModal/MovieModal';
 
 const OverlayEl = (props) => {
   const type = {...props}.type;
@@ -21,7 +22,9 @@ const OverlayEl = (props) => {
       {type === 'suggestion' ?
         <AddMovieFromSuggestions movie={movie} /> :
         <>
-          <MovieModal movie={movie} />
+          <IconButton>
+            <Link to={`/movie/${movie.id}`}><LocalMoviesIcon /></Link>
+          </IconButton>
           <RateMovie movie={movie} />
           <RemoveMovieFromDashboard movie={movie}/>
         </>

@@ -20,7 +20,7 @@ export const MovieSuggestions = () => {
   }, []);
 
   return (
-    <Box sx={{padding: '16px', width: '100vw'}}>
+    <Box sx={{padding: '8px', width: '100vw'}}>
       <MovieOverview type='suggestion' movies={suggestions}/>
     </Box>
   );

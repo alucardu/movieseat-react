@@ -101,6 +101,12 @@ const Query = {
     return prisma.movie;
   },
 
+  returnMovieDetails: async (root, args, {res, req}) => {
+    return await prisma.movie.findFirst({
+      where: {id: args.movieId},
+    });
+  },
+
   movies: () => {
     return prisma.movie.findMany();
   },

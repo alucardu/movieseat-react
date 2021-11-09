@@ -78,6 +78,11 @@ const typeDefs = gql`
   }
 
   type Query {
+    returnMovieDetails (
+      movieId: Int!) : Movie
+  }
+
+  type Query {
     moviesFromUser (
       userId: Int!): [Movie]
   }
