@@ -419,6 +419,7 @@ export const ResultListItemStyle = styled(ListItem)<IResultListItem>(({theme, mo
     top: 0,
     opacity: 1,
     transition: 'all 0.2s',
+    maxHeight: '64px',
   },
   '&:nth-of-type(even)': {
     background: '#484848',
@@ -432,6 +433,9 @@ export const ResultListItemStyle = styled(ListItem)<IResultListItem>(({theme, mo
     },
     'img': {
       'opacity': 0,
+    },
+    'button': {
+      width: 'fit-content',
     },
   },
 }));
