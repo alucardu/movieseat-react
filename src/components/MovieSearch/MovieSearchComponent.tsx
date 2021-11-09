@@ -1,5 +1,6 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 
+import {debounce} from 'lodash';
 import useResizeObserver from 'use-resize-observer';
 
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
@@ -20,14 +21,16 @@ const MovieSearchComponent = () => {
   const movieAdded = useReactiveVar(movieSearchActiveVar);
   const ref = useRef<HTMLDivElement>(null);
   const {width = 1} = useResizeObserver<HTMLDivElement>({ref});
-
+  const [searchQuery, setSearchQuery] = useState('');
   const [searchInput, setSearchInput] = useState('');
+  const debounceToggle = useCallback(debounce(setSearchQuery, 500), []);
 
   const baseurl = 'https://api.themoviedb.org/3/search/movie?';
   const apikey = 'api_key=a8f7039633f2065942cd8a28d7cadad4';
 
   const handleChange = (e) => {
     setSearchInput(e.target.value);
+    debounceToggle(e.target.value);
   };
 
   const handleFocus = () => {
@@ -42,9 +45,9 @@ const MovieSearchComponent = () => {
   };
 
   useEffect(() => {
-    if (searchInput.length > 0) {
+    if (searchQuery.length > 0) {
       movieSearchActiveVar(true);
-      fetch(baseurl + apikey + '&language=en-US&query=' + searchInput + '&page=1&include_adult=false')
+      fetch(baseurl + apikey + '&language=en-US&query=' + searchQuery + '&page=1&include_adult=false')
           .then((response) => response.json())
           .then((data) => {
             const filteredMovies = data.results.filter((movie: IMovie) =>
@@ -55,7 +58,7 @@ const MovieSearchComponent = () => {
       movieSearchResultsVar([]);
       movieSearchActiveVar(false);
     }
-  }, [searchInput]);
+  }, [searchQuery]);
 
   useEffect(() => {
     movieAdded ? null : clearResults();
