@@ -7,6 +7,7 @@ import {drawerOpenVar} from 'Src/cache';
 import {IconButton, Box} from '@mui/material';
 
 import {HeaderStyle, Logo} from 'Src/styles';
+import {currentUserVar} from 'Src/cache';
 
 const Header = () => {
   const handleClick = () => {
@@ -24,6 +25,7 @@ const Header = () => {
         </Logo>
       </Link>
       <IconButton
+        disabled={!currentUserVar().isLoggedIn}
         onClick={handleClick}
         sx={{color: 'white', width: '25%'}}
       >

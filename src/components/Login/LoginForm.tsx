@@ -18,7 +18,7 @@ import {EAction} from 'Src/movieseat';
 import {useCreateNotification} from 'Helpers/createNotification';
 
 type Props = {
-  onRequestClose: any
+  onRequestClose?: any
 };
 interface IFormInputs {
   email: string;
@@ -75,7 +75,9 @@ export const LoginForm = ({onRequestClose} : Props) => {
 
       history.push('/');
       snackbarVar({message: `Welcome back ${currentUserVar().user_name}`, severity: 'success'});
-      onRequestClose(e);
+      if (onRequestClose) {
+        onRequestClose(e);
+      }
     } catch (e: any) {
       snackbarVar({message: `Login failed: ${e.message}`, severity: 'error'});
     }

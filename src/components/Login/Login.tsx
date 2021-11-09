@@ -11,7 +11,7 @@ import ListItemText from '@mui/material/ListItemText';
 
 import {LoginModal} from 'Src/styles';
 import resolvers from 'Src/resolvers';
-import {currentUserVar, snackbarVar} from 'Src/cache';
+import {currentUserVar, snackbarVar, drawerOpenVar} from 'Src/cache';
 
 import {LoginForm} from 'Components/Login/LoginForm';
 
@@ -40,6 +40,7 @@ const Login = () => {
     client.resetStore();
     history.push('/');
     currentUserVar({id: 0, email: '', user_name: '', isLoggedIn: false});
+    drawerOpenVar(false);
     snackbarVar({message: 'You have been logged out', severity: 'success'});
   };
 
@@ -66,7 +67,9 @@ const Login = () => {
         open={open}
         onClose={handleClose}
       >
-        <Box><LoginForm onRequestClose={handleClose}/></Box>
+        <Box>
+          <LoginForm onRequestClose={handleClose}/>
+        </Box>
       </LoginModal>
 
     </ListItem >

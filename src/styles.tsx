@@ -125,7 +125,8 @@ export const Onboarding = styled(Box)(() => ({
 export const RandomBackgroundContainer = styled(Box)(() => ({
   'height': '100vh',
   'width': '200vw',
-  'position': 'relative',
+  'position': 'fixed',
+  'top': 0,
   'overflow': 'hidden',
   'marginLeft': '-100vw',
   'transition': 'margin-left 1s ease-in',
@@ -201,6 +202,13 @@ export const LoginFormContainer = styled(Box)(({theme}) => ({
   padding: theme.spacing(4),
   borderRadius: theme.shape.borderRadius,
   background: 'linear-gradient(to bottom, rgba(146, 135, 187, 0.8) 0%, rgba(0, 0, 0, 0.6) 100%)',
+  [theme.breakpoints.down('sm')]: {
+    position: 'fixed',
+    zIndex: 2,
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+  },
 }));
 
 export const LoginCheckBody = styled(Box)(() => ({
