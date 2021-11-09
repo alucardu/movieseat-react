@@ -5,6 +5,7 @@ import {grey, orange, purple} from '@mui/material/colors';
 import {IMovie} from 'Src/movieseat';
 
 import GradeIcon from '@mui/icons-material/Grade';
+const imagePath = 'https://image.tmdb.org/t/p/w780/';
 
 export const ProfileBox = styled(Box)(({theme}) => ({
   'display': 'flex',
@@ -263,6 +264,7 @@ export const NumberOfUnreadNotificationsStyle = styled('span')(({theme}) => ({
   fontWeight: 'bold',
   fontSize: '0.6rem',
 }));
+
 export const AddMovieFromSearchOverlay = styled(Box)<MovieModalProps>(({theme, movie}) => ({
   'position': 'absolute',
   'width': '100%',
@@ -276,6 +278,7 @@ export const AddMovieFromSearchOverlay = styled(Box)<MovieModalProps>(({theme, m
 }));
 
 export const MovieSearchInput = styled(Input)(({theme}) => ({
+  'zIndex': 7,
   'background': grey[100],
   'color': grey[900],
   'fontSize': '16px',
@@ -303,49 +306,48 @@ export const AddMovieFromSearchButton = styled(Button)(({theme}) => ({
   },
 }));
 
+
+export const ResultListBackground = styled(Box)(({theme}) => ({
+  '&.searchActive': {
+    position: 'fixed',
+    top: 0,
+    zIndex: 6, display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+    background: alpha(grey[900], 0.5),
+  },
+}));
+
+
 type SearchEL = {
-  searchEl: HTMLElement
+  searchel: HTMLElement
 };
 
-export const ResultList = styled(Box)<SearchEL>(({theme, searchEl}) => ({
+export const ResultList = styled(List)<SearchEL>(({theme, searchel}) => ({
   'background': '#3a3a3a',
   'position': 'absolute',
-  'top': searchEl?.offsetTop + searchEl?.offsetHeight + 'px',
-  'width': searchEl?.offsetWidth,
-  'zIndex': 5,
+  'top': searchel?.offsetTop + searchel?.offsetHeight + 'px',
+  'zIndex': 7,
   'listStyle': 'none',
   'boxSizing': 'border-box',
   'margin': '0',
   'padding': '0',
+  'display': 'flex',
+  'flexDirection': 'column',
+  [theme.breakpoints.down('sm')]: {
+    maxHeight: 'calc(100vh - 130px)',
+  },
   'maxHeight': '80vh',
-  'overflowY': 'scroll',
-  '& li': {
-    'padding': '0 0px 0 8px',
-    'display': 'flex',
-    'alignItems': 'center',
-    'position': 'relative',
-    '> & :hover': {
-      cursor: 'pointer',
-      background: '#0fcece',
-    },
-    '& p': {
-      'width': 'calc(98% - 45px)',
-      'display': 'flex',
-      'flexDirection': 'column',
-      'span:nth-of-type(1)': {
-        color: 'white',
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-      },
-      '& spannth-of-type(2)': {
-        fontSize: '12px',
-        color: '#929292',
-      },
-    },
-    '& img': {
-      marginLeft: 'auto',
-    },
+  'overflowY': 'auto',
+  '&::-webkit-scrollbar': {
+    width: '8px',
+  },
+  '&::-webkit-scrollbar-track': {
+    background: grey[500],
+  },
+  '&::-webkit-scrollbar-thumb': {
+    background: theme.palette.primary.main,
   },
   '.noResults': {
     height: '68px',
@@ -353,6 +355,84 @@ export const ResultList = styled(Box)<SearchEL>(({theme, searchEl}) => ({
   '.posterNotFound': {
     width: '45px',
     height: '68px',
+  },
+}));
+
+type IResultListItem = {
+  movie: IMovie,
+  height: number
+}
+
+export const ResultListItemStyle = styled(ListItem)<IResultListItem>(({theme, movie, height}) => ({
+  'minHeight': '64px',
+  'padding': '8px',
+  'display': 'flex',
+  'flexDirection': 'column',
+  'alignItems': 'center',
+  'position': 'relative',
+  'transition': 'all 0.2s',
+  'background': grey[800],
+  '&::after': {
+    content: '""',
+    width: '100%',
+    height: '100%',
+    backgroundImage: `url(${imagePath + movie.backdrop_path})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    position: 'absolute',
+    zIndex: -1,
+    left: 0,
+    top: 0,
+  },
+  'div': {
+    'color': 'white',
+    'transition': 'all 0.2s',
+    'width': '100%',
+    'display': 'flex',
+    'flexDirection': 'column',
+    'h1': {
+      textShadow: '#000 1px 0 5px',
+      fontSize: '16px',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      padding: 0,
+      margin: 0,
+      fontWeight: 'normal',
+    },
+    'h2': {
+      textShadow: '#000 1px 0 5px',
+      color: grey[500],
+      fontSize: '12px',
+      padding: 0,
+      margin: 0,
+      fontWeight: 'normal',
+    },
+    'p': {
+      margin: '0 0 8px 0',
+      textShadow: '#000 1px 0 5px',
+    },
+  },
+  'img': {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    opacity: 1,
+    transition: 'all 0.2s',
+  },
+  '&:nth-of-type(even)': {
+    background: '#484848',
+  },
+  '&.hover': {
+    'background': alpha(grey[900], 0.25),
+    'minHeight': height,
+    'h1': {
+      'transition': 'all 0.2s',
+      'fontSize': '24px',
+    },
+    'img': {
+      'opacity': 0,
+    },
   },
 }));
 
