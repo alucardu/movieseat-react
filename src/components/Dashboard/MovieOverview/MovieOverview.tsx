@@ -40,7 +40,11 @@ const MovieOverview = (props) => {
         const rowMaxLength = Math.floor(size / 180);
         const rows = chunk(res, Math.floor(size / 180));
 
+        console.log(rowMaxLength);
+        console.log(size);
+
         rows.map((movieRow) => {
+          console.log(movieRow.length);
           if (rowMaxLength !== movieRow.length) {
             for (let i = movieRow.length; i < rowMaxLength; i++) {
               movieRow.push({id: 0, original_title: '', poster_path: '', release_date: '', tmdb_id: 1, backdrop_path: ''});

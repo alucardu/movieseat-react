@@ -31,7 +31,6 @@ const OverlayEl = (props) => {
 };
 
 const MovieOnDashboard = ({toggle, isActive, id, type, movie}) => {
-  console.log(movie);
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.down('md'));
   const [listItemSize, setListItemSize] = useState([0, 0]);
