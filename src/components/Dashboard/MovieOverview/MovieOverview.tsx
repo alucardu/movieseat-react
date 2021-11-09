@@ -56,6 +56,8 @@ const MovieOverview = (props) => {
           }
         });
 
+        console.log(rows);
+
         if (movies) setMovieRows(rows);
       }
       if (res.length === 0 && size > 0) {
