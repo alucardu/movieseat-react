@@ -87,14 +87,17 @@ const MovieOverview = (props) => {
         >
           {movieRow.length}
           { movieRow.map((movie: IMovie) => (
-            <MovieOnDashboard
-              id={movie.id}
-              key={movie.id}
-              movie={movie}
-              type={type}
-              isActive={movie.id === activeId}
-              toggle={handleClick}
-            />
+            <>
+              {movie.id}
+              <MovieOnDashboard
+                id={movie.id}
+                key={movie.id}
+                movie={movie}
+                type={type}
+                isActive={movie.id === activeId}
+                toggle={handleClick}
+              />
+            </>
           ))}
         </MovieOverviewList>
       ))}
