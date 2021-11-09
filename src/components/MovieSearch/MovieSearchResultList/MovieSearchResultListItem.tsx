@@ -31,17 +31,15 @@ export const ResultListItem = ({movie, toggle, isActive, id}) => {
           .then((response) => response.json())
           .then((data) => {
             setMovieDetails(data);
+            if (ref.current) {
+              let listHeight = 0;
+              const childElements: HTMLCollection = ref.current.children;
+              for (const childElement of childElements) {
+                listHeight += childElement.clientHeight;
+              }
+              setListHeight(listHeight + 28);
+            }
           });
-      setTimeout(() => {
-        if (ref.current) {
-          let listHeight = 0;
-          const childElements: HTMLCollection = ref.current.children;
-          for (const childElement of childElements) {
-            listHeight += childElement.clientHeight;
-          }
-          setListHeight(listHeight + 28);
-        }
-      }, 75);
       return () => controller?.abort();
     }
   }, [isActive]);
