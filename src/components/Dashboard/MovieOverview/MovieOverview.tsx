@@ -19,6 +19,7 @@ const MovieOverview = (props) => {
   const [movieRows, setMovieRows] = useState<IMovie[][]>([]);
 
   const handleClick = (id) => {
+    console.log(id);
     id === activeId ? setActiveId(null) : setActiveId(id);
   };
 
