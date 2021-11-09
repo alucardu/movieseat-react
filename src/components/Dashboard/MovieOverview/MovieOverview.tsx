@@ -43,7 +43,7 @@ const MovieOverview = (props) => {
         rows.map((movieRow) => {
           if (rowMaxLength !== movieRow.length) {
             for (let i = movieRow.length; i < rowMaxLength; i++) {
-              movieRow.push({id: i, original_title: '', poster_path: '', release_date: '', tmdb_id: 1, backdrop_path: ''});
+              movieRow.push({id: 0, original_title: '', poster_path: '', release_date: '', tmdb_id: 1, backdrop_path: ''});
             }
 
             return movieRow;
