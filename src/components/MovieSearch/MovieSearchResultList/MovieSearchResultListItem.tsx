@@ -1,7 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
 
-import useMediaQuery from '@mui/material/useMediaQuery';
-import {useTheme} from '@mui/material/styles';
 import {Box, Divider} from '@mui/material';
 
 import {ResultListItemStyle} from 'Src/styles';
@@ -12,7 +10,6 @@ import {AddMovieToWatchList} from 'Components/MovieSearch/MovieSearchResultList/
 export const ResultListItem = ({movie, toggle, isActive, id}) => {
   const ref = useRef<HTMLLIElement>(null);
   const [listHeight, setListHeight] = useState(0);
-  const theme = useTheme();
   const imagePath = 'https://image.tmdb.org/t/p/w45/';
 
   const baseUrl = 'https://api.themoviedb.org/3/movie/';

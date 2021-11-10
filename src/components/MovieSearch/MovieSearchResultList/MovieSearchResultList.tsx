@@ -18,21 +18,29 @@ import {ListItem, Typography} from '@mui/material';
 const MovieSearchResultList = ({width}, ref) => {
   const movieAdded = useReactiveVar(movieSearchActiveVar);
   const [activeId, setActiveId] = useState(null);
-
-  const handleClick = (id) => {
-    id === activeId ? setActiveId(null) : setActiveId(id);
-  };
-
-  useEffect(() => {
-    movieAdded ? null : handleClick(null);
-  }, [movieAdded]);
-
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.down('md'));
   const searching = useReactiveVar(movieSearchActiveVar);
   const movieList = useReactiveVar(movieSearchResultsVar);
   const orderedList = orderBy(
       movieList, [(movie: IMovie) => movie.release_date], ['desc']);
+
+  const handleClick = (id) => {
+    id === activeId ? setActiveId(null) : setActiveId(id);
+  };
+
+  const disableBodyScroll = (value) => {
+    value ? document.body.style.overflow = 'hidden' : document.body.style.overflow = '';
+  };
+
+  useEffect(() => {
+    movieAdded ? null : handleClick(null);
+  }, [movieAdded]);
+
+  useEffect(() => {
+    disableBodyScroll(searching);
+  }, [searching]);
+
 
   return (
     <ResultListBackground
