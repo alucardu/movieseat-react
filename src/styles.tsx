@@ -121,12 +121,13 @@ export const MovieContainerOverlay = styled(Box)(({theme}) => ({
   },
 }));
 
-export const Onboarding = styled(Box)(() => ({
+export const Onboarding = styled(Box)(({theme}) => ({
   display: 'flex',
   flexDirection: 'column',
   height: '40vh',
   justifyContent: 'center',
   alignItems: 'center',
+  color: theme.palette.text.secondary,
 }));
 
 export const RandomBackgroundContainer = styled(Box)(() => ({
