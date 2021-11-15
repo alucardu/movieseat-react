@@ -54,7 +54,7 @@ const Login = () => {
           <ListItemText data-cy="btn_logout" primary="Logout" />
         </ListItemButton> :
 
-        <ListItemButton onClick={handleClick} >
+        <ListItemButton disabled={!currentUser.isLoggedIn} onClick={handleClick} >
           <ListItemIcon>
             <LoginIcon fontSize='large'/>
           </ListItemIcon>
