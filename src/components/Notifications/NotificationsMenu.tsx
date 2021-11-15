@@ -12,6 +12,7 @@ import {NotificationMenu, NumberOfUnreadNotificationsStyle} from 'Src/styles';
 import resolvers from 'Src/resolvers';
 import {currentUserVar} from 'Src/cache';
 import {EAction} from 'Src/movieseat';
+import {NumberOfUnreadNotifications} from './NumberOfUnreadNotifications';
 
 const NotificationsMenu = (props, ref) => {
   const currentUser = useReactiveVar(currentUserVar);
@@ -31,11 +32,11 @@ const NotificationsMenu = (props, ref) => {
   const id = open ? 'simple-popover' : undefined;
 
   const [watchNotificationRes] = useMutation(resolvers.mutations.WatchNotification);
+
   const {error, loading, data: {returnNotifications: notifications} = {}} =
     useQuery(resolvers.queries.ReturnNotifications, {
       skip: currentUserVar().id === 0,
     });
-
 
   if (error) return (<p>error</p>);
   if (loading) return (<p>loading</p>);
@@ -161,28 +162,14 @@ const NotificationsMenu = (props, ref) => {
     );
   };
 
-  const NumberOfUnreadNotifications = () => {
-    return (
-      <>
-        {notifications?.unwatchedNotificationsCount > 0 ?
-          <NumberOfUnreadNotificationsStyle>
-            <span data-cy='notification_count'>
-              {notifications?.unwatchedNotificationsCount}
-            </span>
-          </NumberOfUnreadNotificationsStyle>: null
-        }
-      </>
-    );
-  };
-
   return (
     <>
       <ListItem disablePadding>
         <ListItemButton disabled={!currentUser.isLoggedIn} onClick={handleClick} data-cy='btn_open_notifications'>
-          <ListItemIcon>
+          <ListItemIcon sx={{position: 'relative'}}>
+            <NumberOfUnreadNotifications />
             <CircleNotificationsIcon fontSize='large'/>
           </ListItemIcon>
-          <NumberOfUnreadNotifications />
           <ListItemText primary="Notifications" />
         </ListItemButton>
       </ListItem >

@@ -276,10 +276,15 @@ export const NumberOfUnreadNotificationsStyle = styled('span')(({theme}) => ({
   alignItems: 'center',
   justifyContent: 'center',
   position: 'absolute',
-  left: '4em',
   bottom: '3em',
   fontWeight: 'bold',
   fontSize: '0.6rem',
+  [theme.breakpoints.down('sm')]: {
+    right: '0.5em',
+    left: 'auto',
+  },
+  left: '4em',
+
 }));
 
 export const AddMovieFromSearchOverlay = styled(Box)<MovieModalProps>(({theme, movie}) => ({
@@ -515,10 +520,10 @@ const closedMixin = (theme: Theme): CSSObject => ({
 
 export const Drawer = styled(MuiDrawer)(
     ({theme, open}) => ({
-      width: drawerWidth,
-      flexShrink: 0,
-      whiteSpace: 'nowrap',
-      boxSizing: 'border-box',
+      'width': drawerWidth,
+      'flexShrink': 0,
+      'whiteSpace': 'nowrap',
+      'boxSizing': 'border-box',
       ...(open && {
         ...openedMixin(theme),
         '& .MuiDrawer-paper': openedMixin(theme),
@@ -527,6 +532,16 @@ export const Drawer = styled(MuiDrawer)(
         ...closedMixin(theme),
         '& .MuiDrawer-paper': closedMixin(theme),
       }),
+      '.notification_count': {
+        [theme.breakpoints.down('sm')]: {
+          top: 0,
+          right: '1.5em',
+        },
+        [theme.breakpoints.up('sm')]: {
+          left: '2.5em',
+          top: 0,
+        },
+      },
     }),
 );
 
