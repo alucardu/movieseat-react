@@ -52,7 +52,7 @@ const MovieSearchComponent = () => {
           .then((response) => response.json())
           .then((data) => {
             const filteredMovies = data.results.filter((movie: IMovie) =>
-              movie.poster_path && movie.backdrop_path);
+              movie.poster_path || movie.backdrop_path);
             movieSearchResultsVar(filteredMovies);
           });
     } else {

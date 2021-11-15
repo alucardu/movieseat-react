@@ -54,7 +54,7 @@ export const ResultListItem = ({movie, toggle, isActive, id}) => {
         <h1>{movie.original_title}</h1>
         <h2>{movie.release_date}</h2>
         <img
-          src={imagePath + movie.poster_path}
+          src={movie.poster_path ? imagePath + movie.poster_path : imagePath + movie.backdrop_path}
           alt={movie.original_title}
         />
       </Box>
