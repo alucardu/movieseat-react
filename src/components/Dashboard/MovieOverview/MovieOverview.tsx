@@ -2,11 +2,10 @@ import React, {useState, useEffect, useLayoutEffect} from 'react';
 
 import chunk from 'lodash/chunk';
 
-import {Typography, Box} from '@mui/material';
-import {Link} from 'react-router-dom';
+import {Box} from '@mui/material';
 
 import {IMovie} from 'Src/movieseat';
-import {MovieOverviewList, Onboarding} from 'Src/styles';
+import {MovieOverviewList} from 'Src/styles';
 import sortMovies from 'Helpers/sortMovies';
 import MovieOnDashboard from 'Components/Dashboard/MovieOnDashboard/MovieOnDashboard';
 
@@ -57,19 +56,8 @@ const MovieOverview = (props) => {
     });
   }, [movies, size]);
 
-  const Onboard = () => {
-    return (
-      <Onboarding>
-        <Typography variant='h4'>Start adding some movies!</Typography>
-        <Typography variant='body1'>Use the search field to start adding movies.</Typography>
-        <Typography variant='body1'>Or maybe you want some <Link to='/suggestions'>suggestions</Link>?</Typography>
-      </Onboarding>
-    );
-  };
-
   return (
     <Box>
-      {movies?.length <= 0 ? <Onboard/> : null}
       { movieRows?.map((movieRow, index) => (
         <MovieOverviewList
           disablePadding={true}

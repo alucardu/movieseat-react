@@ -1,8 +1,12 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
-import {Box} from '@mui/material';
+import {Box, Typography} from '@mui/material';
 
 import {useQuery} from '@apollo/client';
+
+
+import {Onboarding} from 'Src/styles';
 
 import {currentUserVar} from 'Src/cache';
 import resolvers from 'Src/resolvers';
@@ -19,11 +23,21 @@ const DashboardComponent = () => {
   if (error) return (<div>error {error.message}</div>);
   if (loading) return (<div>loading...</div>);
 
+  const Onboard = () => {
+    return (
+      <Onboarding>
+        <Typography variant='h4'>Start adding some movies!</Typography>
+        <Typography variant='body1'>Use the search field to start adding movies.</Typography>
+        <Typography variant='body1'>Or maybe you want some <Link to='/suggestions'>suggestions</Link>?</Typography>
+      </Onboarding>
+    );
+  };
+
   return (
     <React.Fragment>
       <Box sx={{width: '100%', padding: '8px'}}>
         <MovieSearchComponent />
-        <MovieOverview type='dashboard' movies={movies}/>
+        {movies?.length <= 0 ? <Onboard/> : <MovieOverview type='dashboard' movies={movies}/>}
       </Box>
     </React.Fragment>
   );
