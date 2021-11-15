@@ -8,6 +8,7 @@ import {IconButton, Box} from '@mui/material';
 
 import {HeaderStyle, Logo} from 'Src/styles';
 import {currentUserVar} from 'Src/cache';
+import {NumberOfUnreadNotifications} from 'Components/Notifications/NumberOfUnreadNotifications';
 
 const Header = () => {
   const handleClick = () => {
@@ -29,6 +30,7 @@ const Header = () => {
         onClick={handleClick}
         sx={{color: 'white', width: '25%'}}
       >
+        <NumberOfUnreadNotifications />
         <MenuIcon
           sx={{marginLeft: 'auto'}}
           fontSize='large'
