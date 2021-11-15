@@ -363,8 +363,8 @@ const Mutation = {
         tmdb_id: args.tmdb_id,
         release_date: args.release_date,
         runtime: args.runtime,
-        // poster_path: args.poster_path,
-        // backdrop_path: args.backdrop_path,
+        poster_path: args.poster_path,
+        backdrop_path: args.backdrop_path,
         tagline: args.tagline,
         overview: args.overview,
         users: {
