@@ -14,12 +14,12 @@ model Movie {
   id             Int            @id @default(autoincrement())
   original_title String         @unique
   tmdb_id        Int            @unique
-  poster_path    String         @unique
-  release_date   String
-  backdrop_path  String         
-  runtime        Int
-  tagline        String         
-  overview       String         
+  poster_path    String?         
+  backdrop_path  String?         
+  release_date   String?
+  runtime        Int?
+  tagline        String?         
+  overview       String?         
   users          User[]
   notification   Notification[]
   movieRating    MovieRating[]

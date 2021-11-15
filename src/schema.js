@@ -33,12 +33,12 @@ const typeDefs = gql`
     id: Int!
     original_title: String!
     tmdb_id: Int!
-    poster_path: String!
-    backdrop_path: String!
-    runtime: String!
-    tagline: String!
-    overview: String!
-    release_date: String!
+    poster_path: String
+    backdrop_path: String
+    runtime: String
+    tagline: String
+    overview: String
+    release_date: String
   }
 
   type BatchPayload {
@@ -179,19 +179,19 @@ const typeDefs = gql`
     addUserToMovie (
       original_title: String!, 
       tmdb_id: Int!,
-      poster_path: String!
-      release_date: String!
-      runtime: Int!
-      tagline: String!
-      backdrop_path: String!
-      overview: String!
+      release_date: String
+      poster_path: String
+      runtime: Int
+      tagline: String
+      backdrop_path: String
+      overview: String
     ) : AddedMoviePayload
 
     addMovie(
       original_title: String!, 
       tmdb_id: Int!,
-      poster_path: String!
-      release_date: String!
+      poster_path: String
+      release_date: String
     ): [Movie]
 
     unfollowUser (

@@ -79,7 +79,7 @@ const MovieOnDashboard = ({toggle, isActive, id, type, movie}) => {
           <CardMedia
             component="img"
             sx={{height: listItemSize[0], maxWidth: listItemSize[1], zIndex: 2}}
-            image={imagePath + movie.poster_path}
+            image={movie.poster_path ? imagePath + movie.poster_path : imagePath + movie.backdrop_path}
           />
           <OverlayEl type={type} movie={movie} />
         </> :
@@ -95,6 +95,7 @@ MovieOnDashboard.propTypes = {
     id: PropTypes.number,
     poster_path: PropTypes.string,
     original_title: PropTypes.string,
+    backdrop_path: PropTypes.string,
   }),
   toggle: PropTypes.func,
   isActive: PropTypes.bool,

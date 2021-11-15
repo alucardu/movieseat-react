@@ -129,12 +129,12 @@ const AddUserToMovie = gql`
   mutation addUserToMovie(
     $original_title: String!,
     $tmdb_id: Int!,
-    $poster_path: String!
-    $release_date: String!
-    $runtime: Int!
-    $backdrop_path: String!
-    $tagline: String!
-    $overview: String!
+    $poster_path: String
+    $release_date: String
+    $runtime: Int
+    $backdrop_path: String
+    $tagline: String
+    $overview: String
   ) {
     addUserToMovie (
       original_title: $original_title,
