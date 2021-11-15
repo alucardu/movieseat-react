@@ -19,7 +19,7 @@ export const ProfileMovies = (profileId) => {
   if (loading) return (<div>loading</div>);
 
   return (
-    <Box>
+    <Box sx={{width: '100%'}}>
       <MovieOverview type='suggestion' movies={movies}/>
     </Box>
   );

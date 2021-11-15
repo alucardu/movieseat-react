@@ -41,7 +41,7 @@ const profile = () => {
   };
 
   return (
-    <Box>
+    <Box sx={{width: '100%', padding: '8px', display: 'flex', flexWrap: 'wrap'}}>
       {currentUser.id !== parseInt(paramId) ?
       <>
         <FollowUser user={user} />

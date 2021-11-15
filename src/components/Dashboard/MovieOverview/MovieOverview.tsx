@@ -5,9 +5,8 @@ import chunk from 'lodash/chunk';
 import {Typography, Box} from '@mui/material';
 import {Link} from 'react-router-dom';
 
-import {MovieOverviewList} from 'Src/styles';
 import {IMovie} from 'Src/movieseat';
-import {Onboarding} from 'Src/styles';
+import {MovieOverviewList, Onboarding} from 'Src/styles';
 import sortMovies from 'Helpers/sortMovies';
 import MovieOnDashboard from 'Components/Dashboard/MovieOnDashboard/MovieOnDashboard';
 
@@ -77,7 +76,6 @@ const MovieOverview = (props) => {
           data-cy='list_movie_overview_dashboard'
           key={index}
         >
-          {movieRow.length}
           { movieRow.map((movie: IMovie) => (
             <React.Fragment key={movie.id}>
               <MovieOnDashboard
