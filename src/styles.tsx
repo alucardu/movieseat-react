@@ -8,13 +8,20 @@ import GradeIcon from '@mui/icons-material/Grade';
 const imagePath = 'https://image.tmdb.org/t/p/w780/';
 
 export const ProfileBox = styled(Box)(({theme}) => ({
+  [theme.breakpoints.down('md')]: {
+    width: '100%',
+  },
+  [theme.breakpoints.up('md')]: {
+    marginRight: theme.spacing(1),
+  },
+  'width': 'fit-content',
   'display': 'flex',
   'flexDirection': 'column',
-  'margin': theme.spacing(2),
   'padding': theme.spacing(1),
   'color': theme.palette.text.primary,
   'backgroundColor': grey[50],
   'borderRadius': theme.spacing(0.5),
+  'marginBottom': theme.spacing(1),
   '.MuiListItem-root': {
     'display': 'flex',
     'justifyContent': 'space-between',
