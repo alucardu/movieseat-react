@@ -163,14 +163,15 @@ const NotificationsMenu = (props, ref) => {
 
   const NumberOfUnreadNotifications = () => {
     return (
-      <NumberOfUnreadNotificationsStyle>
-        {notifications?.unwatchedNotificationsCount ?
-          <span data-cy='notification_count'>
-            {notifications?.unwatchedNotificationsCount}
-          </span> :
-          null
+      <>
+        {notifications?.unwatchedNotificationsCount > 0 ?
+          <NumberOfUnreadNotificationsStyle>
+            <span data-cy='notification_count'>
+              {notifications?.unwatchedNotificationsCount}
+            </span>
+          </NumberOfUnreadNotificationsStyle>: null
         }
-      </NumberOfUnreadNotificationsStyle>
+      </>
     );
   };
 
