@@ -21,6 +21,7 @@ const MovieOverview = (props) => {
   };
 
   const [size, setSize] = useState(0);
+  const [overlay, setOverlay] = useState(true);
 
   useLayoutEffect(() => {
     const updateSize = () => {
@@ -54,8 +55,16 @@ const MovieOverview = (props) => {
     });
   }, [movies, size]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setOverlay(false);
+    }, 150);
+  }, [movies]);
+
   return (
     <Box>
+      {overlay ? <Box sx={{position: 'absolute', height: '100vh', width: '100vw', left: 0, top: 0, background: '#2121217a', zIndex: 5}}></Box> : null}
+
       { movieRows?.map((movieRow, index) => (
         <MovieOverviewList
           disablePadding={true}
