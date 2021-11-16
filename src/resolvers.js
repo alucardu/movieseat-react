@@ -120,6 +120,20 @@ const Query = {
     });
   },
 
+  returnAggregatedMovieRating: async (_, args, {req, res}) => {
+    const aggregatedRating = await prisma.movieRating.aggregate({
+      _avg: {
+        value: true,
+      },
+      where: {
+        movieId: {
+          equals: args.movieId,
+        },
+      },
+    });
+
+    return aggregatedRating._avg.value;
+  },
 };
 
 const Mutation = {
@@ -334,15 +348,6 @@ const Mutation = {
           },
         },
       });
-
-      // await prisma.notification.create({
-      //   data: {
-      //     action: args.action,
-      //     user: {
-      //       connect: {id: args.userId},
-      //     },
-      //   },
-      // });
     }
 
     return await returnUserNotifications(args, req);

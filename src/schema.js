@@ -78,6 +78,10 @@ const typeDefs = gql`
   }
 
   type Query {
+    returnAggregatedMovieRating (movieId: Int): Float
+  }
+
+  type Query {
     returnMovieDetails (
       movieId: Int!) : Movie
   }

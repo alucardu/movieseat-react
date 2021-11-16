@@ -7,7 +7,8 @@ import {Box, Typography, CardMedia} from '@mui/material';
 
 import {MovieDetailsStyle} from 'Src/styles';
 import resolvers from 'Src/resolvers';
-import {RateMovie} from 'Components/RateMovie/RateMovie';
+import {RateMovie} from 'Components/Ratings/RateMovie/RateMovie';
+import {AggregatedMovieRating} from 'Components/Ratings/AggregatedMovieRating/AggregatedMovieRating';
 
 export const MovieDetails = () => {
   const {id: paramId} = useParams<{id: string}>();
@@ -28,6 +29,7 @@ export const MovieDetails = () => {
           component="img"
           image={`${'https://image.tmdb.org/t/p/original/' + movie.backdrop_path}`}
         />
+        <AggregatedMovieRating movie={movie}/>
       </Box>
       <Box sx={{padding: '8px'}}>
         <Typography variant="h6" component="h2">

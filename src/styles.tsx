@@ -598,3 +598,26 @@ export const MovieDetailsStyle = styled(Box)<MovieModalProps>(({theme, movie}) =
     },
   },
 }));
+
+export const AggregatedMovieRatingStyle = styled(Box)(({theme}) => ({
+  'position': 'absolute',
+  'zIndex': 5,
+  'bottom': 0,
+  'left': '8px',
+  'display': 'flex',
+  'justifyContent': 'center',
+  'alignItems': 'center',
+  'span': {
+    marginLeft: theme.spacing(1),
+    height: '30px',
+    width: '30px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: theme.spacing(2),
+    borderRadius: '50%',
+    backgroundColor: orange[500],
+    fontSize: '0.75em',
+    fontWeight: 'bolder',
+  },
+}));

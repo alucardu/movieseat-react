@@ -47,6 +47,11 @@ const ReturnMovieDetails = gql`
   }
 `;
 
+const ReturnAggregatedMovieRating = gql `
+  query returnAggregatedMovieRating($movieId: Int!) {
+    returnAggregatedMovieRating(movieId: $movieId)
+  }
+`;
 
 const ReturnMovieRating = gql`
   query returnMovieRating(
@@ -332,7 +337,7 @@ const LogoutUser = gql`
     }
 `;
 
-const queries = {ReturnMovieDetails, ReturnMovieRating, ReturnAllMovies, ReturnMoviesFromUser, ReturnUser, returnUsers, ReturnFollowedUsers, ReturnNotifications};
+const queries = {ReturnAggregatedMovieRating, ReturnMovieDetails, ReturnMovieRating, ReturnAllMovies, ReturnMoviesFromUser, ReturnUser, returnUsers, ReturnFollowedUsers, ReturnNotifications};
 const mutations = {AddMovieRating, removeUserAccount, RemoveMovie, LoginUser, LogoutUser, AddUserToMovie, FollowUser, UnfollowUser, CreateNotification, WatchNotification, signupUser};
 
 export default {queries, mutations};
