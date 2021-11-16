@@ -40,10 +40,8 @@ const MovieOverview = (props) => {
         rows.map((movieRow) => {
           if (rowMaxLength !== movieRow.length) {
             for (let i = movieRow.length; i < rowMaxLength; i++) {
-              movieRow.push({id: Math.floor(Math.random() * 100), original_title: '', poster_path: '', release_date: '', tmdb_id: 1, backdrop_path: ''});
+              movieRow.push({id: 0, original_title: '', poster_path: '', release_date: '', tmdb_id: 1, backdrop_path: ''});
             }
-
-
             return movieRow;
           }
         });
@@ -64,8 +62,8 @@ const MovieOverview = (props) => {
           data-cy='list_movie_overview_dashboard'
           key={index}
         >
-          { movieRow.map((movie: IMovie) => (
-            <React.Fragment key={movie.id}>
+          { movieRow.map((movie: IMovie, index) => (
+            <React.Fragment key={index + index}>
               <MovieOnDashboard
                 id={movie.id}
                 movie={movie}
