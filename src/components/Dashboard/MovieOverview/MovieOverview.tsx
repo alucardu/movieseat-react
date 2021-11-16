@@ -58,7 +58,7 @@ const MovieOverview = (props) => {
   useEffect(() => {
     setTimeout(() => {
       setOverlay(false);
-    }, 1500);
+    }, 150);
   }, [movies]);
 
   return (
