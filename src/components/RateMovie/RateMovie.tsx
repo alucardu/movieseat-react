@@ -2,8 +2,7 @@ import React, {useState, useEffect} from 'react';
 
 import {useMutation, useQuery} from '@apollo/client';
 
-import {IconButton, Popover, Typography, Box} from '@mui/material';
-import GradeIcon from '@mui/icons-material/Grade';
+import {IconButton, Box} from '@mui/material';
 
 import {Rating} from 'Src/styles';
 import resolvers from 'Src/resolvers';
@@ -33,15 +32,6 @@ export const RateMovie = (props) => {
   ];
 
   const [someRatings, setSomeRatings] = useState(ratings);
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const submitRating = async () => {
     addMovieRating({
@@ -70,14 +60,11 @@ export const RateMovie = (props) => {
         movieRating: res.data.addMovieRating,
       });
     });
-    setAnchorEl(null);
   };
 
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
 
-  const handleHover = (value) => {
-    setCurrentRating(value);
+  const handleHover = (val) => {
+    val ? setCurrentRating(val) : setCurrentRating(rating.value);
   };
 
   useEffect(() => {
@@ -102,59 +89,27 @@ export const RateMovie = (props) => {
   if (error) return (<div>Error</div>);
   if (loading) return (<div>Loading</div>);
 
-  const RateMovieContent = () => {
-    return (
-      <Box>
-        <Typography variant='body2'>
-          How would you rate the movie?
-        </Typography>
-        <Box
-          data-cy='container_rating_options'
-        >
-          {
-            someRatings.map((rating, i) => {
-              return (
-                <IconButton
-                  key={i}
-                  onClick={submitRating}
-                >
-                  <Rating
-                    className={rating.filled ? 'ratingHover' : ''}
-                    onMouseEnter={() => {
-                      handleHover(rating.value);
-                    }}
-                  />
-                </IconButton>
-              );
-            })
-          }
-        </Box>
-      </Box>
-    );
-  };
-
   return (
-    <Box>
-      <IconButton
-        onClick={handleClick}
-        data-cy='btn_open_movie_rating'
-      >
-        <GradeIcon />
-      </IconButton>
-      <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-
-        anchorReference='anchorEl'
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-      >
-        <RateMovieContent />
-      </Popover>
+    <Box data-cy='container_rating_options'>
+      {someRatings.map((rating, i) => {
+        return (
+          <IconButton
+            sx={{borderRadius: 0, paddingLeft: 0}}
+            key={i}
+            onClick={submitRating}
+            onMouseEnter={() => {
+              handleHover(i + 1);
+            }}
+            onMouseLeave={() => {
+              handleHover(null);
+            }}
+          >
+            <Rating
+              className={rating.filled ? 'ratingHover' : ''}
+            />
+          </IconButton>
+        );
+      })}
     </Box>
   );
 };

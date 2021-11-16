@@ -193,6 +193,7 @@ export const MovieModalStyle = styled(Box)<MovieModalProps>(({theme, movie}) => 
 }));
 
 export const Rating = styled(GradeIcon)(() => ({
+  'transition': 'all 0.1s ease-in',
   '&.ratingHover': {
     color: orange[500],
   },
