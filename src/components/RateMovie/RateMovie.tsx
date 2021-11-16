@@ -64,7 +64,7 @@ export const RateMovie = (props) => {
 
 
   const handleHover = (val) => {
-    val ? setCurrentRating(val) : setCurrentRating(rating.value);
+    val ? setCurrentRating(val) : setCurrentRating(rating?.value || 0);
   };
 
   useEffect(() => {
