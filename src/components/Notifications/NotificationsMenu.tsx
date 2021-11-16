@@ -8,7 +8,7 @@ import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import CircleIcon from '@mui/icons-material/Circle';
 
-import {NotificationMenu, NumberOfUnreadNotificationsStyle} from 'Src/styles';
+import {NotificationMenu} from 'Src/styles';
 import resolvers from 'Src/resolvers';
 import {currentUserVar} from 'Src/cache';
 import {EAction} from 'Src/movieseat';
@@ -74,7 +74,7 @@ const NotificationsMenu = (props, ref) => {
       <ListItem
         className={notification.watched ? 'watched' : ''}
       >
-        <Link to={`/profile/${notification.userId}`} onClick={handleClose}>
+        <Link onClick={handleClose} to={`/profile/${notification.userId}`}>
           <Typography variant='body2'>
             {notification.action}{' '}
           </Typography>
@@ -100,9 +100,10 @@ const NotificationsMenu = (props, ref) => {
         className={notification.notification.watched ? 'watched' : ''}
       >
         <Typography variant='body2'>
-          <Link to={`/profile/${notification.notification.user.id}`} onClick={handleClose}>{notification.notification.user.user_name}</Link>{' '}
+          <Link onClick={handleClose} to={`/profile/${notification.notification.user.id}`} >{notification.notification.user.user_name}</Link>{' '}
           {notification.notification.action}{' '}
-          {notification.notification.movie.original_title}{' with a '}
+          <Link onClick={handleClose} to={`/movie/${notification.notification.movie.id}`}>{notification.notification.movie.original_title}</Link>
+          {' with a '}
           <b>{notification.notification.movieRating.value}</b>
 
         </Typography>
@@ -124,9 +125,10 @@ const NotificationsMenu = (props, ref) => {
         className={notification.notification.watched ? 'watched' : ''}
       >
         <Typography variant='body2'>
-          <Link to={`/profile/${notification.notification.user.id}`} onClick={handleClose}>{notification.notification.user.user_name}</Link>{' '}
+          <Link onClick={handleClose} to={`/profile/${notification.notification.user.id}`}>{notification.notification.user.user_name}</Link>{' '}
           {notification.notification.action}{' '}
-          {notification.notification.movie.original_title}{' '}
+          <Link onClick={handleClose} to={`/movie/${notification.notification.movie.id}`}>{notification.notification.movie.original_title}</Link>
+          {' '}
           to their watchlist.
         </Typography>
         { !notification.notification.watched ?

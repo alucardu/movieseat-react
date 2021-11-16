@@ -12,6 +12,7 @@ const ReturnNotifications = gql`
         watched
         movie {
           original_title
+          id
         }
         followedUser {
           id
@@ -189,6 +190,7 @@ const WatchNotification = gql`
         watched
         movie {
           original_title
+          id
         }
         followedUser {
           id
