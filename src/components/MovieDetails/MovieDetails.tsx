@@ -7,6 +7,7 @@ import {Box, Typography, CardMedia} from '@mui/material';
 
 import {MovieDetailsStyle} from 'Src/styles';
 import resolvers from 'Src/resolvers';
+import {RateMovie} from 'Components/RateMovie/RateMovie';
 
 export const MovieDetails = () => {
   const {id: paramId} = useParams<{id: string}>();
@@ -35,7 +36,8 @@ export const MovieDetails = () => {
         <Typography variant='body1'>
           {movie.tagline}
         </Typography>
-        <Typography id="transition-modal-description" variant='body2' sx={{mt: 2}}>
+        <RateMovie movie={movie}/>
+        <Typography id="transition-modal-description" variant='body2'>
           {movie.overview}
         </Typography>
         {movie.runtime > 0 && <Typography variant='body2'>Runtime: {movie.runtime} minutes</Typography>}

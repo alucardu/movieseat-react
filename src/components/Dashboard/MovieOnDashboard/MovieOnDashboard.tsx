@@ -12,7 +12,6 @@ import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
 import {MovieContainer, MovieContainerOverlay} from 'Src/styles';
 import RemoveMovieFromDashboard from 'Components/Dashboard/MovieOnDashboard/RemoveMovieFromDashboard/RemoveMovieFromDashboard';
 import {AddMovieFromSuggestions} from 'Components/MovieSuggestions/AddMovieFromSuggestions';
-import {RateMovie} from 'Components/RateMovie/RateMovie';
 
 const OverlayEl = (props) => {
   const type = {...props}.type;
@@ -25,7 +24,6 @@ const OverlayEl = (props) => {
           <IconButton>
             <Link to={`/movie/${movie.id}`}><LocalMoviesIcon /></Link>
           </IconButton>
-          <RateMovie movie={movie} />
           <RemoveMovieFromDashboard movie={movie}/>
         </>
       }
