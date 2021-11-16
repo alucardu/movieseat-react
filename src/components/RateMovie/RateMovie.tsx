@@ -20,7 +20,6 @@ export const RateMovie = (props) => {
     },
   });
 
-  const [currentRating, setCurrentRating] = useState(0);
   const [addMovieRating] = useMutation(resolvers.mutations.AddMovieRating);
 
   const ratings = [
@@ -33,13 +32,13 @@ export const RateMovie = (props) => {
 
   const [someRatings, setSomeRatings] = useState(ratings);
 
-  const submitRating = async () => {
+  const submitRating = async (val) => {
     addMovieRating({
       variables: {
         id: rating?.id,
         userId: currentUserVar().id,
         movieId: movie.id,
-        value: currentRating,
+        value: val,
       },
       update: (cache, {data}) => {
         cache.modify({
@@ -62,19 +61,6 @@ export const RateMovie = (props) => {
     });
   };
 
-
-  const handleHover = (val) => {
-    val ? setCurrentRating(val) : setCurrentRating(rating?.value || 0);
-  };
-
-  useEffect(() => {
-    const ratings = someRatings.map((rating) => {
-      rating.value <= currentRating ? rating.filled = true : rating.filled = false;
-      return rating;
-    });
-    setSomeRatings(ratings);
-  }, [currentRating]);
-
   useEffect(() => {
     if (rating) {
       const returnedrating = rating;
@@ -96,12 +82,8 @@ export const RateMovie = (props) => {
           <IconButton
             sx={{borderRadius: 0, paddingLeft: 0}}
             key={i}
-            onClick={submitRating}
-            onMouseEnter={() => {
-              handleHover(i + 1);
-            }}
-            onMouseLeave={() => {
-              handleHover(null);
+            onClick={() => {
+              submitRating(i + 1);
             }}
           >
             <Rating
