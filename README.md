@@ -94,3 +94,6 @@ alucardu is following you
 [followedUser] [action] [movie]
 
 systemctl restart nginx
+
+certbot --force-renewal
+restart digital ocean droplet
