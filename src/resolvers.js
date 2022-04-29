@@ -3,6 +3,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const {prisma} = require('./database.js');
+const msg = require('../server/email/sendMail');
 
 const followedUsers = async (args, req) => {
   const following = await prisma.user.findUnique({
@@ -248,6 +249,15 @@ const Mutation = {
       secure: process.env.NODE_ENV === 'production',
       maxAge: 1000 * 60 * 60 * 24 * 7,
     });
+
+    const email = {
+      from: '"Info movieseat 👻" <info@moviese.at>', // sender address
+      to: args.email, // list of receivers
+      subject: 'Hello ✔', // Subject line
+      text: 'Hello world?', // plain text body
+      html: '<b>Hello world?</b>', // html body
+    };
+    msg.main(email);
 
     return newUser;
   },

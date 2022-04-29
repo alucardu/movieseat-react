@@ -78,6 +78,7 @@ const startApolloServer = async () => {
     httpServer = http.createServer(app);
   }
 
+
   await new Promise((resolve) => httpServer.listen({port: 9090}, resolve));
   console.log(
       '🚀 Server ready at',
