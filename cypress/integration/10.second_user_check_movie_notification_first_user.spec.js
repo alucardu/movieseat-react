@@ -7,7 +7,6 @@ describe('10 Check movie notification from second user', () => {
 
   it('Logs in to second test account', () => {
     cy.visit('/');
-    cy.get('[data-cy=btn_login').click();
 
     cy.get('[data-cy=input_login_email').type('second_test@account.test.com');
     cy.get('[data-cy=input_login_password').type('password');
@@ -33,7 +32,7 @@ describe('10 Check movie notification from second user', () => {
   });
 
   it('Checks notifications menu', () => {
-    cy.get('[data-cy=btn_open_notifications]').click();
+    cy.get('[data-cy=btn_open_notifications]').click({force: true});
     cy.get('[data-cy=list_notifications]').first().contains('first_test has added Kill Bill: Vol. 2 to their watchlist.');
   });
 

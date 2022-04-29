@@ -147,8 +147,6 @@ const Mutation = {
       },
       create: {
         value: args.value,
-        userId: args.userId,
-        movieId: args.movieId,
         user: {
           connect: {id: args.userId},
         },

@@ -3,7 +3,6 @@ import {aliasMutation} from '../utils/graphql-test-utils';
 describe('Removes the first account', () => {
   it('Log in first user', () => {
     cy.visit('/');
-    cy.get('[data-cy=btn_login').click();
 
     cy.get('[data-cy=input_login_email').type('first_test@account.test.com');
     cy.get('[data-cy=input_login_password').type('password');

@@ -22,7 +22,7 @@ const OverlayEl = (props) => {
         <AddMovieFromSuggestions movie={movie} /> :
         <>
           <IconButton>
-            <Link to={`/movie/${movie.id}`}><LocalMoviesIcon /></Link>
+            <Link data-cy='btn_navigate_to_movie' to={`/movie/${movie.id}`}><LocalMoviesIcon /></Link>
           </IconButton>
           <RemoveMovieFromDashboard movie={movie}/>
         </>

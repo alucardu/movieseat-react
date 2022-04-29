@@ -7,7 +7,6 @@ describe('15 first user recieves second user movie rating notification', () => {
 
   it('Logs in to first test account', () => {
     cy.visit('/');
-    cy.get('[data-cy=btn_login').click();
 
     cy.get('[data-cy=input_login_email').type('first_test@account.test.com');
     cy.get('[data-cy=input_login_password').type('password');
@@ -29,7 +28,7 @@ describe('15 first user recieves second user movie rating notification', () => {
   });
 
   it('Checks notifications menu', () => {
-    cy.get('[data-cy=btn_open_notifications]').click();
+    cy.get('[data-cy=btn_open_notifications]').click({force: true});
     cy.get('[data-cy=list_notifications]').contains('second_test has rated Kill Bill: Vol. 2 with a 3');
   });
 

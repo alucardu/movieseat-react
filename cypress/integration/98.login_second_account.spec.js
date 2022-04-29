@@ -7,7 +7,6 @@ describe('Logs in to second test account', () => {
 
   it('Logs in to second test account', () => {
     cy.visit('/');
-    cy.get('[data-cy=btn_login').click();
 
     cy.get('[data-cy=input_login_email').type('second_test@account.test.com');
     cy.get('[data-cy=input_login_password').type('password');

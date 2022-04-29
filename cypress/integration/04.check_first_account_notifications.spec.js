@@ -6,7 +6,7 @@ describe('04 Checks notifications', () => {
   });
 
   it('Checks notifications menu', () => {
-    cy.get('[data-cy=btn_open_notifications]').click();
+    cy.get('[data-cy=btn_open_notifications]').click({force: true});
     cy.get('[data-cy=list_notifications]').first().contains('Start following some users!');
   });
 

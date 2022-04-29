@@ -54,7 +54,7 @@ export const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
 
 
   return (
-    <AddMovieFromSearchButton onClick={() => addMovie(movie)}>
+    <AddMovieFromSearchButton data-cy='btn_add_movie_from_search' onClick={() => addMovie(movie)}>
       Add movie to your watchlist
     </AddMovieFromSearchButton>
   );
