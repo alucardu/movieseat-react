@@ -20,6 +20,7 @@ import {RandomBackground} from 'Components/Dashboard/RandomBackground/RandomBack
 import {MovieDetails} from 'Components/MovieDetails/MovieDetails';
 import {ChangePassword} from 'Components/ChangePassword/ChangePassword';
 import {LoginForm} from 'Components/Login/LoginForm';
+import {ActivateAccount} from 'Components/ActivateAccount/ActivateAccount';
 
 const App = () => {
   const theme = useTheme();
@@ -65,6 +66,10 @@ const App = () => {
           <Route path='/user/change-password/:id'>
             <RandomBackground />
             <ChangePassword />
+          </Route>
+          <Route path='/user/activate-account/:id'>
+            <RandomBackground />
+            <ActivateAccount />
           </Route>
         </Switch>
         <SnackbarStack />

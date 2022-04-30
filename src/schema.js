@@ -183,6 +183,9 @@ const typeDefs = gql`
       password: String!
       user_name: String!) : User!
 
+    activateUser(
+      token: String!) : User!
+
     loginUser(
       email: String!
       password: String!) : User!

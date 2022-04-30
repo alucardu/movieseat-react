@@ -48,6 +48,8 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 To learn React, check out the [React documentation](https://reactjs.org/).
 "# movieseat" 
 
+npx generate-react-cli component MyComponent
+
 ## Some Docker tips
 
 docker-compose up -d

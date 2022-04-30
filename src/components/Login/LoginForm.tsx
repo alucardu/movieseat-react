@@ -98,22 +98,12 @@ export const LoginForm = ({onRequestClose} : Props) => {
 
   const onSignUpSubmit: SubmitHandler<IFormInputs> = async (formData, e) => {
     try {
-      const {data} = await signUpUserRes({variables: {
+      await signUpUserRes({variables: {
         ...formData,
       }});
 
-      currentUserVar({
-        ...data.signupUser,
-        isLoggedIn: true,
-      });
-
-      createNotification.createNotification({
-        user: currentUserVar(),
-        action: EAction.Onboard,
-      });
-
       history.push('/');
-      snackbarVar({message: `Welcome ${currentUserVar().user_name}`, severity: 'success'});
+      snackbarVar({message: `An email to activate your account has been send.`, severity: 'success'});
       if (onRequestClose) {
         onRequestClose(e);
       }
