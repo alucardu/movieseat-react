@@ -245,8 +245,7 @@ const Mutation = {
     return true;
   },
 
-  changePassword: async (root, args) => {
-    console.log(args);
+  changePassword: async (root, args, {req, res}) => {
     const theUser = await prisma.user.update({
       where: {
         resetToken: args.token,
@@ -255,6 +254,18 @@ const Mutation = {
         password: bcrypt.hashSync(args.password, 3),
         resetToken: '',
       },
+    });
+
+    if (!theUser) {
+      return false;
+    }
+
+    const token = jwt.sign(theUser, 'supersecret');
+
+    res.cookie('id', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 1000 * 60 * 60 * 24 * 7,
     });
 
     return theUser;

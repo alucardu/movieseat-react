@@ -321,6 +321,8 @@ const changePassword = gql`
       token: $token
     ) {
       email,
+      id,
+      user_name
     }
   }
 `;

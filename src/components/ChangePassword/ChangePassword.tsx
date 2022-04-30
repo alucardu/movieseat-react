@@ -11,7 +11,7 @@ import {Box, Button, FormControl, TextField} from '@mui/material';
 
 import {LoginCheckBody, LoginFormBody, LoginFormContainer, LoginModal} from 'Src/styles';
 import resolvers from 'Src/resolvers';
-import {snackbarVar} from 'Src/cache';
+import {currentUserVar, snackbarVar} from 'Src/cache';
 
 type Props = {
   onRequestClose?: any
@@ -42,13 +42,18 @@ export const ChangePassword = ({onRequestClose} : Props) => {
 
   const onChangePasswordSubmit: SubmitHandler<IFormInputs> = async (formData, e) => {
     try {
-      await changePassword({variables: {
+      const {data} = await changePassword({variables: {
         ...formData,
         token: paramToken,
       }});
 
+      currentUserVar({
+        ...data.loginUser,
+        isLoggedIn: true,
+      });
+
       history.push('/');
-      snackbarVar({message: `An email with instructions has been send!`, severity: 'success'});
+      snackbarVar({message: `You've updated your password!`, severity: 'success'});
       if (onRequestClose) {
         onRequestClose(e);
       }
