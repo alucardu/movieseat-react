@@ -5,7 +5,7 @@ describe('14 User can rate a movie', () => {
     cy.get('[data-cy=btn_watchlist]').click();
     cy.get('[data-cy=list_movie_overview_dashboard]').within(() => {
       cy.get('[title="Kill Bill: Vol. 2"]').click();
-      cy.get('[data-cy=btn_open_movie_rating]').click();
+      cy.get('[data-cy=btn_navigate_to_movie]').click();
     });
   });
 
@@ -13,7 +13,7 @@ describe('14 User can rate a movie', () => {
     cy.get('[data-cy=container_rating_options]').should('exist');
   });
 
-  it('Adds a rating of 4 to the movie', () => {
+  it('Adds a rating of 3 to the movie', () => {
     cy.get('[data-cy=container_rating_options] button').eq(2).click();
   });
 

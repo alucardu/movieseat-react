@@ -1,7 +1,6 @@
 describe('02 Creates the second account', () => {
   it('Creates the second account', () => {
     cy.visit('/');
-    cy.get('[data-cy=btn_login').click({force: true});
     cy.get('[data-cy=btn_sign_up').click();
 
     cy.get('[data-cy=input_sign_up_email').type('second_test@account.test.com');

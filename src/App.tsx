@@ -18,6 +18,8 @@ import {DrawerContainer} from 'Components/Drawer/DrawerContainer';
 import {MovieSuggestions} from 'Components/MovieSuggestions/MovieSuggestions';
 import {RandomBackground} from 'Components/Dashboard/RandomBackground/RandomBackground';
 import {MovieDetails} from 'Components/MovieDetails/MovieDetails';
+import {ChangePassword} from 'Components/ChangePassword/ChangePassword';
+import {LoginForm} from 'Components/Login/LoginForm';
 
 const App = () => {
   const theme = useTheme();
@@ -46,7 +48,10 @@ const App = () => {
         <Header />
         <Switch>
           <Route exact path='/'>
-            {currentUser.isLoggedIn ? <DashboardComponent /> : <RandomBackground />}
+            {currentUser.isLoggedIn ?
+              <DashboardComponent />:
+              <><RandomBackground /> <LoginForm /></>
+            }
           </Route>
           <Route exact path='/suggestions'>
             <MovieSuggestions />
@@ -56,6 +61,10 @@ const App = () => {
           </Route>
           <Route path='/movie/:id'>
             <MovieDetails />
+          </Route>
+          <Route path='/user/change-password/:id'>
+            <RandomBackground />
+            <ChangePassword />
           </Route>
         </Switch>
         <SnackbarStack />

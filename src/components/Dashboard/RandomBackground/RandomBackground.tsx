@@ -75,7 +75,6 @@ export const RandomBackground = () => {
 
   return (
     <>
-      <LoginForm />
       <RandomBackgroundContainer className={slide ? 'slide' : ''}>
         <RandomBackgroundSlider sx={{
           left: '0vw',

@@ -7,8 +7,10 @@ describe('11 Can add movie from suggestions', () => {
 
   it('Add movie from suggestions', () => {
     cy.get('[data-cy=list_movie_overview_dashboard]').first().within(() => {
-      cy.get('li').first().click();
-      cy.get('[data-cy=btn_add_movie]').click();
+      cy.get('li').first().within(() => {
+        cy.wait(500);
+        cy.get('[data-cy=btn_add_movie]').click({force: true});
+      });
     });
   });
 

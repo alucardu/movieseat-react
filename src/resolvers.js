@@ -3,6 +3,8 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const {prisma} = require('./database.js');
+const msg = require('../server/email/sendMail');
+const {v4: uuidv4} = require('uuid');
 
 const followedUsers = async (args, req) => {
   const following = await prisma.user.findUnique({
@@ -25,7 +27,6 @@ const followedBy = async (args, req) => {
 
   return followedBy.followedBy;
 };
-
 
 const returnUserNotifications = async (args, req) => {
   const notifications = await prisma.notification.findMany({
@@ -147,8 +148,6 @@ const Mutation = {
       },
       create: {
         value: args.value,
-        userId: args.userId,
-        movieId: args.movieId,
         user: {
           connect: {id: args.userId},
         },
@@ -209,6 +208,67 @@ const Mutation = {
     });
 
     return followedUsers(args, req);
+  },
+
+
+  forgotPassword: async (root, args) => {
+    const theUser = await prisma.user.findFirst({
+      where: {
+        email: String(args.email),
+      },
+    });
+
+    if (!theUser) {
+      return false;
+    }
+
+    const token = uuidv4();
+
+    await prisma.user.update({
+      where: {
+        email: String(args.email),
+      },
+      data: {
+        resetToken: token,
+      },
+    });
+
+    const email = {
+      from: '"moviese.at" <info@moviese.at>', // sender address
+      to: args.email, // list of receivers
+      subject: 'Password reset request', // Subject line
+      // eslint-disable-next-line max-len
+      html: `<b>If you have requested to change your password. Click <a href="https://moviese.at/user/change-password/${token}">here</a> to do so.</b>`, // html body
+    };
+    msg.main(email);
+
+    return true;
+  },
+
+  changePassword: async (root, args, {req, res}) => {
+    const theUser = await prisma.user.update({
+      where: {
+        resetToken: args.token,
+      },
+      data: {
+        password: bcrypt.hashSync(args.password, 3),
+        resetToken: '',
+      },
+    });
+
+    if (!theUser) {
+      return false;
+    }
+
+    const token = jwt.sign(theUser, 'supersecret');
+
+    res.cookie('id', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    });
+
+    return theUser;
   },
 
   signupUser: async (root, args, {req, res}) => {

@@ -65,10 +65,12 @@ psql -U db_user college_db
 TABLE "Notification";
 TABLE "MovieRating";
 TABLE "Movie";
+TABLE "User";
 
 DELETE FROM "Notification";
 DELETE FROM "Movie";
 DELETE FROM "MovieRating";
+DELETE FROM "User";
 
 ## Some Prisma tips
 
