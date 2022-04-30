@@ -99,3 +99,8 @@ systemctl restart nginx
 
 certbot --force-renewal
 restart digital ocean droplet
+
+## Deploy changes ##
+yarn install
+npm run build
+npx prisma migrate dev
