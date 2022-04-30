@@ -36,6 +36,7 @@ model User {
   following      User[]           @relation("UserFollows", references: [id])
   notification   Notification[]   @relation("FollowedUser")
   movieRating    MovieRating[]
+  resetToken     String?          @unique
 }
 
 model Notification {

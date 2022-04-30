@@ -169,6 +169,10 @@ const typeDefs = gql`
       userId: Int
     ) : [User]
 
+    forgotPassword(
+      email: String!
+    ): Boolean
+
     signupUser(
       email: String!
       password: String!

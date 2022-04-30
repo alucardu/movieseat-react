@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const {prisma} = require('./database.js');
 const msg = require('../server/email/sendMail');
+const {v4: uuidv4} = require('uuid');
 
 const followedUsers = async (args, req) => {
   const following = await prisma.user.findUnique({
@@ -210,6 +211,41 @@ const Mutation = {
     return followedUsers(args, req);
   },
 
+
+  forgotPassword: async (root, args) => {
+    const theUser = await prisma.user.findFirst({
+      where: {
+        email: String(args.email),
+      },
+    });
+
+    if (!theUser) {
+      return false;
+    }
+
+    const token = uuidv4();
+
+    await prisma.user.update({
+      where: {
+        email: String(args.email),
+      },
+      data: {
+        resetToken: token,
+      },
+    });
+
+    const email = {
+      from: '"moviese.at" <info@moviese.at>', // sender address
+      to: args.email, // list of receivers
+      subject: 'Password reset request', // Subject line
+      // eslint-disable-next-line max-len
+      html: `<b>If you have requested to change your password. Click <a href="https://moviese.at/user/change-password/${token}">here</a> to do so.</b>`, // html body
+    };
+    msg.main(email);
+
+    return true;
+  },
+
   signupUser: async (root, args, {req, res}) => {
     const theUser = await prisma.user.findMany({
       where: {
@@ -249,15 +285,6 @@ const Mutation = {
       secure: process.env.NODE_ENV === 'production',
       maxAge: 1000 * 60 * 60 * 24 * 7,
     });
-
-    const email = {
-      from: '"Info movieseat 👻" <info@moviese.at>', // sender address
-      to: args.email, // list of receivers
-      subject: 'Hello ✔', // Subject line
-      text: 'Hello world?', // plain text body
-      html: '<b>Hello world?</b>', // html body
-    };
-    msg.main(email);
 
     return newUser;
   },
