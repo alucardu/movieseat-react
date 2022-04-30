@@ -49,7 +49,9 @@ export const ChangePassword = ({onRequestClose} : Props) => {
 
       history.push('/');
       snackbarVar({message: `An email with instructions has been send!`, severity: 'success'});
-      onRequestClose(e);
+      if (onRequestClose) {
+        onRequestClose(e);
+      }
     } catch (e: any) {
       snackbarVar({message: `Something went wrong: ${e.message}`, severity: 'error'});
     }
