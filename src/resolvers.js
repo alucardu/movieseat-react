@@ -281,7 +281,6 @@ const Mutation = {
       },
     });
 
-
     if (theUser.length > 0) throw new Error('Email already in use');
 
     const theUserName = await prisma.user.findMany({
@@ -295,15 +294,40 @@ const Mutation = {
 
     if (theUserName.length > 0) throw new Error('Username already in use');
 
+    const token = uuidv4();
+
     const newUser = await prisma.user.create({
       data: {
         email: args.email,
         password: bcrypt.hashSync(args.password, 3),
         user_name: args.user_name,
+        activationToken: token,
       },
     });
 
-    const token = jwt.sign(newUser, 'supersecret');
+    const email = {
+      from: '"moviese.at" <info@moviese.at>', // sender address
+      to: args.email, // list of receivers
+      subject: 'Activate account', // Subject line
+      // eslint-disable-next-line max-len
+      html: `<b>Click <a href="https://moviese.at/user/activate-account/${token}">here</a> to activate your account.</b>`, // html body
+    };
+    msg.main(email);
+
+    return newUser;
+  },
+
+  activateUser: async (_, args, {req, res}) => {
+    const theUser = await prisma.user.update({
+      where: {
+        activationToken: args.token,
+      },
+      data: {
+        activationToken: null,
+      },
+    });
+
+    const token = jwt.sign(theUser, 'supersecret');
 
     res.cookie('id', token, {
       httpOnly: true,
@@ -311,7 +335,7 @@ const Mutation = {
       maxAge: 1000 * 60 * 60 * 24 * 7,
     });
 
-    return newUser;
+    return theUser;
   },
 
   loginUser: async (_, args, {req, res}) => {
@@ -321,6 +345,7 @@ const Mutation = {
     if (!theUser) throw new Error('Incorrect email address or password');
     const isMatch = bcrypt.compareSync(args.password, theUser.password);
     if (!isMatch) throw new Error('Incorrect email address or password');
+    if (theUser.activationToken) throw new Error('Account has not been activated');
 
     const token = jwt.sign(theUser, 'supersecret');
 
