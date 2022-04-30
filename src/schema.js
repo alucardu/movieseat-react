@@ -173,6 +173,11 @@ const typeDefs = gql`
       email: String!
     ): Boolean
 
+    changePassword(
+      password: String!
+      token: String!
+    ): User!
+
     signupUser(
       email: String!
       password: String!

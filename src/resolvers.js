@@ -28,7 +28,6 @@ const followedBy = async (args, req) => {
   return followedBy.followedBy;
 };
 
-
 const returnUserNotifications = async (args, req) => {
   const notifications = await prisma.notification.findMany({
     orderBy: {
@@ -244,6 +243,21 @@ const Mutation = {
     msg.main(email);
 
     return true;
+  },
+
+  changePassword: async (root, args) => {
+    console.log(args);
+    const theUser = await prisma.user.update({
+      where: {
+        resetToken: args.token,
+      },
+      data: {
+        password: bcrypt.hashSync(args.password, 3),
+        resetToken: '',
+      },
+    });
+
+    return theUser;
   },
 
   signupUser: async (root, args, {req, res}) => {

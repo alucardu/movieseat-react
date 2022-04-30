@@ -311,6 +311,20 @@ const forgotPassword = gql`
   }
 `;
 
+const changePassword = gql`
+  mutation changePassword(
+    $password: String!
+    $token: String!
+  ) {
+    changePassword (
+      password: $password
+      token: $token
+    ) {
+      email,
+    }
+  }
+`;
+
 const signupUser = gql`
   mutation signupUser(
     $email: String!
@@ -350,6 +364,6 @@ const LogoutUser = gql`
 `;
 
 const queries = {ReturnAggregatedMovieRating, ReturnMovieDetails, ReturnMovieRating, ReturnAllMovies, ReturnMoviesFromUser, ReturnUser, returnUsers, ReturnFollowedUsers, ReturnNotifications};
-const mutations = {AddMovieRating, removeUserAccount, RemoveMovie, LoginUser, LogoutUser, AddUserToMovie, FollowUser, UnfollowUser, CreateNotification, WatchNotification, signupUser, forgotPassword};
+const mutations = {AddMovieRating, removeUserAccount, RemoveMovie, LoginUser, LogoutUser, AddUserToMovie, FollowUser, UnfollowUser, CreateNotification, WatchNotification, signupUser, forgotPassword, changePassword};
 
 export default {queries, mutations};
