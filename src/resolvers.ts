@@ -303,9 +303,11 @@ const removeUserAccount = gql`
 
 const forgotPassword = gql`
   mutation forgotPassword (
-    $email: string!
+    $email: String!
   ) {
-    email
+    forgotPassword(
+      email: $email
+    )
   }
 `;
 
