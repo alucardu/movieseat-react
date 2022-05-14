@@ -17,10 +17,11 @@ async function main(email) {
     },
     requireTLS: true,
     port: 465,
+    logger: true,
     debug: true,
     auth: {
       user: 'info@moviese.at',
-      pass: 'Fs.jizuX63er^Gq',
+      pass: 'xbp#rYrY6KvP+eE',
     },
   });
 
