@@ -31,7 +31,7 @@ pool.connect((err, client, done) => {
           pool.query('UPDATE "Movie" SET release_date = $1::text WHERE tmdb_id = $2::integer', [json.release_date, json.id]);
           pool.query('UPDATE "Movie" SET runtime = $1::integer WHERE tmdb_id = $2::integer', [json.runtime, json.id]);
           pool.query('UPDATE "Movie" SET tagline = $1::text WHERE tmdb_id = $2::integer', [json.tagline, json.id]);
-          pool.query('UPDATE "Movie" SET overview = $1::text WHERE tmdb_id = $2::integer', [json.backdrop_path, json.id]);
+          pool.query('UPDATE "Movie" SET overview = $1::text WHERE tmdb_id = $2::integer', [json.overview, json.id]);
         })();
       });
     }
