@@ -37,7 +37,7 @@ model User {
   notification     Notification[]   @relation("FollowedUser")
   movieRating      MovieRating[]
   resetToken       String?          @unique
-  activationToken  String?         @unique
+  activationToken  String?          @unique
 }
 
 model Notification {
