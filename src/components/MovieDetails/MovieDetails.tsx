@@ -29,21 +29,25 @@ export const MovieDetails = () => {
           component="img"
           image={`${'https://image.tmdb.org/t/p/original/' + movie.backdrop_path}`}
         />
-        <AggregatedMovieRating movie={movie}/>
+        <Box sx={{padding: '8px', position: 'absolute', top: 0}}>
+          <AggregatedMovieRating movie={movie}/>
+          <Typography variant="h4" component="h2">
+            {movie.original_title}
+          </Typography>
+          <Typography variant='h6'>
+            {movie.release_date}
+          </Typography>
+          <Typography variant='body1'>
+            {movie.tagline}
+          </Typography>
+          <RateMovie movie={movie}/>
+          <Typography id="transition-modal-description" variant='body2'>
+            {movie.overview}
+          </Typography>
+          {movie.runtime > 0 && <Typography variant='body2'>Runtime: {movie.runtime} minutes</Typography>}
+        </Box>
       </Box>
-      <Box sx={{padding: '8px'}}>
-        <Typography variant="h6" component="h2">
-          {movie.original_title}
-        </Typography>
-        <Typography variant='body1'>
-          {movie.tagline}
-        </Typography>
-        <RateMovie movie={movie}/>
-        <Typography id="transition-modal-description" variant='body2'>
-          {movie.overview}
-        </Typography>
-        {movie.runtime > 0 && <Typography variant='body2'>Runtime: {movie.runtime} minutes</Typography>}
-      </Box>
+
     </MovieDetailsStyle>
   );
 };
