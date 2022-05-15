@@ -34,7 +34,7 @@ const returnUserNotifications = async (args, req) => {
       id: 'desc',
     },
     where: {
-      followedUserId: {
+      userId: {
         equals: req.userId,
       },
     },
@@ -48,10 +48,14 @@ const returnUserNotifications = async (args, req) => {
 
   const unwatchedNotificationsCount = await prisma.notification.count({
     where: {
-      followedUserId: req.userId,
+      userId: {
+        equals: req.userId,
+      },
       watched: false,
     },
   });
+
+  console.log(notifications, unwatchedNotificationsCount);
 
   return {returnNotifications: notifications, unwatchedNotificationsCount};
 };

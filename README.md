@@ -95,6 +95,8 @@ alucardu has commented on your Dune review
 
 alucardu is following you
 
+[movie title] has been updated with a new [movie attribute]
+
 [followedUser] [action] [movie]
 
 systemctl restart nginx

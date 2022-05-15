@@ -42,6 +42,7 @@ const NotificationsMenu = (props, ref) => {
   if (loading) return (<p>loading</p>);
 
   const watchNotification = (notification) => {
+    console.log(notification);
     watchNotificationRes({
       variables: {notificationId: notification.id},
       update: (cache, {data}) => {
@@ -57,6 +58,7 @@ const NotificationsMenu = (props, ref) => {
   };
 
   const returnNotification = (notification) => {
+    console.log(notification);
     switch (notification.action) {
       case EAction.Added_Movie:
         return <MovieNotification key={notification.id} notification={notification}/>;
@@ -64,6 +66,8 @@ const NotificationsMenu = (props, ref) => {
         return <OnboardNotification key={notification.id} notification={notification} />;
       case EAction.Added_Rating:
         return <RatingNotification key={notification.id} notification={notification} />;
+      case EAction.Movie_Changed:
+        return <MovieHasChangedNotification key={notification.id} notification={notification} />;
       default:
         break;
     }
@@ -130,6 +134,26 @@ const NotificationsMenu = (props, ref) => {
           <Link onClick={handleClose} to={`/movie/${notification.notification.movie.id}`}>{notification.notification.movie.original_title}</Link>
           {' '}
           to their watchlist.
+        </Typography>
+        { !notification.notification.watched ?
+          <IconButton onClick={() => {
+            watchNotification(notification.notification);
+          }}>
+            <CircleIcon color="primary"/>
+          </IconButton> :
+          null
+        }
+      </ListItem>
+    );
+  };
+
+  const MovieHasChangedNotification = (notification) => {
+    return (
+      <ListItem
+        className={notification.notification.watched ? 'watched' : ''}
+      >
+        <Typography variant='body2'>
+          <Link onClick={handleClose} to={`/movie/${notification.notification.movie.id}`}>{notification.notification.movie.original_title}</Link> {notification.notification.action}
         </Typography>
         { !notification.notification.watched ?
           <IconButton onClick={() => {
