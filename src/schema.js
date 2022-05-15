@@ -62,6 +62,7 @@ const typeDefs = gql`
   type notificationPayload {
     id:             Int
     action:         String
+    value:          String
     followedUser:   User
     followedUserId: Int
     user:           User

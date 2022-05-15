@@ -45,7 +45,7 @@ pool.connect((err, client, done) => {
             pool.query('UPDATE "Movie" SET overview = $1::text WHERE tmdb_id = $2::integer', [json.overview, json.id]);
 
             movieToUsers.rows.forEach((movieToUser) => {
-              pool.query('INSERT into "Notification"(action, "movieId", "userId")VALUES($1::text, $2::integer, $3::integer)', ['has been updated with a new', movieToUser.A, movieToUser.B]);
+              pool.query('INSERT into "Notification"(action, "movieId", "userId", value)VALUES($1::text, $2::integer, $3::integer, $4::text)', ['has been updated with a new', movieToUser.A, movieToUser.B, isValueChanged(movie, json).changedValue]);
             });
           }
         })();

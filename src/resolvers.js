@@ -55,8 +55,6 @@ const returnUserNotifications = async (args, req) => {
     },
   });
 
-  console.log(notifications, unwatchedNotificationsCount);
-
   return {returnNotifications: notifications, unwatchedNotificationsCount};
 };
 

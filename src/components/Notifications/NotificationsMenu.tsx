@@ -42,7 +42,6 @@ const NotificationsMenu = (props, ref) => {
   if (loading) return (<p>loading</p>);
 
   const watchNotification = (notification) => {
-    console.log(notification);
     watchNotificationRes({
       variables: {notificationId: notification.id},
       update: (cache, {data}) => {
@@ -153,7 +152,8 @@ const NotificationsMenu = (props, ref) => {
         className={notification.notification.watched ? 'watched' : ''}
       >
         <Typography variant='body2'>
-          <Link onClick={handleClose} to={`/movie/${notification.notification.movie.id}`}>{notification.notification.movie.original_title}</Link> {notification.notification.action}
+          <Link onClick={handleClose} to={`/movie/${notification.notification.movie.id}`}>{notification.notification.movie.original_title}</Link>
+          {` ${notification.notification.action} ${notification.notification.value}`}
         </Typography>
         { !notification.notification.watched ?
           <IconButton onClick={() => {
