@@ -600,12 +600,10 @@ export const MovieDetailsStyle = styled(Box)<MovieModalProps>(({theme, movie}) =
 }));
 
 export const AggregatedMovieRatingStyle = styled(Box)(({theme}) => ({
-  'position': 'absolute',
   'zIndex': 5,
   'bottom': 0,
   'left': '8px',
   'display': 'flex',
-  'justifyContent': 'center',
   'alignItems': 'center',
   'span': {
     marginLeft: theme.spacing(1),

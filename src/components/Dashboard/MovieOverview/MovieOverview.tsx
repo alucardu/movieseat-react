@@ -41,7 +41,19 @@ const MovieOverview = (props) => {
         rows.map((movieRow) => {
           if (rowMaxLength !== movieRow.length) {
             for (let i = movieRow.length; i < rowMaxLength; i++) {
-              movieRow.push({id: 0, original_title: '', poster_path: '', release_date: '', tmdb_id: 1, backdrop_path: ''});
+              movieRow.push({
+                id: 0,
+                original_title: '',
+                poster_path: '',
+                release_date: '',
+                backdrop_path: '',
+                overview: '',
+                tmdb_id: 0,
+                tagline: '',
+                runtime: 0,
+                budget: 0,
+                vote_average: 0,
+              });
             }
             return movieRow;
           }
@@ -50,7 +62,7 @@ const MovieOverview = (props) => {
         if (movies) setMovieRows(rows);
       }
       if (res.length === 0 && size > 0) {
-        setMovieRows(res);
+        setMovieRows([res]);
       }
     });
   }, [movies, size]);
