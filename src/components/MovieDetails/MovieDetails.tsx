@@ -18,8 +18,21 @@ export const MovieDetails = () => {
       variables: {movieId: parseInt(paramId)},
     });
 
+  console.log(movie);
+
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+  };
+
+  const getReleaseDate = () => {
+    return movie.release_date.length > 0 ? new Date(movie.release_date).toLocaleDateString('nl-NL', options) : 'No release data available yet.';
+  };
+
   if (error) return <Box>Error</Box>;
   if (loading) return <Box>Loading</Box>;
+
   return (
     <MovieDetailsStyle
       movie={movie}
@@ -35,7 +48,7 @@ export const MovieDetails = () => {
             {movie.original_title}
           </Typography>
           <Typography variant='h6'>
-            {movie.release_date}
+            {getReleaseDate()} (NL)
           </Typography>
           <Typography variant='body1'>
             {movie.tagline}

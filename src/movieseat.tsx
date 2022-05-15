@@ -60,3 +60,7 @@ export enum EAction {
   Added_Movie = 'has added',
   Added_Rating = 'has rated',
 }
+
+export interface IMovie {
+  release_date: string;
+}
