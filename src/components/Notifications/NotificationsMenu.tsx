@@ -57,7 +57,6 @@ const NotificationsMenu = (props, ref) => {
   };
 
   const returnNotification = (notification) => {
-    console.log(notification);
     switch (notification.action) {
       case EAction.Added_Movie:
         return <MovieNotification key={notification.id} notification={notification}/>;
