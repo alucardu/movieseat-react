@@ -59,4 +59,5 @@ export enum EAction {
   Onboard = 'Start following some users!',
   Added_Movie = 'has added',
   Added_Rating = 'has rated',
+  Movie_Changed = 'has been updated with a new'
 }

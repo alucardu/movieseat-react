@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useHistory} from 'react-router-dom';
 
-import {useMutation, useApolloClient} from '@apollo/client';
+import {useMutation, useApolloClient, useReactiveVar} from '@apollo/client';
 
 import {Box, Button, Typography, Popover, IconButton} from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
@@ -12,6 +12,7 @@ import {currentUserVar, snackbarVar} from 'Src/cache';
 import resolvers from 'Src/resolvers';
 
 export const ProfileOptions = () => {
+  const currentUser = useReactiveVar(currentUserVar);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
@@ -54,6 +55,7 @@ export const ProfileOptions = () => {
 
   return (
     <ProfileBox>
+      <Button>{currentUser.user_name}</Button>
       <Button onClick={logout}>Logout</Button>
       <Button onClick={handleClick} data-cy='btn_remove_account'>Remove account</Button>
       <Popover

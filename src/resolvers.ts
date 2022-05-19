@@ -10,6 +10,7 @@ const ReturnNotifications = gql`
         id
         userId
         watched
+        value
         movie {
           original_title
           id
