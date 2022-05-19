@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 /**
  * @param email
@@ -20,8 +21,8 @@ async function main(email) {
     logger: true,
     debug: true,
     auth: {
-      user: 'info@moviese.at',
-      pass: 'xbp#rYrY6KvP+eE',
+      user: process.env.MAIL_ACCOUNT,
+      pass: process.env.MAIL_PASSWORD,
     },
   });
 
