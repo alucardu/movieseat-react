@@ -51,7 +51,7 @@ model Notification {
   followedUser     User?            @relation("FollowedUser", fields: [followedUserId], references: [id])
   followedUserId   Int? 
   action           String 
-  value            String
+  value            String?
   watched          Boolean          @default(false)
 } 
   

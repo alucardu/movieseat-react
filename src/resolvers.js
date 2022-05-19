@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const {prisma} = require('./database.js');
 const msg = require('../server/email/sendMail');
 const {v4: uuidv4} = require('uuid');
+const lodash = require('lodash');
 
 const followedUsers = async (args, req) => {
   const following = await prisma.user.findUnique({
@@ -34,9 +35,18 @@ const returnUserNotifications = async (args, req) => {
       id: 'desc',
     },
     where: {
-      userId: {
-        equals: req.userId,
-      },
+      AND: [
+        {
+          userId: {
+            equals: req.userId,
+          },
+        },
+        {
+          followedUserId: {
+            equals: null,
+          },
+        },
+      ],
     },
     include: {
       movie: true,
@@ -46,16 +56,58 @@ const returnUserNotifications = async (args, req) => {
     },
   });
 
+  const notificationsX = await prisma.notification.findMany({
+    orderBy: {
+      id: 'desc',
+    },
+    where: {
+      followedUserId: {
+        equals: req.userId,
+      },
+
+    },
+    include: {
+      movie: true,
+      user: true,
+      movieRating: true,
+      followedUser: true,
+    },
+  });
+
+
   const unwatchedNotificationsCount = await prisma.notification.count({
     where: {
-      userId: {
+      AND: [
+        {
+          userId: {
+            equals: req.userId,
+          },
+        },
+        {
+          followedUserId: {
+            equals: null,
+          },
+        },
+      ],
+      watched: false,
+    },
+  });
+
+  const unwatchedNotificationsCountX = await prisma.notification.count({
+    where: {
+      followedUserId: {
         equals: req.userId,
       },
       watched: false,
     },
   });
 
-  return {returnNotifications: notifications, unwatchedNotificationsCount};
+  console.log(notificationsX);
+
+  let notificationsSorted = [...notifications, ...notificationsX];
+  notificationsSorted = lodash.sortBy(notificationsSorted, ['id']).reverse();
+
+  return {returnNotifications: notificationsSorted, unwatchedNotificationsCount: unwatchedNotificationsCount + unwatchedNotificationsCountX};
 };
 
 const returnMoviesFromUser = async (args, req, res) => {
