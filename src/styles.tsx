@@ -582,19 +582,29 @@ export const A2hsStyles = styled(Box)(({theme}) => ({
   },
 }));
 
-export const MovieDetailsStyle = styled(Box)<MovieModalProps>(({theme, movie}) => ({
+export const MovieDetailsStyle = styled(Box)<MovieModalProps>(({theme}) => ({
   'width': '100vw',
   'color': theme.palette.text.secondary,
-  '.backdrop_container': {
+  '.text-container': {
+    padding: '8px',
+    position: 'absolute',
+    top: 0,
+  },
+  '.img_container': {
     'position': 'relative',
     '&::after': {
-      content: `""`,
-      position: 'absolute',
-      left: 0,
-      top: 0,
-      height: '100%',
-      width: '100%',
-      background: 'linear-gradient(0deg, #212121 0%, rgba(0,0,0,0) 80%)',
+      'content': `""`,
+      'position': 'absolute',
+      'left': 0,
+      'top': 0,
+      'height': '100%',
+      'width': '100%',
+      'background': 'linear-gradient(0deg, #212121 0%, rgba(0,0,0,0) 80%)',
+    },
+  },
+  [theme.breakpoints.down('md')]: {
+    '.text-container': {
+      position: 'relative',
     },
   },
 }));
