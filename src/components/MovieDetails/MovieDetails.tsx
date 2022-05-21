@@ -18,8 +18,6 @@ export const MovieDetails = () => {
       variables: {movieId: parseInt(paramId)},
     });
 
-  console.log(movie);
-
   const options: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'numeric',
@@ -37,12 +35,14 @@ export const MovieDetails = () => {
     <MovieDetailsStyle
       movie={movie}
     >
-      <Box className='backdrop_container'>
-        <CardMedia
-          component="img"
-          image={`${'https://image.tmdb.org/t/p/original/' + movie.backdrop_path}`}
-        />
-        <Box sx={{padding: '8px', position: 'absolute', top: 0}}>
+      <Box sx={{position: 'relative'}}>
+        <Box className='img_container'>
+          <CardMedia
+            component="img"
+            image={`${'https://image.tmdb.org/t/p/original/' + movie.backdrop_path}`}
+          />
+        </Box>
+        <Box className="text-container">
           <AggregatedMovieRating movie={movie}/>
           <Typography variant="h4" component="h2">
             {movie.original_title}
@@ -53,11 +53,11 @@ export const MovieDetails = () => {
           <Typography variant='body1'>
             {movie.tagline}
           </Typography>
+          {movie.runtime > 0 && <Typography variant='body2'>Runtime: {movie.runtime} minutes</Typography>}
           <RateMovie movie={movie}/>
           <Typography id="transition-modal-description" variant='body2'>
             {movie.overview}
           </Typography>
-          {movie.runtime > 0 && <Typography variant='body2'>Runtime: {movie.runtime} minutes</Typography>}
         </Box>
       </Box>
 
