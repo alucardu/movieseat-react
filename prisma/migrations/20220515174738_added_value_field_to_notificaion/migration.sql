@@ -5,4 +5,4 @@
 
 */
 -- AlterTable
-ALTER TABLE "Notification" ADD COLUMN     "value" TEXT NOT NULL;
+ALTER TABLE "Notification" ADD COLUMN     "value" TEXT;
