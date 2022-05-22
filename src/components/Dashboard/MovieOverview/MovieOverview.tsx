@@ -53,6 +53,7 @@ const MovieOverview = (props) => {
                 runtime: 0,
                 budget: 0,
                 vote_average: 0,
+                movieVideo: [],
               });
             }
             return movieRow;

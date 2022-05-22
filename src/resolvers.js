@@ -74,7 +74,6 @@ const returnUserNotifications = async (args, req) => {
     },
   });
 
-
   const unwatchedNotificationsCount = await prisma.notification.count({
     where: {
       AND: [
@@ -101,8 +100,6 @@ const returnUserNotifications = async (args, req) => {
       watched: false,
     },
   });
-
-  console.log(notificationsX);
 
   let notificationsSorted = [...notifications, ...notificationsX];
   notificationsSorted = lodash.sortBy(notificationsSorted, ['id']).reverse();
@@ -157,9 +154,14 @@ const Query = {
   },
 
   returnMovieDetails: async (root, args, {res, req}) => {
-    return await prisma.movie.findFirst({
+    const movie = await prisma.movie.findFirst({
       where: {id: args.movieId},
+      include: {
+        movieVideo: true,
+      },
     });
+
+    return movie;
   },
 
   movies: () => {

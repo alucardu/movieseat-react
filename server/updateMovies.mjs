@@ -26,6 +26,10 @@ pool.connect((err, client, done) => {
         (async () => {
           const json = await fetchMovieData(movie.tmdb_id);
           // pool.query('UPDATE "Movie" SET runtime = $1::integer WHERE tmdb_id = $2::integer', [5, json.id]);
+
+          // pool.query('INSERT into "MovieVideo"(iso_639_1, iso_3166_1, name, key, site, size, type, official, published_at, "movieId", tmdb_id)VALUES($1::text, $2::text, $3::text, $4::text, $5::text, $6::integer, $7::text, $8::boolean, $9::text, $10::integer, $11::integer)',
+          //     ['iso_639_1', 'iso_3166_1', 'name', 'key', 'site', 1, 'type', true, 'published_at', 1, 1]);
+
           let release_date = json.release_date;
           json.releases.countries.forEach((countrie) => {
             if (countrie.iso_3166_1 == 'NL') {
@@ -48,6 +52,22 @@ pool.connect((err, client, done) => {
               pool.query('INSERT into "Notification"(action, "movieId", "userId", value)VALUES($1::text, $2::integer, $3::integer, $4::text)', ['has been updated with a new', movieToUser.A, movieToUser.B, isValueChanged(movie, json).changedValue]);
             });
           }
+
+          // zoek elke video voor de movie
+          // console.log('ID: ', json.id, json.videos.results.length);
+          json.videos.results.forEach((movieVideo) => {
+            pool.query('SELECT * FROM "MovieVideo" WHERE tmdb_id = $1::bigint', [parseInt(movieVideo.id)]).then((result) => {
+              if (result.rowCount === 0) {
+                pool.query('INSERT into "MovieVideo"(iso_639_1, iso_3166_1, name, key, site, size, type, official, published_at, "movieId", tmdb_id)VALUES($1::text, $2::text, $3::text, $4::text, $5::text, $6::integer, $7::text, $8::boolean, $9::text, $10::integer, $11::bigint )',
+                    [movieVideo.iso_639_1, movieVideo.iso_3166_1, movieVideo.name, movieVideo.key, movieVideo.site, movieVideo.size, movieVideo.type, movieVideo.official, movieVideo.published_at, movie.id, parseInt(movieVideo.id)]);
+                // create notification
+
+                movieToUsers.rows.forEach((movieToUser) => {
+                  pool.query('INSERT into "Notification"(action, "movieId", "userId", value)VALUES($1::text, $2::integer, $3::integer, $4::text)', ['has been updated with a new', movieToUser.A, movieToUser.B, 'video']);
+                });
+              }
+            });
+          });
         })();
       });
     }
@@ -59,7 +79,7 @@ pool.connect((err, client, done) => {
  * @param tmdbID
  */
 async function fetchMovieData(tmdbID) {
-  const response = await fetch(`https://api.themoviedb.org/3/movie/${tmdbID}?api_key=a8f7039633f2065942cd8a28d7cadad4&append_to_response=releases`);
+  const response = await fetch(`https://api.themoviedb.org/3/movie/${tmdbID}?api_key=a8f7039633f2065942cd8a28d7cadad4&append_to_response=releases,videos`);
   const data = response.json();
   return data;
 }

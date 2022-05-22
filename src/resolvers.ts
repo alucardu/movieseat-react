@@ -45,6 +45,14 @@ const ReturnMovieDetails = gql`
       backdrop_path
       runtime
       overview
+      movieVideo {
+        id
+        name
+        key
+        site
+        type
+        official
+      }
     }
   }
 `;

@@ -9,11 +9,14 @@ import {MovieDetailsStyle} from 'Src/styles';
 import resolvers from 'Src/resolvers';
 import {RateMovie} from 'Components/Ratings/RateMovie/RateMovie';
 import {AggregatedMovieRating} from 'Components/Ratings/AggregatedMovieRating/AggregatedMovieRating';
+import {IMovie} from 'Src/movieseat';
+import {TrailerSlider} from 'Components/TrailerSlider/TrailerSlider';
 
 export const MovieDetails = () => {
   const {id: paramId} = useParams<{id: string}>();
+  let movie: IMovie;
 
-  const {error, loading, data: {returnMovieDetails: movie} = {}} =
+  const {error, loading, data} =
     useQuery(resolvers.queries.ReturnMovieDetails, {
       variables: {movieId: parseInt(paramId)},
     });
@@ -24,12 +27,17 @@ export const MovieDetails = () => {
     day: 'numeric',
   };
 
+  if (data === undefined) {
+    return <Box>Error</Box>;
+  } else {
+    movie = data.returnMovieDetails;
+  }
+  if (error) return <Box>Error</Box>;
+  if (loading) return <Box>Loading</Box>;
+
   const getReleaseDate = () => {
     return movie.release_date.length > 0 ? new Date(movie.release_date).toLocaleDateString('nl-NL', options) : 'No release data available yet.';
   };
-
-  if (error) return <Box>Error</Box>;
-  if (loading) return <Box>Loading</Box>;
 
   return (
     <MovieDetailsStyle
@@ -59,6 +67,7 @@ export const MovieDetails = () => {
             {movie.overview}
           </Typography>
         </Box>
+        <TrailerSlider videos={movie.movieVideo}/>
       </Box>
 
     </MovieDetailsStyle>
