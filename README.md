@@ -108,4 +108,5 @@ restart digital ocean droplet
 yarn install
 git pull origin master
 npm run build
+npx prisma generate
 npx prisma migrate deploy

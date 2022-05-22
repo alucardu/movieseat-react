@@ -41,7 +41,6 @@ client.connect((err, client, done) => {
           const movieToUsers = await client.query('SELECT * FROM "_MovieToUser" WHERE "A" = $1::integer', [movie.id]);
 
           if (isValueChanged(movie, json).valueChanged) {
-            console.log('update');
             client.query('UPDATE "Movie" SET original_title = $1::text WHERE tmdb_id = $2::integer', [json.original_title, json.id]);
             client.query('UPDATE "Movie" SET poster_path = $1::text WHERE tmdb_id = $2::integer', [json.poster_path, json.id]);
             client.query('UPDATE "Movie" SET backdrop_path = $1::text WHERE tmdb_id = $2::integer', [json.backdrop_path, json.id]);
