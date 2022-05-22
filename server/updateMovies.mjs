@@ -38,7 +38,7 @@ pool.connect((err, client, done) => {
             }
           });
 
-          // const movieToUsers = await pool.query('SELECT * FROM "_MovieToUser" WHERE "A" = $1::integer', [movie.id]);
+          const movieToUsers = await pool.query('SELECT * FROM "_MovieToUser" WHERE "A" = $1::integer', [movie.id]);
 
           if (isValueChanged(movie, json).valueChanged) {
             console.log('update');
