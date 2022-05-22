@@ -25,7 +25,12 @@ pool.connect((err, client, done) => {
       res.rows.forEach((movie) => {
         (async () => {
           const json = await fetchMovieData(movie.tmdb_id);
-          json.releases.countries.forEach((countrie) => console.log(countrie));
+          json.releases.countries.forEach((countrie) => {
+            if (countrie.iso_3166_1 == 'NL') {
+              // release_date = countrie.release_date;
+              console.log(countrie.iso_3166_1);
+            }
+          });
           // pool.query('UPDATE "Movie" SET runtime = $1::integer WHERE tmdb_id = $2::integer', [5, json.id]);
 
           // pool.query('INSERT into "MovieVideo"(iso_639_1, iso_3166_1, name, key, site, size, type, official, published_at, "movieId", tmdb_id)VALUES($1::text, $2::text, $3::text, $4::text, $5::text, $6::integer, $7::text, $8::boolean, $9::text, $10::integer, $11::integer)',
