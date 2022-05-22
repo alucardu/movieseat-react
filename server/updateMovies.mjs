@@ -77,9 +77,8 @@ pool.connect((err, client, done) => {
     }
     client.end();
   });
+  pool.end().then(() => console.log('pool has ended'));
 });
-
-pool.end().then(() => console.log('pool has ended'));
 
 
 /**
