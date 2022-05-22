@@ -582,6 +582,19 @@ export const A2hsStyles = styled(Box)(({theme}) => ({
   },
 }));
 
+export const TrailerSliderStyle = styled(Box)(({theme}) => ({
+  'display': 'flex',
+  '.container': {
+    'overflow': 'scroll',
+    'height': '100vw',
+    'width': '100vw',
+    'position': 'absolute',
+    '> div': {
+      position: 'absolute',
+    },
+  },
+}));
+
 export const MovieDetailsStyle = styled(Box)<MovieModalProps>(({theme}) => ({
   'width': '100vw',
   'color': theme.palette.text.secondary,

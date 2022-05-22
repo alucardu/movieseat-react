@@ -23,7 +23,24 @@ model Movie {
   users            User[]
   notification     Notification[]
   movieRating      MovieRating[]
-}  
+  movieVideo       MovieVideo[]
+}
+
+model MovieVideo {
+  id               Int              @id @default(autoincrement())
+  tmdb_id          BigInt
+  iso_639_1        String
+  iso_3166_1       String
+  name             String
+  key              String
+  site             String
+  size             Int
+  type             String
+  official         Boolean
+  published_at     String
+  movie            Movie            @relation(fields: [movieId], references: [id])
+  movieId          Int
+}
   
 model User {  
   id               Int              @id @default(autoincrement())

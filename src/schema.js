@@ -39,6 +39,16 @@ const typeDefs = gql`
     tagline: String
     overview: String
     release_date: String
+    movieVideo: [MovieVideo]
+  }
+
+  type MovieVideo {
+    id: Int
+    name: String
+    key: String
+    site: String
+    type: String
+    official: Boolean
   }
 
   type BatchPayload {
