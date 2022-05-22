@@ -16,21 +16,22 @@ const pool = new pg.Pool(config);
 /**
  *
  */
-pool.connect.then((client) => {
-  client.query('SELECT * FROM "Movie"', (err, res) => {
-    if (err) {
-      console.log(err.stack);
-    } else {
-      res.rows.forEach((movie) => {
-        (async () => {
-          const json = await fetchMovieData(movie.tmdb_id);
+pool.connect()
+    .then((client) => {
+      client.query('SELECT * FROM "Movie"', (err, res) => {
+        if (err) {
+          console.log(err.stack);
+        } else {
+          res.rows.forEach((movie) => {
+            (async () => {
+              const json = await fetchMovieData(movie.tmdb_id);
 
-          // pool.query('UPDATE "Movie" SET runtime = $1::integer WHERE tmdb_id = $2::integer', [5, json.id]);
+              // pool.query('UPDATE "Movie" SET runtime = $1::integer WHERE tmdb_id = $2::integer', [5, json.id]);
 
-          // pool.query('INSERT into "MovieVideo"(iso_639_1, iso_3166_1, name, key, site, size, type, official, published_at, "movieId", tmdb_id)VALUES($1::text, $2::text, $3::text, $4::text, $5::text, $6::integer, $7::text, $8::boolean, $9::text, $10::integer, $11::integer)',
-          //     ['iso_639_1', 'iso_3166_1', 'name', 'key', 'site', 1, 'type', true, 'published_at', 1, 1]);
+              // pool.query('INSERT into "MovieVideo"(iso_639_1, iso_3166_1, name, key, site, size, type, official, published_at, "movieId", tmdb_id)VALUES($1::text, $2::text, $3::text, $4::text, $5::text, $6::integer, $7::text, $8::boolean, $9::text, $10::integer, $11::integer)',
+              //     ['iso_639_1', 'iso_3166_1', 'name', 'key', 'site', 1, 'type', true, 'published_at', 1, 1]);
 
-          let release_date = json.release_date;
+              let release_date = json.release_date;
           json.releases?.countries.forEach((countrie) => {
             if (countrie.iso_3166_1 == 'NL') {
               release_date = countrie.release_date;
@@ -68,11 +69,11 @@ pool.connect.then((client) => {
               }
             });
           });
-        })();
+            })();
+          });
+        }
       });
-    }
-  });
-});
+    });
 
 
 /**
