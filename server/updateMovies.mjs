@@ -23,6 +23,7 @@ pool.connect((err, client, done) => {
       console.log(err.stack);
     } else {
       res.rows.forEach((movie) => {
+        console.log('q')
         (async () => {
           const json = await fetchMovieData(movie.tmdb_id);
 
