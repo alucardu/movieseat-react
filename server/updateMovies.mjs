@@ -25,7 +25,7 @@ pool.connect((err, client, done) => {
       res.rows.forEach((movie) => {
         (async () => {
           const json = await fetchMovieData(movie.tmdb_id);
-          json.releases.countries.forEach((countrie) => {
+          json.releases?.countries.forEach((countrie) => {
             if (countrie.iso_3166_1 == 'NL') {
               // release_date = countrie.release_date;
               console.log(countrie.iso_3166_1);
