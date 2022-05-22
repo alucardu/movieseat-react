@@ -52,6 +52,7 @@ pool.connect((err, client, done) => {
 
             movieToUsers.rows.forEach((movieToUser) => {
               pool.query('INSERT into "Notification"(action, "movieId", "userId", value)VALUES($1::text, $2::integer, $3::integer, $4::text)', ['has been updated with a new', movieToUser.A, movieToUser.B, isValueChanged(movie, json).changedValue]);
+              client.end();
             });
           }
 
@@ -66,6 +67,7 @@ pool.connect((err, client, done) => {
 
                 movieToUsers.rows.forEach((movieToUser) => {
                   pool.query('INSERT into "Notification"(action, "movieId", "userId", value)VALUES($1::text, $2::integer, $3::integer, $4::text)', ['has been updated with a new', movieToUser.A, movieToUser.B, 'video']);
+                  client.end();
                 });
               }
             });
@@ -73,8 +75,11 @@ pool.connect((err, client, done) => {
         })();
       });
     }
+    client.end();
   });
 });
+
+pool.end().then(() => console.log('pool has ended'));
 
 
 /**
