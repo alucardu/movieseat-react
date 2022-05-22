@@ -586,7 +586,7 @@ export const TrailerSliderStyle = styled(Box)(({theme}) => ({
   'display': 'flex',
   '.container': {
     'overflow': 'scroll',
-    'height': '100vw',
+    'height': '45vw',
     'width': '100vw',
     'position': 'absolute',
     '> div': {
