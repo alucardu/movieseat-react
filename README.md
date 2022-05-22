@@ -65,11 +65,13 @@ psql -U db_user college_db
 \dt+
 
 TABLE "Notification";
+TABLE "MovieVideo";
 TABLE "MovieRating";
 TABLE "Movie";
 TABLE "User";
 
 DELETE FROM "Notification";
+DELETE FROM "MovieVideo";
 DELETE FROM "Movie";
 DELETE FROM "MovieRating";
 DELETE FROM "User";

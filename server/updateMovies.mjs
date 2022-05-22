@@ -73,13 +73,13 @@ client.connect((err, client, done) => {
                 //     [movieVideo.iso_639_1, movieVideo.iso_3166_1, movieVideo.name, movieVideo.key, movieVideo.site, movieVideo.size, movieVideo.type, movieVideo.official, movieVideo.published_at, movie.id, parseInt(movieVideo.id)]);
                 // create notification
 
-                movieToUsers.rows.forEach((movieToUser) => {
-                  client.query('INSERT into "Notification"(action, "movieId", "userId", value)VALUES($1::text, $2::integer, $3::integer, $4::text)', ['has been updated with a new', movieToUser.A, movieToUser.B, 'video'], (err, res) => {
-                    if (err) throw err;
-                    console.log(res);
-                    client.end();
-                  });
-                });
+                // movieToUsers.rows.forEach((movieToUser) => {
+                //   client.query('INSERT into "Notification"(action, "movieId", "userId", value)VALUES($1::text, $2::integer, $3::integer, $4::text)', ['has been updated with a new', movieToUser.A, movieToUser.B, 'video'], (err, res) => {
+                //     if (err) throw err;
+                //     console.log(res);
+                //     client.end();
+                //   });
+                // });
               }
             });
           });
