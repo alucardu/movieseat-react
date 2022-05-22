@@ -12,12 +12,11 @@ const config = {
   maxUses: 7500,
 };
 
-const client = new pg.Pool(config);
+const pool = new pg.Pool(config);
 /**
  *
  */
-client.connect((err, client, done) => {
-  if (err) throw err;
+pool.connect.then((client) => {
   client.query('SELECT * FROM "Movie"', (err, res) => {
     if (err) {
       console.log(err.stack);
@@ -50,10 +49,7 @@ client.connect((err, client, done) => {
             client.query('UPDATE "Movie" SET overview = $1::text WHERE tmdb_id = $2::integer', [json.overview, json.id]);
 
             movieToUsers.rows.forEach((movieToUser) => {
-              client.query('INSERT into "Notification"(action, "movieId", "userId", value)VALUES($1::text, $2::integer, $3::integer, $4::text)', ['has been updated with a new', movieToUser.A, movieToUser.B, isValueChanged(movie, json).changedValue], (err, res) => {
-                if (err) throw err;
-                console.log(res);
-              });
+              client.query('INSERT into "Notification"(action, "movieId", "userId", value)VALUES($1::text, $2::integer, $3::integer, $4::text)', ['has been updated with a new', movieToUser.A, movieToUser.B, isValueChanged(movie, json).changedValue]).then(() => client.release());
             });
           }
 
@@ -63,17 +59,11 @@ client.connect((err, client, done) => {
             client.query('SELECT * FROM "MovieVideo" WHERE tmdb_id = $1::bigint', [parseInt(movieVideo.id)]).then((result) => {
               if (result.rowCount === 0) {
                 client.query('INSERT into "MovieVideo"(iso_639_1, iso_3166_1, name, key, site, size, type, official, published_at, "movieId", tmdb_id)VALUES($1::text, $2::text, $3::text, $4::text, $5::text, $6::integer, $7::text, $8::boolean, $9::text, $10::integer, $11::bigint )',
-                    [movieVideo.iso_639_1, movieVideo.iso_3166_1, movieVideo.name, movieVideo.key, movieVideo.site, movieVideo.size, movieVideo.type, movieVideo.official, movieVideo.published_at, movie.id, parseInt(movieVideo.id)], (err, res) => {
-                      if (err) throw err;
-                      console.log(res);
-                    });
+                    [movieVideo.iso_639_1, movieVideo.iso_3166_1, movieVideo.name, movieVideo.key, movieVideo.site, movieVideo.size, movieVideo.type, movieVideo.official, movieVideo.published_at, movie.id, parseInt(movieVideo.id)]).then(() => client.release());
 
                 // create notification
                 movieToUsers.rows.forEach((movieToUser) => {
-                  client.query('INSERT into "Notification"(action, "movieId", "userId", value)VALUES($1::text, $2::integer, $3::integer, $4::text)', ['has been updated with a new', movieToUser.A, movieToUser.B, 'video'], (err, res) => {
-                    if (err) throw err;
-                    console.log(res);
-                  });
+                  client.query('INSERT into "Notification"(action, "movieId", "userId", value)VALUES($1::text, $2::integer, $3::integer, $4::text)', ['has been updated with a new', movieToUser.A, movieToUser.B, 'video']).then(() => client.release());
                 });
               }
             });
