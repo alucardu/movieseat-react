@@ -57,7 +57,7 @@ pool.connect((err, client, done) => {
 
           // // zoek elke video voor de movie
           // // console.log('ID: ', json.id, json.videos.results.length);
-          json.videos.results.forEach((movieVideo) => {
+          json.videos?.results.forEach((movieVideo) => {
             pool.query('SELECT * FROM "MovieVideo" WHERE tmdb_id = $1::bigint', [parseInt(movieVideo.id)]).then((result) => {
               if (result.rowCount === 0) {
                 pool.query('INSERT into "MovieVideo"(iso_639_1, iso_3166_1, name, key, site, size, type, official, published_at, "movieId", tmdb_id)VALUES($1::text, $2::text, $3::text, $4::text, $5::text, $6::integer, $7::text, $8::boolean, $9::text, $10::integer, $11::bigint )',
