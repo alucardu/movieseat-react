@@ -83,6 +83,7 @@ client.connect((err, client, done) => {
         })();
       });
     }
+    client.end();
   });
 });
 
