@@ -79,6 +79,7 @@ pool.connect((err, client, done) => {
  * @param tmdbID
  */
 async function fetchMovieData(tmdbID) {
+  console.log(tmdbID);
   const response = await fetch(`https://api.themoviedb.org/3/movie/${tmdbID}?api_key=a8f7039633f2065942cd8a28d7cadad4&append_to_response=releases,videos`);
   const data = response.json();
   return data;
