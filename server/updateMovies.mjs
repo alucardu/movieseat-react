@@ -23,8 +23,9 @@ pool.connect((err, client, done) => {
       console.log(err.stack);
     } else {
       res.rows.forEach((movie) => {
-        console.log('q')
         (async () => {
+          console.log('q');
+
           const json = await fetchMovieData(movie.tmdb_id);
 
           // pool.query('UPDATE "Movie" SET runtime = $1::integer WHERE tmdb_id = $2::integer', [5, json.id]);
