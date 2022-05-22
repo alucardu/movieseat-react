@@ -24,8 +24,6 @@ pool.connect((err, client, done) => {
     } else {
       res.rows.forEach((movie) => {
         (async () => {
-          console.log('q');
-
           const json = await fetchMovieData(movie.tmdb_id);
 
           // pool.query('UPDATE "Movie" SET runtime = $1::integer WHERE tmdb_id = $2::integer', [5, json.id]);
@@ -40,36 +38,41 @@ pool.connect((err, client, done) => {
             }
           });
 
-          // const movieToUsers = await pool.query('SELECT * FROM "_MovieToUser" WHERE "A" = $1::integer', [movie.id]);
+          const movieToUsers = await pool.query('SELECT * FROM "_MovieToUser" WHERE "A" = $1::integer', [movie.id]);
 
-          // if (isValueChanged(movie, json).valueChanged) {
-          //   console.log('update');
-          //   pool.query('UPDATE "Movie" SET original_title = $1::text WHERE tmdb_id = $2::integer', [json.original_title, json.id]);
-          //   pool.query('UPDATE "Movie" SET poster_path = $1::text WHERE tmdb_id = $2::integer', [json.poster_path, json.id]);
-          //   pool.query('UPDATE "Movie" SET backdrop_path = $1::text WHERE tmdb_id = $2::integer', [json.backdrop_path, json.id]);
-          //   pool.query('UPDATE "Movie" SET release_date = $1::text WHERE tmdb_id = $2::integer', [release_date, json.id]);
-          //   pool.query('UPDATE "Movie" SET runtime = $1::integer WHERE tmdb_id = $2::integer', [json.runtime, json.id]);
-          //   pool.query('UPDATE "Movie" SET tagline = $1::text WHERE tmdb_id = $2::integer', [json.tagline, json.id]);
-          //   pool.query('UPDATE "Movie" SET overview = $1::text WHERE tmdb_id = $2::integer', [json.overview, json.id]);
+          if (isValueChanged(movie, json).valueChanged) {
+            console.log('update');
+            pool.query('UPDATE "Movie" SET original_title = $1::text WHERE tmdb_id = $2::integer', [json.original_title, json.id]);
+            pool.query('UPDATE "Movie" SET poster_path = $1::text WHERE tmdb_id = $2::integer', [json.poster_path, json.id]);
+            pool.query('UPDATE "Movie" SET backdrop_path = $1::text WHERE tmdb_id = $2::integer', [json.backdrop_path, json.id]);
+            pool.query('UPDATE "Movie" SET release_date = $1::text WHERE tmdb_id = $2::integer', [release_date, json.id]);
+            pool.query('UPDATE "Movie" SET runtime = $1::integer WHERE tmdb_id = $2::integer', [json.runtime, json.id]);
+            pool.query('UPDATE "Movie" SET tagline = $1::text WHERE tmdb_id = $2::integer', [json.tagline, json.id]);
+            pool.query('UPDATE "Movie" SET overview = $1::text WHERE tmdb_id = $2::integer', [json.overview, json.id]);
 
-          //   movieToUsers.rows.forEach((movieToUser) => {
-          //     pool.query('INSERT into "Notification"(action, "movieId", "userId", value)VALUES($1::text, $2::integer, $3::integer, $4::text)', ['has been updated with a new', movieToUser.A, movieToUser.B, isValueChanged(movie, json).changedValue]);
-          //   });
-          // }
+            movieToUsers.rows.forEach((movieToUser) => {
+              pool.query('INSERT into "Notification"(action, "movieId", "userId", value)VALUES($1::text, $2::integer, $3::integer, $4::text)', ['has been updated with a new', movieToUser.A, movieToUser.B, isValueChanged(movie, json).changedValue]);
+            });
+          }
 
           // // zoek elke video voor de movie
           // // console.log('ID: ', json.id, json.videos.results.length);
           json.videos?.results.forEach((movieVideo) => {
-            console.log('x');
-            // pool.query('SELECT * FROM "MovieVideo" WHERE tmdb_id = $1::bigint', [parseInt(movieVideo.id)]).then((result) => {
-            //   console.log(result.rowCount);
-            //   client.end();
-            // });
+            pool.query('SELECT * FROM "MovieVideo" WHERE tmdb_id = $1::bigint', [parseInt(movieVideo.id)]).then((result) => {
+              if (result.rowCount === 0) {
+                pool.query('INSERT into "MovieVideo"(iso_639_1, iso_3166_1, name, key, site, size, type, official, published_at, "movieId", tmdb_id)VALUES($1::text, $2::text, $3::text, $4::text, $5::text, $6::integer, $7::text, $8::boolean, $9::text, $10::integer, $11::bigint )',
+                    [movieVideo.iso_639_1, movieVideo.iso_3166_1, movieVideo.name, movieVideo.key, movieVideo.site, movieVideo.size, movieVideo.type, movieVideo.official, movieVideo.published_at, movie.id, parseInt(movieVideo.id)]);
+                // create notification
+
+                movieToUsers.rows.forEach((movieToUser) => {
+                  pool.query('INSERT into "Notification"(action, "movieId", "userId", value)VALUES($1::text, $2::integer, $3::integer, $4::text)', ['has been updated with a new', movieToUser.A, movieToUser.B, 'video']);
+                });
+              }
+            });
           });
         })();
       });
     }
-    client.end();
   });
 });
 
