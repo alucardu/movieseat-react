@@ -57,12 +57,13 @@ pool.connect((err, client, done) => {
 
           // // zoek elke video voor de movie
           // // console.log('ID: ', json.id, json.videos.results.length);
-          // json.videos?.results.forEach((movieVideo) => {
-          //   pool.query('SELECT * FROM "MovieVideo" WHERE tmdb_id = $1::bigint', [parseInt(movieVideo.id)]).then((result) => {
-          //     console.log(result.rowCount);
-          //     client.end();
-          //   });
-          // });
+          json.videos?.results.forEach((movieVideo) => {
+            console.log('x');
+            // pool.query('SELECT * FROM "MovieVideo" WHERE tmdb_id = $1::bigint', [parseInt(movieVideo.id)]).then((result) => {
+            //   console.log(result.rowCount);
+            //   client.end();
+            // });
+          });
         })();
       });
     }
