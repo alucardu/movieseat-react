@@ -75,7 +75,11 @@ client.connect((err, client, done) => {
                 // create notification
 
                 movieToUsers.rows.forEach((movieToUser) => {
-                  client.query('INSERT into "Notification"(action, "movieId", "userId", value)VALUES($1::text, $2::integer, $3::integer, $4::text)', ['has been updated with a new', movieToUser.A, movieToUser.B, 'video']);
+                  client.query('INSERT into "Notification"(action, "movieId", "userId", value)VALUES($1::text, $2::integer, $3::integer, $4::text)', ['has been updated with a new', movieToUser.A, movieToUser.B, 'video'], (err, res) => {
+                    if (err) throw err;
+                    console.log(res);
+                    client.end();
+                  });
                 });
               }
             });
@@ -83,7 +87,6 @@ client.connect((err, client, done) => {
         })();
       });
     }
-    client.end();
   });
 });
 
