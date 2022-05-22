@@ -52,7 +52,6 @@ client.connect((err, client, done) => {
 
             movieToUsers.rows.forEach((movieToUser) => {
               client.query('INSERT into "Notification"(action, "movieId", "userId", value)VALUES($1::text, $2::integer, $3::integer, $4::text)', ['has been updated with a new', movieToUser.A, movieToUser.B, isValueChanged(movie, json).changedValue]);
-              client.end();
             });
           }
 
@@ -65,7 +64,6 @@ client.connect((err, client, done) => {
                     [movieVideo.iso_639_1, movieVideo.iso_3166_1, movieVideo.name, movieVideo.key, movieVideo.site, movieVideo.size, movieVideo.type, movieVideo.official, movieVideo.published_at, movie.id, parseInt(movieVideo.id)], (err, res) => {
                       if (err) throw err;
                       console.log(res);
-                      client.end();
                     });
                 // client.query('INSERT into "MovieVideo"(iso_639_1, iso_3166_1, name, key, site, size, type, official, published_at, "movieId", tmdb_id)VALUES($1::text, $2::text, $3::text, $4::text, $5::text, $6::integer, $7::text, $8::boolean, $9::text, $10::integer, $11::bigint )',
                 //     [movieVideo.iso_639_1, movieVideo.iso_3166_1, movieVideo.name, movieVideo.key, movieVideo.site, movieVideo.size, movieVideo.type, movieVideo.official, movieVideo.published_at, movie.id, parseInt(movieVideo.id)]);
