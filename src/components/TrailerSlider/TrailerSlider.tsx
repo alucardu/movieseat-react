@@ -48,7 +48,7 @@ export const TrailerSlider = (props: Props) => {
                 playing={playState}
                 ref={(element: any) => (itemEls.current as any).push(element)}
                 onPlay = {() => makeFullscreen(index)}
-                controls={playState}
+                controls={true}
                 width="100vw"
                 height="auto"
                 url={`https://www.youtube.com/watch?v=${video.key}`} />
