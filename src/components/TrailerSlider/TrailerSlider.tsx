@@ -17,16 +17,6 @@ export const TrailerSlider = (props: Props) => {
   const [videoIndex, setVideoIndex] = useState<number>(0);
   const itemEls = useRef([]);
 
-  const makeFullscreen = (index: number) => {
-    setVideoIndex(index);
-    screenfull.request((itemEls.current[index] as any).wrapper);
-    window.screen.orientation.lock('landscape-primary');
-  };
-
-  const setScreenOrientation = () => {
-    setOrientation(window.screen.orientation.type);
-  };
-
   useEffect(() => {
     props.videos.forEach(() => {
       setPlayState([...playState, false]);
@@ -36,9 +26,22 @@ export const TrailerSlider = (props: Props) => {
     };
 
     screenfull.on('change', () => {
-      setPlayState[videoIndex](screenfull.isFullscreen);
+      const array = playState;
+      array[videoIndex] = screenfull.isFullscreen;
+      setPlayState(array);
+      console.log(playState[videoIndex]);
     });
   }, []);
+
+  const makeFullscreen = (index: number) => {
+    setVideoIndex(index);
+    screenfull.request((itemEls.current[index] as any).wrapper);
+    window.screen.orientation.lock('landscape-primary');
+  };
+
+  const setScreenOrientation = () => {
+    setOrientation(window.screen.orientation.type);
+  };
 
   return (
     <TrailerSliderStyle>
