@@ -13,10 +13,12 @@ interface Props {
 
 export const TrailerSlider = (props: Props) => {
   const [orientation, setOrientation] = useState(window.screen.orientation.type);
-  const [playState, setPlayState] = useState(false);
+  const [playState, setPlayState] = useState<Array<boolean>>([]);
+  const [videoIndex, setVideoIndex] = useState<number>(0);
   const itemEls = useRef([]);
 
   const makeFullscreen = (index: number) => {
+    setVideoIndex(index);
     screenfull.request((itemEls.current[index] as any).wrapper);
     window.screen.orientation.lock('landscape-primary');
   };
@@ -26,12 +28,15 @@ export const TrailerSlider = (props: Props) => {
   };
 
   useEffect(() => {
+    props.videos.forEach(() => {
+      setPlayState([...playState, false]);
+    });
     window.screen.orientation.onchange = () => {
       setScreenOrientation;
     };
 
     screenfull.on('change', () => {
-      setPlayState(screenfull.isFullscreen);
+      setPlayState[videoIndex](screenfull.isFullscreen);
     });
   }, []);
 
@@ -45,10 +50,10 @@ export const TrailerSlider = (props: Props) => {
               sx={{left: index*100 + 'vw'}}>
               {orientation}
               <ReactPlayer
-                playing={playState}
+                playing={playState[index]}
                 ref={(element: any) => (itemEls.current as any).push(element)}
                 onPlay = {() => makeFullscreen(index)}
-                controls={true}
+                controls={playState[index]}
                 width="100vw"
                 height="auto"
                 url={`https://www.youtube.com/watch?v=${video.key}`} />
