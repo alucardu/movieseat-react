@@ -17,6 +17,7 @@ export const TrailerSlider = (props: Props) => {
 
   const makeFullscreen = (index: number) => {
     screenfull.request((itemEls.current[index] as any).wrapper);
+    window.screen.orientation.lock('landscape-primary');
   };
 
   const setScreenOrientation = () => {
