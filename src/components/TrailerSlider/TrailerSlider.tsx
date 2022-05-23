@@ -13,6 +13,7 @@ interface Props {
 
 export const TrailerSlider = (props: Props) => {
   const [orientation, setOrientation] = useState(window.screen.orientation.type);
+  const [playState, setPlayState] = useState(false);
   const itemEls = useRef([]);
 
   const makeFullscreen = (index: number) => {
@@ -25,10 +26,13 @@ export const TrailerSlider = (props: Props) => {
   };
 
   useEffect(() => {
-    window.addEventListener('orientationchange', setScreenOrientation);
     window.screen.orientation.onchange = () => {
       setScreenOrientation;
     };
+
+    screenfull.on('change', () => {
+      setPlayState(screenfull.isFullscreen);
+    });
   }, []);
 
   return (
@@ -41,6 +45,7 @@ export const TrailerSlider = (props: Props) => {
               sx={{left: index*100 + 'vw'}}>
               {orientation}
               <ReactPlayer
+                playing={playState}
                 ref={(element: any) => (itemEls.current as any).push(element)}
                 onStart = {() => makeFullscreen(index)}
                 controls={false}
