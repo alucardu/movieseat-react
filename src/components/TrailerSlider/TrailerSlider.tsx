@@ -1,5 +1,5 @@
 import {Box} from '@mui/system';
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
@@ -12,6 +12,7 @@ interface Props {
 }
 
 export const TrailerSlider = (props: Props) => {
+  const [orientation, setOrientation] = useState('portrait');
   const itemEls = useRef([]);
 
   const makeFullscreen = (index: number) => {
@@ -19,8 +20,8 @@ export const TrailerSlider = (props: Props) => {
   };
 
   const setScreenOrientation = () => {
-    console.log('change');
-    alert('change');
+    console.log(window.matchMedia('(orientation: landscape)').matches);
+    window.matchMedia('(orientation: landscape)').matches ? setOrientation('landscape') : setOrientation('portrait');
   };
 
   useEffect(() => {
@@ -35,6 +36,7 @@ export const TrailerSlider = (props: Props) => {
             <Box
               key={video.key}
               sx={{left: index*100 + 'vw'}}>
+              {orientation}
               <ReactPlayer
                 ref={(element: any) => (itemEls.current as any).push(element)}
                 onStart = {() => makeFullscreen(index)}
