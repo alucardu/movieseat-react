@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const TrailerSlider = (props: Props) => {
-  const [orientation, setOrientation] = useState('portrait');
+  const [orientation, setOrientation] = useState(window.screen.orientation.type);
   const itemEls = useRef([]);
 
   const makeFullscreen = (index: number) => {
@@ -20,12 +20,14 @@ export const TrailerSlider = (props: Props) => {
   };
 
   const setScreenOrientation = () => {
-    console.log(window.matchMedia('(orientation: landscape)').matches);
-    window.matchMedia('(orientation: landscape)').matches ? setOrientation('landscape') : setOrientation('portrait');
+    setOrientation(window.screen.orientation.type);
   };
 
   useEffect(() => {
     window.addEventListener('orientationchange', setScreenOrientation);
+    window.screen.orientation.onchange = () => {
+      setScreenOrientation;
+    };
   }, []);
 
   return (
