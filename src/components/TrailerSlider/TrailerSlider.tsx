@@ -1,5 +1,5 @@
 import {Box} from '@mui/system';
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 
 import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
@@ -11,14 +11,21 @@ interface Props {
   videos: IMovieVideo[];
 }
 
-
 export const TrailerSlider = (props: Props) => {
-  const player = useRef(null);
+  const itemEls = useRef([]);
 
-  const makeFullscreen = () => {
-    console.log('full screen');
-    screenfull.request((player.current as any).wrapper);
+  const makeFullscreen = (index: number) => {
+    screenfull.request((itemEls.current[index] as any).wrapper);
   };
+
+  const setScreenOrientation = () => {
+    console.log('change');
+    alert('change');
+  };
+
+  useEffect(() => {
+    window.addEventListener('orientationchange', setScreenOrientation);
+  }, []);
 
   return (
     <TrailerSliderStyle>
@@ -29,9 +36,9 @@ export const TrailerSlider = (props: Props) => {
               key={video.key}
               sx={{left: index*100 + 'vw'}}>
               <ReactPlayer
-                ref={player}
-                onStart = {() => makeFullscreen()}
-                controls={true}
+                ref={(element: any) => (itemEls.current as any).push(element)}
+                onStart = {() => makeFullscreen(index)}
+                controls={false}
                 width="100vw"
                 height="auto"
                 url={`https://www.youtube.com/watch?v=${video.key}`} />
