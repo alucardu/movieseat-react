@@ -1,5 +1,5 @@
 import {Box} from '@mui/system';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {createRef, useEffect, useRef, useState} from 'react';
 
 import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
@@ -19,7 +19,8 @@ interface PropsVideo {
 export const TrailerSlider = (props: Props) => {
   const [playState, setPlayState] = useState<Array<boolean>>([]);
   const [videoIndex, setVideoIndex] = useState<number>(0);
-  const itemEls = useRef([]);
+  const itemEls = useRef();
+  const element = createRef<ReactPlayer>();
 
   useEffect(() => {
     props.videos.forEach(() => {
@@ -42,7 +43,7 @@ export const TrailerSlider = (props: Props) => {
 
     const makeFullscreen = (index: number) => {
       setVideoIndex(index);
-      screenfull.request((itemEls.current[index] as any).wrapper);
+      screenfull.request((itemEls.current as any).wrapper);
       window.screen.orientation.lock('landscape-primary');
     };
 
@@ -52,7 +53,7 @@ export const TrailerSlider = (props: Props) => {
         sx={{left: props.index*100 + 'vw'}}>
         <ReactPlayer
           playing={test}
-          ref={(element: any) => (itemEls.current as any).push(element)}
+          ref={element}
           onPlay = {() => makeFullscreen(props.index)}
           controls={true}
           width="100vw"
