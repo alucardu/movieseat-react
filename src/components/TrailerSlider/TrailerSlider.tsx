@@ -12,51 +12,38 @@ interface Props {
 }
 
 export const TrailerSlider = (props: Props) => {
-  const [orientation, setOrientation] = useState(window.screen.orientation.type);
   const [playState, setPlayState] = useState<Array<boolean>>([]);
-  const [videoIndex, setVideoIndex] = useState<number>(0);
   const itemEls = useRef([]);
 
   useEffect(() => {
     props.videos.forEach(() => {
-      setPlayState([...playState, false]);
+      playState.push(false);
     });
-    window.screen.orientation.onchange = () => {
-      setScreenOrientation;
-    };
 
     screenfull.on('change', () => {
       const array = playState;
-      array[videoIndex] = screenfull.isFullscreen;
       setPlayState(array);
-      console.log(playState[videoIndex]);
     });
   }, []);
 
   const makeFullscreen = (index: number) => {
-    setVideoIndex(index);
     screenfull.request((itemEls.current[index] as any).wrapper);
     window.screen.orientation.lock('landscape-primary');
-  };
-
-  const setScreenOrientation = () => {
-    setOrientation(window.screen.orientation.type);
   };
 
   return (
     <TrailerSliderStyle>
       <Box className="container">
-        {props.videos.filter((video) => video.type === 'Trailer' && video.site === 'YouTube').map((video, index) => {
+        {props.videos.map((video, index) => {
           return (
             <Box
               key={video.key}
               sx={{left: index*100 + 'vw'}}>
-              {orientation}
               <ReactPlayer
                 playing={playState[index]}
                 ref={(element: any) => (itemEls.current as any).push(element)}
                 onPlay = {() => makeFullscreen(index)}
-                controls={playState[index]}
+                controls={true}
                 width="100vw"
                 height="auto"
                 url={`https://www.youtube.com/watch?v=${video.key}`} />
