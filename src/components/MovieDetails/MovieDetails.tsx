@@ -67,7 +67,7 @@ export const MovieDetails = () => {
             {movie.overview}
           </Typography>
         </Box>
-        <TrailerSlider videos={movie.movieVideo}/>
+        <TrailerSlider videos={movie.movieVideo.filter((video) => video.type === 'Trailer' && video.site === 'YouTube')}/>
       </Box>
 
     </MovieDetailsStyle>
