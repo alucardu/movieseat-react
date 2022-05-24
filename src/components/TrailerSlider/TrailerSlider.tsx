@@ -47,7 +47,7 @@ export const TrailerSlider = (props: Props) => {
         key={props.video.key}
         sx={{left: props.index*100 + 'vw'}}>
         <ReactPlayer
-          playing={playState[props.index]}
+          playing={playState[videoIndex]}
           ref={(element: any) => (itemEls.current as any).push(element)}
           onPlay = {() => makeFullscreen(props.index)}
           controls={true}
