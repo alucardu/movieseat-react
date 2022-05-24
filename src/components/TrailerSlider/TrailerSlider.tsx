@@ -25,29 +25,33 @@ export const TrailerSlider = (props: Props) => {
     props.videos.forEach(() => {
       playState.push(false);
     });
-
-    screenfull.on('change', () => {
-      setTimeout(() => {
-        if (!screenfull.isFullscreen) {
-          playState[videoIndex] = false;
-        }
-      }, 500);
-    });
   }, []);
 
-  const makeFullscreen = (index: number) => {
-    setVideoIndex(index);
-    screenfull.request((itemEls.current[index] as any).wrapper);
-    window.screen.orientation.lock('landscape-primary');
-  };
-
   const Video = (props: PropsVideo) => {
+    const [test, setTest] = useState<boolean>(false);
+
+    useEffect(() => {
+      screenfull.on('change', () => {
+        setTimeout(() => {
+          if (!screenfull.isFullscreen) {
+            setTest(false);
+          }
+        }, 500);
+      });
+    }, []);
+
+    const makeFullscreen = (index: number) => {
+      setVideoIndex(index);
+      screenfull.request((itemEls.current[index] as any).wrapper);
+      window.screen.orientation.lock('landscape-primary');
+    };
+
     return (
       <Box
         key={props.video.key}
         sx={{left: props.index*100 + 'vw'}}>
         <ReactPlayer
-          playing={playState[videoIndex]}
+          playing={test}
           ref={(element: any) => (itemEls.current as any).push(element)}
           onPlay = {() => makeFullscreen(props.index)}
           controls={true}
