@@ -29,7 +29,7 @@ export const TrailerSlider = (props: Props) => {
           } else {
             setIsPlaying(false);
           }
-        }, 500);
+        }, 0);
       });
     }, []);
 
