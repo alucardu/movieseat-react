@@ -33,7 +33,8 @@ export const TrailerSlider = (props: Props) => {
     }, []);
 
     const makeFullscreen = (index: number, element: any) => {
-      screenfull.request(element.wrapper);
+      console.log(element.current.wrapper);
+      screenfull.request(element.current.wrapper);
     };
 
     return (
