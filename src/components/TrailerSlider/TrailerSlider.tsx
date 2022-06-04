@@ -17,9 +17,9 @@ interface PropsVideo {
 }
 
 export const TrailerSlider = (props: Props) => {
-  const element = createRef<ReactPlayer>();
-
   const Video = (props: PropsVideo) => {
+    const element = createRef<ReactPlayer>();
+
     useEffect(() => {
       screenfull.on('change', () => {
         setTimeout(() => {
@@ -33,7 +33,6 @@ export const TrailerSlider = (props: Props) => {
     }, []);
 
     const makeFullscreen = (index: number, element: any) => {
-      console.log(element.current.wrapper);
       screenfull.request(element.current.wrapper);
     };
 
