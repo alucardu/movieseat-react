@@ -17,34 +17,23 @@ interface PropsVideo {
 }
 
 export const TrailerSlider = (props: Props) => {
-  const [playState, setPlayState] = useState<Array<boolean>>([]);
-  const [videoIndex, setVideoIndex] = useState<number>(0);
-  const itemEls = useRef();
   const element = createRef<ReactPlayer>();
 
-  useEffect(() => {
-    props.videos.forEach(() => {
-      playState.push(false);
-    });
-  }, []);
-
   const Video = (props: PropsVideo) => {
-    const [test, setTest] = useState<boolean>(false);
-
     useEffect(() => {
       screenfull.on('change', () => {
         setTimeout(() => {
-          if (!screenfull.isFullscreen) {
-            setTest(false);
+          if (screenfull.isFullscreen) {
+            window.screen.orientation.lock('landscape-primary');
+          } else {
+            console.log('else');
           }
         }, 500);
       });
     }, []);
 
-    const makeFullscreen = (index: number) => {
-      setVideoIndex(index);
-      screenfull.request((itemEls.current as any).wrapper);
-      window.screen.orientation.lock('landscape-primary');
+    const makeFullscreen = (index: number, element: any) => {
+      screenfull.request(element.wrapper);
     };
 
     return (
@@ -52,9 +41,8 @@ export const TrailerSlider = (props: Props) => {
         key={props.video.key}
         sx={{left: props.index*100 + 'vw'}}>
         <ReactPlayer
-          playing={test}
           ref={element}
-          onPlay = {() => makeFullscreen(props.index)}
+          onPlay = {() => makeFullscreen(props.index, element)}
           controls={true}
           width="100vw"
           height="auto"
