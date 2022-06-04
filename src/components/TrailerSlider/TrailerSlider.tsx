@@ -23,13 +23,11 @@ export const TrailerSlider = (props: Props) => {
 
     useEffect(() => {
       screenfull.on('change', () => {
-        setTimeout(() => {
-          if (screenfull.isFullscreen) {
-            window.screen.orientation.lock('landscape-primary');
-          } else {
-            setIsPlaying(false);
-          }
-        }, 0);
+        if (screenfull.isFullscreen) {
+          window.screen.orientation.lock('landscape-primary');
+        } else {
+          setIsPlaying(false);
+        }
       });
     }, []);
 
