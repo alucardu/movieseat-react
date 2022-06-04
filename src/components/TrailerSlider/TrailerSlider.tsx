@@ -19,7 +19,7 @@ interface PropsVideo {
 export const TrailerSlider = (props: Props) => {
   const Video = (props: PropsVideo) => {
     const element = createRef<ReactPlayer>();
-    const [isPlaying, setIsplaying] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
 
     useEffect(() => {
       screenfull.on('change', () => {
@@ -27,28 +27,27 @@ export const TrailerSlider = (props: Props) => {
           if (screenfull.isFullscreen) {
             window.screen.orientation.lock('landscape-primary');
           } else {
-            setIsplaying(false);
+            setIsPlaying(false);
           }
         }, 500);
       });
     }, []);
 
     const makeFullscreen = (element: any) => {
-      setIsplaying(true);
       screenfull.request(element.current.wrapper);
+      setIsPlaying(true);
     };
 
     return (
       <Box
         key={props.video.key}
         sx={{left: props.index*100 + 'vw'}}>
-        isPlaying: {isPlaying.toString()}
         <ReactPlayer
+          ref={element}
           playing={isPlaying}
           onPlay = {() => makeFullscreen(element)}
-          onPause = {() => setIsplaying(false)}
-          ref={element}
-          controls={false}
+          onPause = {() => setIsPlaying(false)}
+          controls={true}
           width="100vw"
           height="auto"
           url={`https://www.youtube.com/watch?v=${props.video.key}`} />
