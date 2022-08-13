@@ -308,7 +308,7 @@ const Mutation = {
       },
       data: {
         password: bcrypt.hashSync(args.password, 3),
-        resetToken: '',
+        resetToken: null,
       },
     });
 
