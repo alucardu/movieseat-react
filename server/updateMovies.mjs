@@ -20,13 +20,14 @@ pool.connect((err, client, done) => {
   if (err) throw err;
   client.query('SELECT * FROM "Movie"', (err, res) => {
     if (err) {
-      console.log(err.stack);
+      console.log(err);
     } else {
       res.rows.forEach((movie) => {
         (async () => {
           const json = await fetchMovieData(movie.tmdb_id);
 
           // pool.query('UPDATE "Movie" SET runtime = $1::integer WHERE tmdb_id = $2::integer', [5, json.id]);
+          pool.query('UPDATE "Movie" SET release_date = $1::text WHERE tmdb_id = $2::integer', ['01-01-2000', json.id]);
 
           // pool.query('INSERT into "MovieVideo"(iso_639_1, iso_3166_1, name, key, site, size, type, official, published_at, "movieId", tmdb_id)VALUES($1::text, $2::text, $3::text, $4::text, $5::text, $6::integer, $7::text, $8::boolean, $9::text, $10::integer, $11::integer)',
           //     ['iso_639_1', 'iso_3166_1', 'name', 'key', 'site', 1, 'type', true, 'published_at', 1, 1]);
@@ -52,7 +53,6 @@ pool.connect((err, client, done) => {
             movieToUsers.rows.forEach((movieToUser) => {
               client.query('INSERT into "Notification"(action, "movieId", "userId", value)VALUES($1::text, $2::integer, $3::integer, $4::text)', ['has been updated with a new', movieToUser.A, movieToUser.B, isValueChanged(movie, json).changedValue], (err, res) => {
                 if (err) throw err;
-                console.log(res);
               });
             });
           }
@@ -60,23 +60,23 @@ pool.connect((err, client, done) => {
           // // zoek elke video voor de movie
           // // console.log('ID: ', json.id, json.videos.results.length);
           json.videos?.results.forEach((movieVideo) => {
-            client.query('SELECT * FROM "MovieVideo" WHERE tmdb_id = $1::bigint', [parseInt(movieVideo.id)]).then((result) => {
-              if (result.rowCount === 0) {
-                client.query('INSERT into "MovieVideo"(iso_639_1, iso_3166_1, name, key, site, size, type, official, published_at, "movieId", tmdb_id)VALUES($1::text, $2::text, $3::text, $4::text, $5::text, $6::integer, $7::text, $8::boolean, $9::text, $10::integer, $11::bigint )',
-                    [movieVideo.iso_639_1, movieVideo.iso_3166_1, movieVideo.name, movieVideo.key, movieVideo.site, movieVideo.size, movieVideo.type, movieVideo.official, movieVideo.published_at, movie.id, parseInt(movieVideo.id)], (err, res) => {
-                      if (err) throw err;
-                      console.log(res);
-                    });
+            if (movieVideo.type === 'Trailer') {
+              client.query('SELECT * FROM "MovieVideo" WHERE tmdb_id = $1::bigint', [parseInt(movieVideo.id)]).then((result) => {
+                if (result.rowCount === 0) {
+                  client.query('INSERT into "MovieVideo"(iso_639_1, iso_3166_1, name, key, site, size, type, official, published_at, "movieId", tmdb_id)VALUES($1::text, $2::text, $3::text, $4::text, $5::text, $6::integer, $7::text, $8::boolean, $9::text, $10::integer, $11::bigint )',
+                      [movieVideo.iso_639_1, movieVideo.iso_3166_1, movieVideo.name, movieVideo.key, movieVideo.site, movieVideo.size, movieVideo.type, movieVideo.official, movieVideo.published_at, movie.id, parseInt(movieVideo.id)], (err, res) => {
+                        if (err) throw err;
+                      });
 
-                // create notification
-                movieToUsers.rows.forEach((movieToUser) => {
-                  client.query('INSERT into "Notification"(action, "movieId", "userId", value)VALUES($1::text, $2::integer, $3::integer, $4::text)', ['has been updated with a new', movieToUser.A, movieToUser.B, 'video'], (err, res) => {
-                    if (err) throw err;
-                    console.log(res);
+                  // create notification
+                  movieToUsers.rows.forEach((movieToUser) => {
+                    client.query('INSERT into "Notification"(action, "movieId", "userId", value)VALUES($1::text, $2::integer, $3::integer, $4::text)', ['has been updated with a new', movieToUser.A, movieToUser.B, 'video'], (err, res) => {
+                      if (err) throw err;
+                    });
                   });
-                });
-              }
-            });
+                }
+              });
+            }
           });
         })();
       });
@@ -103,7 +103,7 @@ function isValueChanged(movie, json) {
   let changedValue = '';
 
   for (const [key, value] of Object.entries(movie)) {
-    if (key !== 'tmdb_id' && key !== 'release_date' && key !== 'id' && value !== json[key]) {
+    if (key !== 'tmdb_id' && key !== 'id' && value !== json[key]) {
       changedValue = key;
       valueChanged = true;
     }
