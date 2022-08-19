@@ -37,10 +37,14 @@ const SortMovieOverview = ({handleClose})=> {
     });
   };
 
-  const submitChange = () => {
+  const submitChange = async () => {
     const movies = client.readQuery({
       query: resolvers.queries.ReturnMoviesFromUser,
-      variables: {userId: currentUserVar().id}});
+      variables: {
+        userId: currentUserVar().id,
+        filter: false,
+      },
+    });
 
     const reversedMovies = [...movies.moviesFromUser];
     reversedMovies.reverse();

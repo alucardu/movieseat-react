@@ -11,22 +11,22 @@ const followedUsers = async (args, req) => {
   const following = await prisma.user.findUnique({
     where: {id: req.userId || args.userId},
     select: {
-      following: true,
+      User_A: true,
     },
   });
 
-  return following.following;
+  return following.User_A || [];
 };
 
 const followedBy = async (args, req) => {
   const followedBy = await prisma.user.findUnique({
     where: {id: req.userId},
     select: {
-      followedBy: true,
+      User_B: true,
     },
   });
 
-  return followedBy.followedBy;
+  return followedBy.User_B || [];
 };
 
 const returnUserNotifications = async (args, req) => {
@@ -109,14 +109,37 @@ const returnUserNotifications = async (args, req) => {
 
 const returnMoviesFromUser = async (args, req, res) => {
   if (req.userId) {
-    const user = await prisma.user.findUnique({
-      where: {id: args.userId || req.userId},
-      select: {
-        movies: true,
+    const movies = await prisma.movie.findMany({
+      where: {
+        users: {
+          some: {
+            id: {
+              equals: req.userId,
+            },
+          },
+        },
+        // if filter is true then remove rated movies else return all movies
+        ...(args.filter ? {movieRating: {
+          none: {
+            movieId: {
+              gt: 0,
+            },
+          },
+        }} : {}),
+      },
+      include: {
+        movieVideo: true,
+        movieRating: {
+          where: {
+            userId: req.userId,
+          },
+        },
       },
     });
 
-    return user.movies || [];
+    console.log(movies);
+
+    return movies || [];
   }
 };
 
@@ -155,12 +178,19 @@ const Query = {
 
   returnMovieDetails: async (root, args, {res, req}) => {
     const movie = await prisma.movie.findFirst({
-      where: {id: args.movieId},
+      where: {
+        id: args.movieId,
+      },
       include: {
         movieVideo: true,
+        users: true,
+        movieRating: {
+          where: {
+            userId: req.userId,
+          },
+        },
       },
     });
-
     return movie;
   },
 
@@ -231,7 +261,7 @@ const Mutation = {
     await prisma.user.update({
       where: {id: req.userId},
       data: {
-        following: {
+        User_B: {
           disconnect: [{id: args.id}],
         },
       },
@@ -246,7 +276,7 @@ const Mutation = {
         id: req.userId,
       },
       data: {
-        following: {
+        User_A: {
           connect: {id: args.userId},
         },
       },
@@ -257,7 +287,7 @@ const Mutation = {
         id: args.userId,
       },
       data: {
-        followedBy: {
+        User_B: {
           connect: {id: req.userId},
         },
       },

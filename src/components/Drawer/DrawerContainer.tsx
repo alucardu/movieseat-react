@@ -16,6 +16,7 @@ import {Drawer} from 'Src/styles';
 import {Logo} from 'Src/styles';
 import {currentUserVar, drawerOpenVar} from 'Src/cache';
 
+import Filters from 'Components/Filters/Filters';
 import NotificationsMenu from 'Components/Notifications/NotificationsMenu';
 import Login from 'Components/Login/Login';
 import DashboardMovieOverviewMenu from 'Components/Dashboard/DashboardMovieOverviewMenu/DashboardMovieOverviewMenu';
@@ -61,6 +62,9 @@ export const DrawerContainer = () => {
     },
     {
       component: <DashboardMovieOverviewMenu ref={elRef}/>,
+    },
+    {
+      component: <Filters ref={elRef}/>,
     },
     {
       text: 'Watchlist',

@@ -464,8 +464,8 @@ export const ResultListItemStyle = styled(ListItem)<IResultListItem>(({theme, mo
 }));
 
 export const DashboardMovieOverviewMenuStyle = styled(Popover)(() => ({
-  'left': '8px',
-  'top': '244px',
+  'left': '0px',
+  'top': '8px',
   '.MuiPaper-root': {
     padding: 0,
     background: '#0fcece',
@@ -473,7 +473,7 @@ export const DashboardMovieOverviewMenuStyle = styled(Popover)(() => ({
 }));
 
 export const DashboardMovieOverMenuEl = styled(FormGroup)(() => ({
-  'width': '250px',
+  'width': '100%',
   'padding': '8px',
   '& ul': {
     'margin': 0,

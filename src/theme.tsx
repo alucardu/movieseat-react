@@ -23,9 +23,20 @@ let theme = createTheme({
 
 theme = createTheme((theme), {
   components: {
+    MuiBackdrop: {
+      styleOverrides: {
+        root: {
+          background: '#0000007a',
+        },
+      },
+    },
     MuiPopover: {
       styleOverrides: {
+        root: {
+          top: '0px!important',
+        },
         paper: {
+          width: '100%',
           padding: theme.spacing(1),
         },
       },

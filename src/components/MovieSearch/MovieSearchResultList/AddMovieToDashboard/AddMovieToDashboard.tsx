@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {useApolloClient, useMutation} from '@apollo/client';
+import {useApolloClient, useLazyQuery, useMutation, useQuery} from '@apollo/client';
 
 import {AddMovieFromSearchButton} from 'Src/styles';
 import {useCreateNotification} from 'Helpers/createNotification';
@@ -9,13 +9,19 @@ import resolvers from 'Src/resolvers';
 import {currentUserVar, snackbarVar, movieSearchActiveVar} from 'Src/cache';
 
 export const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
-  const createNotification = useCreateNotification();
-  const client = useApolloClient();
-  const movies = client.readQuery({
-    query: resolvers.queries.ReturnMoviesFromUser,
-    variables: {userId: currentUserVar().id}});
-
   const [addUserToMovie] = useMutation(resolvers.mutations.AddUserToMovie);
+  const createNotification = useCreateNotification();
+
+  const {error, loading, data: {moviesFromUser: movies} = {}} =
+  useQuery(resolvers.queries.ReturnMoviesFromUser, {
+    variables: {
+      userId: currentUserVar().id,
+      filter: false,
+    },
+  });
+
+  if (error) return (<div>error {error.message}</div>);
+  if (loading) return (<div>loading...</div>);
 
   const checkIsMovieDuplicate = (movies: IMovie[], movie: IMovie) => {
     for (const item of movies) {
@@ -26,7 +32,7 @@ export const AddMovieToWatchList = ({movie}: {movie: IMovie}) => {
   const addMovie = async (movie: IMovie) => {
     let message = 'is already added to your watchlist.';
     let severity = 'warning';
-    if (!checkIsMovieDuplicate(movies.moviesFromUser, movie)) {
+    if (!checkIsMovieDuplicate(movies, movie)) {
       await addUserToMovie({
         variables: {...movie, tmdb_id: movie?.id},
         update: (cache, {data}) => {
