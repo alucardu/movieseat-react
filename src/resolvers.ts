@@ -35,7 +35,9 @@ const ReturnNotifications = gql`
 
 const ReturnMovieDetails = gql`
   query returnMovieDetails($movieId: Int!) {
-    returnMovieDetails(movieId: $movieId) {
+    returnMovieDetails(
+        movieId: $movieId
+      ) {
       id
       original_title
       poster_path
@@ -52,6 +54,15 @@ const ReturnMovieDetails = gql`
         site
         type
         official
+      }
+      movieRating {
+        id
+        movieId
+        userId
+        value
+      }
+      users {
+        id
       }
     }
   }
@@ -114,8 +125,14 @@ const ReturnUser = gql`
 `;
 
 const ReturnMoviesFromUser = gql`
-  query moviesFromUser($userId: Int!) {
-    moviesFromUser(userId: $userId) {
+  query moviesFromUser(
+      $userId: Int!
+      $filter: Boolean
+    ) {
+    moviesFromUser(
+      userId: $userId
+      filter: $filter
+    ) {
       id
       original_title
       poster_path
@@ -125,6 +142,26 @@ const ReturnMoviesFromUser = gql`
       backdrop_path
       runtime
       overview
+      users {
+        id
+      }
+      movieVideo {
+        id
+        name
+        key
+        site
+        type
+        official
+      }
+      movieRating {
+        id
+        movieId
+        userId
+        value
+      }
+      users {
+        id
+      }
     }
   }
 `;

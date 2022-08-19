@@ -1,83 +1,80 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
-}
-
 model Movie {
-  id               Int              @id @default(autoincrement())
-  original_title   String           @unique
-  tmdb_id          Int              @unique
-  poster_path      String?         
-  backdrop_path    String?         
-  release_date     String?
-  runtime          Int?
-  tagline          String?         
-  overview         String?         
-  users            User[]
-  notification     Notification[]
-  movieRating      MovieRating[]
-  movieVideo       MovieVideo[]
+  id             Int            @id @default(autoincrement())
+  tmdb_id        Int            @unique
+  poster_path    String?
+  original_title String         @unique
+  release_date   String?
+  backdrop_path  String?
+  runtime        Int?
+  tagline        String?
+  overview       String?
+  movieRating    MovieRating[]
+  movieVideo     MovieVideo[]
+  notification   Notification[]
+  users          User[]
 }
 
 model MovieVideo {
-  id               Int              @id @default(autoincrement())
-  tmdb_id          BigInt
-  iso_639_1        String
-  iso_3166_1       String
-  name             String
-  key              String
-  site             String
-  size             Int
-  type             String
-  official         Boolean
-  published_at     String
-  movie            Movie            @relation(fields: [movieId], references: [id])
-  movieId          Int
+  id           Int     @id @default(autoincrement())
+  iso_639_1    String
+  iso_3166_1   String
+  name         String
+  key          String
+  site         String
+  size         Int
+  type         String
+  official     Boolean
+  published_at String
+  movieId      Int
+  tmdb_id      BigInt
+  movie        Movie   @relation(fields: [movieId], references: [id])
 }
-  
-model User {  
-  id               Int              @id @default(autoincrement())
-  email            String           @unique
-  user_name        String           @unique
-  password         String
-  movies           Movie[]
-  notifications    Notification[]
-  followedBy       User[]           @relation("UserFollows", references: [id])
-  following        User[]           @relation("UserFollows", references: [id])
-  notification     Notification[]   @relation("FollowedUser")
-  movieRating      MovieRating[]
-  resetToken       String?          @unique
-  activationToken  String?          @unique
+
+model User {
+  id              Int            @id @default(autoincrement())
+  email           String         @unique
+  password        String
+  user_name       String         @unique
+  resetToken      String?        @unique
+  activationToken String?        @unique
+  movieRating     MovieRating[]
+  notification    Notification[] @relation("FollowedUser")
+  notifications   Notification[]
+  movies          Movie[]
+  User_B          User[]         @relation("UserFollows")
+  User_A          User[]         @relation("UserFollows")
 }
 
 model Notification {
-  id               Int              @id @default(autoincrement())
-  movie            Movie?           @relation(fields: [movieId], references: [id])
-  movieId          Int? 
-  movieRating      MovieRating?     @relation(fields: [movieRatingId], references: [id])
-  movieRatingId    Int? 
-  user             User?            @relation(fields: [userId], references: [id])
-  userId           Int? 
-  followedUser     User?            @relation("FollowedUser", fields: [followedUserId], references: [id])
-  followedUserId   Int? 
-  action           String 
-  value            String?
-  watched          Boolean          @default(false)
-} 
-  
-model MovieRating { 
-  id               Int              @id @default(autoincrement())
-  value            Int              @default(0)
-  user             User             @relation(fields: [userId], references: [id])
-  userId           Int 
-  movie            Movie            @relation(fields: [movieId], references: [id])
-  movieId          Int
-  Notification     Notification[]
+  id             Int          @id @default(autoincrement())
+  watched        Boolean      @default(false)
+  action         String
+  movieId        Int?
+  movieRatingId  Int?
+  userId         Int?
+  followedUserId Int?
+  value          String?
+  followedUser   User?        @relation("FollowedUser", fields: [followedUserId], references: [id])
+  movie          Movie?       @relation(fields: [movieId], references: [id])
+  movieRating    MovieRating? @relation(fields: [movieRatingId], references: [id])
+  user           User?        @relation(fields: [userId], references: [id])
+}
+
+model MovieRating {
+  id           Int            @id @default(autoincrement())
+  value        Int            @default(0)
+  userId       Int
+  movieId      Int
+  movie        Movie          @relation(fields: [movieId], references: [id])
+  user         User           @relation(fields: [userId], references: [id])
+  Notification Notification[]
 }

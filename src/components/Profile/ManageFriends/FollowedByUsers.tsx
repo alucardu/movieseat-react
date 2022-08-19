@@ -20,7 +20,7 @@ export const FollowedByUSers = () => {
         Followed by users
       </Typography>
       <List>
-        {followedBy.map((user) => {
+        {followedBy?.map((user) => {
           return (
             <ListItem key={user.id}>
               <Link to={`/profile/${user.id}`}>{user.user_name}</Link>

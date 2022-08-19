@@ -1,17 +1,18 @@
-import React, {forwardRef} from 'react';
+
+import React, {forwardRef, useState} from 'react';
 
 import {useReactiveVar} from '@apollo/client';
 
 import {ListItem, ListItemButton, ListItemIcon, ListItemText} from '@mui/material';
-import ListIcon from '@mui/icons-material/List';
+import TuneIcon from '@mui/icons-material/Tune';
 
 import {currentUserVar} from 'Src/cache';
 import {DashboardMovieOverviewMenuStyle} from 'Src/styles';
-import SortMovieOverview from 'Components/Dashboard/DashboardMovieOverviewMenu/SortMovieOverview/SortMovieOverview';
+import FiltersWatched from './Watched/Filters/Watched';
 
-const DashboardMovieOverviewMenu = (props, ref) => {
+const Filters = (props, ref) => {
   const currentUser = useReactiveVar(currentUserVar);
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleClick = () => {
     if (ref && 'current' in ref && ref.current) {
@@ -31,9 +32,9 @@ const DashboardMovieOverviewMenu = (props, ref) => {
       <ListItem disablePadding>
         <ListItemButton disabled={!currentUser.isLoggedIn} onClick={handleClick}>
           <ListItemIcon>
-            <ListIcon fontSize='large'/>
+            <TuneIcon fontSize='large'/>
           </ListItemIcon>
-          <ListItemText primary="Settings" />
+          <ListItemText primary="Filters" />
         </ListItemButton>
       </ListItem >
 
@@ -43,10 +44,10 @@ const DashboardMovieOverviewMenu = (props, ref) => {
         anchorEl={anchorEl}
         onClose={handleClose}
       >
-        <SortMovieOverview handleClose={handleClose} />
+        <FiltersWatched handleClose={handleClose} />
       </DashboardMovieOverviewMenuStyle>
     </>
   );
 };
 
-export default forwardRef(DashboardMovieOverviewMenu);
+export default forwardRef(Filters);

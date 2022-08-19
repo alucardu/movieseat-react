@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 
 import {Box, Typography} from '@mui/material';
 
 import {useQuery} from '@apollo/client';
-
+import localforage from 'localforage';
 
 import {Onboarding} from 'Src/styles';
 
@@ -14,10 +14,26 @@ import resolvers from 'Src/resolvers';
 import MovieOverview from 'Components/Dashboard/MovieOverview/MovieOverview';
 import MovieSearchComponent from 'Components/MovieSearch/MovieSearchComponent';
 
+
 const DashboardComponent = () => {
+  const [filterState, setFilter] = useState(false);
+
+  const returnFilteredState = async () => {
+    return await localforage.getItem<boolean>('watchedAndReviewedFilterd') || false;
+  };
+
+  useEffect(() => {
+    returnFilteredState().then((value) => {
+      setFilter(value);
+    });
+  }, []);
+
   const {error, loading, data: {moviesFromUser: movies} = {}} =
     useQuery(resolvers.queries.ReturnMoviesFromUser, {
-      variables: {userId: currentUserVar().id},
+      variables: {
+        userId: currentUserVar().id,
+        filter: filterState,
+      },
     });
 
   if (error) return (<div>error {error.message}</div>);

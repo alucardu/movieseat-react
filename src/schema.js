@@ -13,7 +13,10 @@ const typeDefs = gql`
   }
 
   type MovieRating {
+    id: Int
     value: Int
+    movieId: Int
+    userId: Int
   }
 
   type Query {
@@ -40,6 +43,8 @@ const typeDefs = gql`
     overview: String
     release_date: String
     movieVideo: [MovieVideo]
+    movieRating: [MovieRating]
+    users: [User]
   }
 
   type MovieVideo {
@@ -99,7 +104,9 @@ const typeDefs = gql`
 
   type Query {
     moviesFromUser (
-      userId: Int!): [Movie]
+        userId: Int!
+        filter: Boolean
+    ): [Movie]
   }
 
   type Query {
