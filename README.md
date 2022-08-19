@@ -75,6 +75,7 @@ DELETE FROM "MovieVideo";
 DELETE FROM "Movie";
 DELETE FROM "MovieRating";
 DELETE FROM "User";
+DELETE FROM "_UserFollows";
 
 ## Some Prisma tips
 
