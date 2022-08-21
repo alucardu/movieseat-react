@@ -4,12 +4,14 @@ import {useMutation, useQuery} from '@apollo/client';
 
 import {IconButton} from '@mui/material';
 import AddBoxIcon from '@mui/icons-material/AddBox';
+import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox';
 
 import resolvers from 'Src/resolvers';
 import {currentUserVar, snackbarVar} from 'Src/cache';
 import {EAction, IMovie} from 'Src/movieseat';
 
 import {useCreateNotification} from 'Helpers/createNotification';
+import RemoveMovieFromDashboard from 'Components/Dashboard/MovieOnDashboard/RemoveMovieFromDashboard/RemoveMovieFromDashboard';
 
 export const AddMovieFromSuggestions = ({movie}: {movie: IMovie}) => {
   const movieId = movie.tmdb_id ? movie.tmdb_id : movie.id;
@@ -71,10 +73,15 @@ export const AddMovieFromSuggestions = ({movie}: {movie: IMovie}) => {
 
 
   return (
-    <IconButton data-cy='btn_add_movie' onClick={() => {
-      addMovie(movie);
-    }} >
-      <AddBoxIcon/>
-    </IconButton>
+    <>
+      { checkIsMovieDuplicate(movies, movie) ?
+        <RemoveMovieFromDashboard movie={movie} /> :
+        <IconButton data-cy='btn_add_movie' onClick={() => {
+          addMovie(movie);
+        }} >
+          <AddBoxIcon/>
+        </IconButton>
+      }
+    </>
   );
 };

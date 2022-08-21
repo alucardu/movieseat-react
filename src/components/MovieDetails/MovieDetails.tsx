@@ -5,12 +5,13 @@ import {useQuery} from '@apollo/client';
 
 import {Box, Typography, CardMedia} from '@mui/material';
 
-import {MovieDetailsStyle} from 'Src/styles';
+import {AddMovieFromDetailPageButton, MovieDetailsStyle} from 'Src/styles';
 import resolvers from 'Src/resolvers';
 import {RateMovie} from 'Components/Ratings/RateMovie/RateMovie';
 import {AggregatedMovieRating} from 'Components/Ratings/AggregatedMovieRating/AggregatedMovieRating';
 import {IMovie} from 'Src/movieseat';
 import {TrailerSlider} from 'Components/TrailerSlider/TrailerSlider';
+import {AddMovieFromSuggestions} from 'Components/MovieSuggestions/AddMovieFromSuggestions';
 
 export const MovieDetails = () => {
   const {id: paramId} = useParams<{id: string}>();
@@ -51,6 +52,9 @@ export const MovieDetails = () => {
           />
         </Box>
         <Box className="text-container">
+          <AddMovieFromDetailPageButton>
+            <AddMovieFromSuggestions movie={movie} />
+          </AddMovieFromDetailPageButton>
           <AggregatedMovieRating movie={movie}/>
           <Typography variant="h4" component="h2">
             {movie.original_title}
