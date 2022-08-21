@@ -32,26 +32,30 @@ pool.connect((err, client, done) => {
           // pool.query('INSERT into "MovieVideo"(iso_639_1, iso_3166_1, name, key, site, size, type, official, published_at, "movieId", tmdb_id)VALUES($1::text, $2::text, $3::text, $4::text, $5::text, $6::integer, $7::text, $8::boolean, $9::text, $10::integer, $11::integer)',
           //     ['iso_639_1', 'iso_3166_1', 'name', 'key', 'site', 1, 'type', true, 'published_at', 1, 1]);
 
-          let release_date = json.release_date;
           json.releases?.countries.forEach((countrie) => {
             if (countrie.iso_3166_1 == 'NL') {
-              release_date = countrie.release_date;
+              json.release_date = countrie.release_date;
+              return;
             }
           });
 
           const movieToUsers = await client.query('SELECT * FROM "_MovieToUser" WHERE "A" = $1::integer', [movie.id]);
 
-          if (isValueChanged(movie, json).valueChanged) {
+          const changedValues = isValueChanged(movie, json);
+
+          if (changedValues.valueChanged) {
+            console.log('changed', json.original_title);
+
             client.query('UPDATE "Movie" SET original_title = $1::text WHERE tmdb_id = $2::integer', [json.original_title, json.id]);
             client.query('UPDATE "Movie" SET poster_path = $1::text WHERE tmdb_id = $2::integer', [json.poster_path, json.id]);
             client.query('UPDATE "Movie" SET backdrop_path = $1::text WHERE tmdb_id = $2::integer', [json.backdrop_path, json.id]);
-            client.query('UPDATE "Movie" SET release_date = $1::text WHERE tmdb_id = $2::integer', [release_date, json.id]);
+            client.query('UPDATE "Movie" SET release_date = $1::text WHERE tmdb_id = $2::integer', [json.release_date, json.id]);
             client.query('UPDATE "Movie" SET runtime = $1::integer WHERE tmdb_id = $2::integer', [json.runtime, json.id]);
             client.query('UPDATE "Movie" SET tagline = $1::text WHERE tmdb_id = $2::integer', [json.tagline, json.id]);
             client.query('UPDATE "Movie" SET overview = $1::text WHERE tmdb_id = $2::integer', [json.overview, json.id]);
 
             movieToUsers.rows.forEach((movieToUser) => {
-              client.query('INSERT into "Notification"(action, "movieId", "userId", value)VALUES($1::text, $2::integer, $3::integer, $4::text)', ['has been updated with a new', movieToUser.A, movieToUser.B, isValueChanged(movie, json).changedValue], (err, res) => {
+              client.query('INSERT into "Notification"(action, "movieId", "userId", value)VALUES($1::text, $2::integer, $3::integer, $4::text)', ['has been updated with a new', movieToUser.A, movieToUser.B, changedValues.changedValue], (err, res) => {
                 if (err) throw err;
               });
             });

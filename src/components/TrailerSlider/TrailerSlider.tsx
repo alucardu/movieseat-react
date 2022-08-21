@@ -1,5 +1,5 @@
 import {Box} from '@mui/system';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {createRef, useEffect, useRef, useState} from 'react';
 
 import ReactPlayer from 'react-player';
 import screenfull from 'screenfull';
@@ -11,48 +11,54 @@ interface Props {
   videos: IMovieVideo[];
 }
 
+interface PropsVideo {
+  video: IMovieVideo;
+  index: number;
+}
+
 export const TrailerSlider = (props: Props) => {
-  const [orientation, setOrientation] = useState(window.screen.orientation.type);
-  const [playState, setPlayState] = useState(false);
-  const itemEls = useRef([]);
+  const Video = (props: PropsVideo) => {
+    const element = createRef<ReactPlayer>();
+    const [isPlaying, setIsPlaying] = useState(false);
 
-  const makeFullscreen = (index: number) => {
-    screenfull.request((itemEls.current[index] as any).wrapper);
-    window.screen.orientation.lock('landscape-primary');
-  };
+    useEffect(() => {
+      screenfull.on('change', () => {
+        if (screenfull.isFullscreen) {
+          window.screen.orientation.lock('landscape-primary');
+        } else {
+          setIsPlaying(false);
+        }
+      });
+    }, []);
 
-  const setScreenOrientation = () => {
-    setOrientation(window.screen.orientation.type);
-  };
-
-  useEffect(() => {
-    window.screen.orientation.onchange = () => {
-      setScreenOrientation;
+    const makeFullscreen = (element: any) => {
+      screenfull.request(element.current.wrapper);
+      setIsPlaying(true);
     };
 
-    screenfull.on('change', () => {
-      setPlayState(screenfull.isFullscreen);
-    });
-  }, []);
+    return (
+      <Box
+        key={props.video.key}
+        sx={{left: props.index*100 + 'vw'}}>
+        <ReactPlayer
+          ref={element}
+          playing={isPlaying}
+          onPlay = {() => makeFullscreen(element)}
+          onPause = {() => setIsPlaying(false)}
+          controls={true}
+          width="100vw"
+          height="auto"
+          url={`https://www.youtube.com/watch?v=${props.video.key}`} />
+      </Box>
+    );
+  };
 
   return (
     <TrailerSliderStyle>
       <Box className="container">
-        {props.videos.filter((video) => video.type === 'Trailer' && video.site === 'YouTube').map((video, index) => {
+        {props.videos.map((video, index) => {
           return (
-            <Box
-              key={video.key}
-              sx={{left: index*100 + 'vw'}}>
-              {orientation}
-              <ReactPlayer
-                playing={playState}
-                ref={(element: any) => (itemEls.current as any).push(element)}
-                onPlay = {() => makeFullscreen(index)}
-                controls={true}
-                width="100vw"
-                height="auto"
-                url={`https://www.youtube.com/watch?v=${video.key}`} />
-            </Box>
+            <Video video={video} index={index} key={index}/>
           );
         })}
       </Box>
