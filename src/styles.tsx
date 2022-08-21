@@ -121,6 +121,15 @@ export const MovieContainerOverlay = styled(Box)(({theme}) => ({
   },
 }));
 
+export const AddMovieFromDetailPageButton = styled(Box)(({theme}) => ({
+  'position': 'absolute',
+  'right': 0,
+  '& svg': {
+    color: 'white',
+    fontSize: '1em',
+  },
+}));
+
 export const Onboarding = styled(Box)(({theme}) => ({
   display: 'flex',
   flexDirection: 'column',
