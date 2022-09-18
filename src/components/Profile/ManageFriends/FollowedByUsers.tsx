@@ -9,7 +9,7 @@ import {ProfileBox} from 'Src/styles';
 import resolvers from 'Src/resolvers';
 
 export const FollowedByUSers = () => {
-  const {loading, error, data: {returnFollowedBy: followedBy} = {}} = useQuery(resolvers.queries.ReturnFollowedUsers);
+  const {loading, error, data: {returnFollowedByUsers: followedBy} = {}} = useQuery(resolvers.queries.ReturnFollowedByUsers);
 
   if (loading) return (<div>Loading</div>);
   if (error) return (<div>Error</div>);

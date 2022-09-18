@@ -62,7 +62,7 @@ const typeDefs = gql`
 
   type Query {
     returnFollowedUsers (userId: Int): [User]
-    returnFollowedBy (userId: Int): [User]
+    returnFollowedByUsers (userId: Int): [User]
   }
 
   type Query {

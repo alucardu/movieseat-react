@@ -114,7 +114,7 @@ const returnMoviesFromUser = async (args, req, res) => {
         users: {
           some: {
             id: {
-              equals: req.userId,
+              equals: args.userId,
             },
           },
         },
@@ -137,8 +137,6 @@ const returnMoviesFromUser = async (args, req, res) => {
       },
     });
 
-    console.log(movies);
-
     return movies || [];
   }
 };
@@ -152,7 +150,7 @@ const Query = {
     return await followedUsers(args, req);
   },
 
-  returnFollowedBy: async (root, args, {res, req}) => {
+  returnFollowedByUsers: async (root, args, {res, req}) => {
     return await followedBy(args, req);
   },
 

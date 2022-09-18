@@ -32,9 +32,6 @@ export const FollowedUsers = () => {
 
   const {error, loading, data: {returnFollowedUsers: followedUsers} = {}} = useQuery(resolvers.queries.ReturnFollowedUsers);
 
-  console.log(error);
-  console.log(followedUsers);
-
   const [unfollowUserMutation] = useMutation(resolvers.mutations.UnfollowUser);
 
   const unfollowUser = async (user) => {
@@ -54,7 +51,6 @@ export const FollowedUsers = () => {
     });
   };
 
-  console.log(error);
   if (loading) return (<div>loading</div>);
   if (error) return (<div>error</div>);
 
