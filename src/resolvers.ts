@@ -106,7 +106,12 @@ const ReturnFollowedUsers = gql`
       email
       user_name
     }
-    returnFollowedBy(userId: $userId) {
+  }
+`;
+
+const ReturnFollowedByUsers = gql`
+  query returnFollowedByUsers($userId: Int) {
+    returnFollowedByUsers(userId: $userId) {
       id
       email
       user_name
@@ -425,7 +430,7 @@ const LogoutUser = gql`
     }
 `;
 
-const queries = {ReturnAggregatedMovieRating, ReturnMovieDetails, ReturnMovieRating, ReturnAllMovies, ReturnMoviesFromUser, ReturnUser, returnUsers, ReturnFollowedUsers, ReturnNotifications};
+const queries = {ReturnAggregatedMovieRating, ReturnMovieDetails, ReturnMovieRating, ReturnAllMovies, ReturnMoviesFromUser, ReturnUser, returnUsers, ReturnFollowedUsers, ReturnFollowedByUsers, ReturnNotifications};
 const mutations = {AddMovieRating, removeUserAccount, RemoveMovie, LoginUser, LogoutUser, AddUserToMovie, FollowUser, UnfollowUser, CreateNotification, WatchNotification, signupUser, forgotPassword, changePassword, activateUser};
 
 export default {queries, mutations};
