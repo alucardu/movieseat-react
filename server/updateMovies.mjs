@@ -3,7 +3,7 @@ import pg from 'pg';
 import cron from 'node-cron';
 
 cron.schedule('* * * * *', () => {
-  console.log('running a task every minute');
+  updateMovies();
 });
 
 const config = {
@@ -21,21 +21,22 @@ const pool = new pg.Pool(config);
 /**
  *
  */
-pool.connect((err, client, done) => {
-  if (err) throw err;
-  client.query('SELECT * FROM "Movie"', (err, res) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.rows.forEach((movie) => {
-        (async () => {
-          const json = await fetchMovieData(movie.tmdb_id);
+function updateMovies() {
+  pool.connect((err, client, done) => {
+    if (err) throw err;
+    client.query('SELECT * FROM "Movie"', (err, res) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.rows.forEach((movie) => {
+          (async () => {
+            const json = await fetchMovieData(movie.tmdb_id);
 
-          // pool.query('UPDATE "Movie" SET runtime = $1::integer WHERE tmdb_id = $2::integer', [5, json.id]);
-          // pool.query('UPDATE "Movie" SET release_date = $1::text WHERE tmdb_id = $2::integer', ['01-01-2000', json.id]);
+            // pool.query('UPDATE "Movie" SET runtime = $1::integer WHERE tmdb_id = $2::integer', [5, json.id]);
+            // pool.query('UPDATE "Movie" SET release_date = $1::text WHERE tmdb_id = $2::integer', ['01-01-2000', json.id]);
 
-          // pool.query('INSERT into "MovieVideo"(iso_639_1, iso_3166_1, name, key, site, size, type, official, published_at, "movieId", tmdb_id)VALUES($1::text, $2::text, $3::text, $4::text, $5::text, $6::integer, $7::text, $8::boolean, $9::text, $10::integer, $11::integer)',
-          //     ['iso_639_1', 'iso_3166_1', 'name', 'key', 'site', 1, 'type', true, 'published_at', 1, 1]);
+            // pool.query('INSERT into "MovieVideo"(iso_639_1, iso_3166_1, name, key, site, size, type, official, published_at, "movieId", tmdb_id)VALUES($1::text, $2::text, $3::text, $4::text, $5::text, $6::integer, $7::text, $8::boolean, $9::text, $10::integer, $11::integer)',
+            //     ['iso_639_1', 'iso_3166_1', 'name', 'key', 'site', 1, 'type', true, 'published_at', 1, 1]);
 
           json.releases?.countries.forEach((countrie) => {
             if (countrie.iso_3166_1 == 'NL') {
@@ -87,37 +88,37 @@ pool.connect((err, client, done) => {
               });
             }
           });
-        })();
-      });
-    }
+          })();
+        });
+      }
+    });
   });
-});
 
 
-/**
- * @param tmdbID
- */
-async function fetchMovieData(tmdbID) {
-  const response = await fetch(`https://api.themoviedb.org/3/movie/${tmdbID}?api_key=a8f7039633f2065942cd8a28d7cadad4&append_to_response=releases,videos`);
-  const data = response.json();
-  return data;
-}
-
-/**
- * @param movie
- * @param json
- */
-function isValueChanged(movie, json) {
-  let valueChanged = false;
-  let changedValue = '';
-
-  for (const [key, value] of Object.entries(movie)) {
-    if (key !== 'tmdb_id' && key !== 'id' && value !== json[key]) {
-      changedValue = key;
-      valueChanged = true;
-    }
+  /**
+   * @param tmdbID
+   */
+  async function fetchMovieData(tmdbID) {
+    const response = await fetch(`https://api.themoviedb.org/3/movie/${tmdbID}?api_key=a8f7039633f2065942cd8a28d7cadad4&append_to_response=releases,videos`);
+    const data = response.json();
+    return data;
   }
 
-  return {valueChanged: valueChanged, changedValue: changedValue};
-}
+  /**
+   * @param movie
+   * @param json
+   */
+  function isValueChanged(movie, json) {
+    let valueChanged = false;
+    let changedValue = '';
 
+    for (const [key, value] of Object.entries(movie)) {
+      if (key !== 'tmdb_id' && key !== 'id' && value !== json[key]) {
+        changedValue = key;
+        valueChanged = true;
+      }
+    }
+
+    return {valueChanged: valueChanged, changedValue: changedValue};
+  }
+}
