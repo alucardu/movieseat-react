@@ -2,7 +2,10 @@ import fetch from 'node-fetch';
 import pg from 'pg';
 import cron from 'node-cron';
 
-cron.schedule('0 0 0 * * *', () => {
+console.log(new Date().toISOString());
+
+cron.schedule('00 00 00 * * *', () => {
+  console.log('update movies', new Date().toISOString());
   updateMovies();
 });
 
