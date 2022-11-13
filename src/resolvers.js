@@ -581,6 +581,11 @@ const Mutation = {
           userId: args.userId,
         },
       });
+      await prisma.movieRating.deleteMany({
+        where: {
+          userId: args.userId,
+        },
+      });
       await prisma.user.delete({
         where: {id: args.userId},
       });
