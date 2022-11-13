@@ -29,6 +29,7 @@
     "cookies": "^0.8.0",
     "cors": "^2.8.5",
     "dateformat": "^4.5.1",
+    "dotenv-parse-variables": "^2.0.0",
     "dotenv-webpack": "^7.0.3",
     "eslint-webpack-plugin": "^3.0.1",
     "express": "^4.17.1",
