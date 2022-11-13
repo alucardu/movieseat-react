@@ -1,6 +1,9 @@
 const nodemailer = require('nodemailer');
 const dotenvParseVariables = require('dotenv-parse-variables');
-require('dotenv').config();
+const dotenv = require('dotenv');
+let env = dotenv.config({});
+env = dotenvParseVariables(env.parsed);
+
 
 /**
  * @param email
@@ -11,13 +14,13 @@ async function main(email) {
   }
 
   const transporter = nodemailer.createTransport({
-    host: process.env.PROD_MAIL_HOST || 'localhost',
-    secure: dotenvParseVariables(process.env.PROD_MAIL_SECURE) || false,
+    host: env.PROD_MAIL_HOST,
+    secure: env.PROD_MAIL_SECURE,
     secureConnection: false, // TLS requires secureConnection to be false
     tls: {
       ciphers: 'SSLv3',
     },
-    requireTLS: dotenvParseVariables(process.env.PROD_REQUIRE_TLS) || false,
+    requireTLS: env.PROD_REQUIRE_TLS,
     port: 465,
     logger: true,
     debug: true,
