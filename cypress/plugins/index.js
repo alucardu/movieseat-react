@@ -1,4 +1,5 @@
-/// <reference types="cypress" />
+// / <reference types="cypress" />
+const ms = require('smtp-tester');
 // ***********************************************************
 // This example plugins/index.js can be used to load plugins
 //
@@ -19,4 +20,14 @@
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
-}
+
+  const port = 465;
+  const mailServer = ms.init(port);
+  console.log('mail server at port %d', port);
+
+  // process all emails
+  mailServer.bind((addr, id, email) => {
+    console.log('--- email ---');
+    console.log(addr, id, email);
+  });
+};

@@ -10,13 +10,13 @@ async function main(email) {
   }
 
   const transporter = nodemailer.createTransport({
-    host: 'smtpout.secureserver.net',
-    secure: true,
+    host: process.env.PROD_MAIL_HOST || 'localhost',
+    secure: process.env.PROD_MAIL_SECURE || false,
     secureConnection: false, // TLS requires secureConnection to be false
     tls: {
       ciphers: 'SSLv3',
     },
-    requireTLS: true,
+    requireTLS: process.env.PROD_REQUIRE_TLS || false,
     port: 465,
     logger: true,
     debug: true,
