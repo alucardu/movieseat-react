@@ -6,6 +6,7 @@ const {prisma} = require('./database.js');
 const msg = require('../server/email/sendMail');
 const {v4: uuidv4} = require('uuid');
 const lodash = require('lodash');
+const dotenv = require('dotenv');
 
 const followedUsers = async (args, req) => {
   const following = await prisma.user.findUnique({
@@ -322,7 +323,7 @@ const Mutation = {
       to: args.email, // list of receivers
       subject: 'Password reset request', // Subject line
       // eslint-disable-next-line max-len
-      html: `<b>If you have requested to change your password. Click <a href="https://moviese.at/user/change-password/${token}">here</a> to do so.</b>`, // html body
+      html: `<b>If you have requested to change your password. Click <a href="${process.env.PUBLIC_URL}/user/change-password/${token}">here</a> to do so.</b>`, // html body
     };
     msg.main(email);
 
@@ -394,7 +395,7 @@ const Mutation = {
       to: args.email, // list of receivers
       subject: 'Activate account', // Subject line
       // eslint-disable-next-line max-len
-      html: `<b>Click <a href="https://moviese.at/user/activate-account/${token}">here</a> to activate your account.</b>`, // html body
+      html: `<b>Click <a href="${process.env.HOST_URL}/user/activate-account/${token}">here</a> to activate your account.</b>`, // html body
     };
     msg.main(email);
 
@@ -576,6 +577,11 @@ const Mutation = {
 
     if (args.userId) {
       await prisma.notification.deleteMany({
+        where: {
+          userId: args.userId,
+        },
+      });
+      await prisma.movieRating.deleteMany({
         where: {
           userId: args.userId,
         },
