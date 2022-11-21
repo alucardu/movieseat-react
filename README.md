@@ -113,3 +113,5 @@ git pull origin master
 npm run build
 npx prisma generate
 npx prisma migrate deploy
+
+https://app.pm2.io/bucket/6373ecef21a6bdcb92083ed0/backend/overview/servers
