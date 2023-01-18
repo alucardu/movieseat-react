@@ -29,8 +29,8 @@ export const TrailerSlider = (props: Props) => {
           setTimeout(() => {
             window.screen.orientation.unlock();
             window.screen.orientation.lock('portrait-primary');
+            setIsPlaying(false);
           }, 2500);
-          setIsPlaying(false);
         }
       });
     }, []);
