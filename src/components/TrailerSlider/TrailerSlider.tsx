@@ -26,7 +26,7 @@ export const TrailerSlider = (props: Props) => {
         if (screenfull.isFullscreen) {
           // window.screen.orientation.lock('landscape');
         } else {
-          window.screen.orientation.unlock();
+          window.screen.orientation.lock('landscape');
           setIsPlaying(false);
         }
       });
