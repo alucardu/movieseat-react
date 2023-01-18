@@ -26,8 +26,10 @@ export const TrailerSlider = (props: Props) => {
         if (screenfull.isFullscreen) {
           window.screen.orientation.lock('landscape-primary');
         } else {
-          window.screen.orientation.unlock();
-          window.screen.orientation.lock('portrait-primary');
+          setTimeout(() => {
+            window.screen.orientation.unlock();
+            window.screen.orientation.lock('portrait-primary');
+          }, 2500);
           setIsPlaying(false);
         }
       });
