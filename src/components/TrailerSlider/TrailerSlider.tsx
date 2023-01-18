@@ -22,12 +22,11 @@ export const TrailerSlider = (props: Props) => {
     const [isPlaying, setIsPlaying] = useState(false);
 
     useEffect(() => {
-      window.screen.orientation.lock('landscape');
       screenfull.on('change', () => {
         if (screenfull.isFullscreen) {
           window.screen.orientation.lock('landscape');
+          window.screen.orientation.unlock();
         } else {
-          window.screen.orientation.lock('landscape');
           setIsPlaying(false);
         }
       });
