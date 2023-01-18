@@ -38,7 +38,8 @@ export const TrailerSlider = (props: Props) => {
     };
 
     const handleClick = () => {
-      window.screen.orientation.lock('portrait');
+      window.screen.orientation.unlock();
+      // window.screen.orientation.lock('portrait');
     };
 
     return (
