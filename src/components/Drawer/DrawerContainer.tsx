@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 
 import {useReactiveVar} from '@apollo/client';
 
-import {List, ListItem, ListItemIcon, ListItemText, ListItemButton} from '@mui/material';
+import {List, ListItem, ListItemIcon, ListItemText, ListItemButton, Box} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -117,6 +117,12 @@ export const DrawerContainer = () => {
             );
           })}
         </List>
+        <Box sx={{
+          marginTop: 'auto',
+          padding: '1rem',
+          fontSize: '0.7rem',
+          color: '#c9c8c8',
+        }}>v 0.1</Box>
       </Drawer>
     </>
   );
