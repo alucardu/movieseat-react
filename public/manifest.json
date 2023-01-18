@@ -7,7 +7,6 @@
   "short_name": "Movieseat",
   "name": "Movieseat",
   "description": "Track your favorite movies!",
-  "orientation": "portrait",
   "icons": [
       {
         "src": "favicon.ico",

@@ -24,11 +24,8 @@ export const TrailerSlider = (props: Props) => {
     useEffect(() => {
       screenfull.on('change', () => {
         if (screenfull.isFullscreen) {
-          window.screen.orientation.lock('landscape-primary');
-          window.screen.orientation.unlock();
+          // window.screen.orientation.lock('landscape');
         } else {
-          window.screen.orientation.unlock();
-          window.screen.orientation.lock('portrait-primary');
           window.screen.orientation.unlock();
           setIsPlaying(false);
         }
