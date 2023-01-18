@@ -44,6 +44,7 @@ const profile = () => {
     <Box sx={{width: '100%', padding: '8px', display: 'flex', flexWrap: 'wrap'}}>
       {currentUser.id !== parseInt(paramId) ?
       <>
+        v: 1
         <FollowUser user={user} />
         <ProfileMovies profileId={parseInt(paramId)} />
       </>:
