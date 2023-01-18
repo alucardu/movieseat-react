@@ -1,3 +1,4 @@
+import {Button} from '@mui/material';
 import {Box} from '@mui/system';
 import React, {createRef, useEffect, useRef, useState} from 'react';
 
@@ -25,7 +26,6 @@ export const TrailerSlider = (props: Props) => {
       screenfull.on('change', () => {
         if (screenfull.isFullscreen) {
           window.screen.orientation.lock('landscape');
-          window.screen.orientation.unlock();
         } else {
           setIsPlaying(false);
         }
@@ -37,20 +37,27 @@ export const TrailerSlider = (props: Props) => {
       setIsPlaying(true);
     };
 
+    const handleClick = () => {
+      window.screen.orientation.lock('portrait');
+    };
+
     return (
-      <Box
-        key={props.video.key}
-        sx={{left: props.index*100 + 'vw'}}>
-        <ReactPlayer
-          ref={element}
-          playing={isPlaying}
-          onPlay = {() => makeFullscreen(element)}
-          onPause = {() => setIsPlaying(false)}
-          controls={true}
-          width="100vw"
-          height="auto"
-          url={`https://www.youtube.com/watch?v=${props.video.key}`} />
-      </Box>
+      <>
+        <Button onClick={handleClick}>CLICK</Button>
+        <Box
+          key={props.video.key}
+          sx={{left: props.index*100 + 'vw'}}>
+          <ReactPlayer
+            ref={element}
+            playing={isPlaying}
+            onPlay = {() => makeFullscreen(element)}
+            onPause = {() => setIsPlaying(false)}
+            controls={true}
+            width="100vw"
+            height="auto"
+            url={`https://www.youtube.com/watch?v=${props.video.key}`} />
+        </Box>
+      </>
     );
   };
 
