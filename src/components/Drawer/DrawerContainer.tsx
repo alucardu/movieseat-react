@@ -122,7 +122,7 @@ export const DrawerContainer = () => {
           padding: '1rem',
           fontSize: '0.7rem',
           color: '#c9c8c8',
-        }}>v 0.1.9</Box>
+        }}>v 0.1.1</Box>
       </Drawer>
     </>
   );
