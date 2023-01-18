@@ -4,7 +4,7 @@ import cron from 'node-cron';
 
 console.log(new Date().toISOString());
 
-cron.schedule('00 00 00 * * *', () => {
+cron.schedule('00 00 23 * * *', () => {
   console.log('update movies', new Date().toISOString());
   updateMovies();
 });
