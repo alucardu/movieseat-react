@@ -17,16 +17,15 @@ interface PropsVideo {
 }
 
 export const TrailerSlider = (props: Props) => {
-  window.screen.orientation.lock('landscape');
-
   const Video = (props: PropsVideo) => {
     const element = createRef<ReactPlayer>();
     const [isPlaying, setIsPlaying] = useState(false);
 
     useEffect(() => {
+      window.screen.orientation.lock('landscape');
       screenfull.on('change', () => {
         if (screenfull.isFullscreen) {
-          // window.screen.orientation.lock('landscape');
+          window.screen.orientation.lock('landscape');
         } else {
           window.screen.orientation.lock('landscape');
           setIsPlaying(false);
